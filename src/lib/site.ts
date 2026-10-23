@@ -73,7 +73,6 @@ export type Service = {
 export const services: Service[] = [
   { id: "school", name: "Sunday School", dow: 0, time24: "10:00", rule: "Sundays", note: "Classes for every age." },
   { id: "worship", name: "Morning Worship", dow: 0, time24: "11:00", rule: "Sundays", note: "Hymns, prayer and preaching." },
-  { id: "evening", name: "Evening Service", dow: 0, time24: "18:00", rule: "Sundays", note: "" },
   { id: "prayer", name: "Prayer Meeting", dow: 3, time24: "19:00", rule: "Wednesdays", note: "Bible study and prayer." },
 ];
 
