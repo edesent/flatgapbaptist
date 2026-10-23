@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* Paper and ink, the green of the hills around the gap, and a brick red for the things to notice. */
+:root {
+  --paper: #f5efe1;
+  --paper-deep: #ece3cf;
+  --ink: #1d1b17;
+  --ink-soft: #4a463e;
+  --rule: #cfc4a8;
+  --hill-1: #d3d4bd;
+  --hill-2: #a9b497;
+  --hill-3: #6f8a68;
+  --hill-4: #34503a;
+  --brick: #a3402a;
+  --creek: #4f86a0;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-hill-1: var(--hill-1);
+  --color-hill-2: var(--hill-2);
+  --color-hill-3: var(--hill-3);
+  --color-hill-4: var(--hill-4);
+  --color-brick: var(--brick);
+  --color-creek: var(--creek);
+  /* Set by next/font/local variables in layout.tsx */
+  --font-display: var(--font-slab), Rockwell, Georgia, serif;
+  --font-serif: var(--font-text), Georgia, serif;
+  --font-sans: var(--font-franklin), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  /* Do not set scroll-behavior: smooth here; it blanks full-page screenshots. */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Big, plain type: a good share of the congregation reads with bifocals. */
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.65;
+}
+@media (min-width: 768px) {
+  body {
+    font-size: 1.3125rem;
+  }
+}
+
+/* Custom classes must live in @layer components or Tailwind utilities can't override them. */
+@layer components {
+  /* Times and dates always in the sans: display serifs misread digits (10:30 reads 10:50). */
+  .time {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kicker {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brick);
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Dotted leaders, like a printed bulletin. */
+  .leader {
+    flex: 1;
+    min-width: 1.5rem;
+    border-bottom: 3px dotted var(--rule);
+    transform: translateY(-0.4em);
+  }
+
+  .link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--brick);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .link:hover {
+    color: var(--brick);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.8rem 1.4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    background: var(--ink);
+    color: var(--paper);
+    transition: background 0.2s;
+  }
+  .btn:hover {
+    background: var(--brick);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
+  .btn-ghost:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Scroll reveals. Content is visible without JavaScript. */
+  .js [data-reveal]:not([data-in]) {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .js [data-reveal] {
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-reveal]:not([data-in]) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

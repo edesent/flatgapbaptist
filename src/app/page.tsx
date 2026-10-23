@@ -1,0 +1,275 @@
+import FlatGapMap from "@/components/FlatGapMap";
+import Phone from "@/components/Phone";
+import Ridges from "@/components/Ridges";
+import { fmtTime, nextService, relativeDay, upcoming } from "@/lib/schedule";
+import { church, foundingPastor, nav, pastor, services } from "@/lib/site";
+
+// The Romans Road, King James text.
+const romansRoad = [
+  { ref: "Romans 3:23", text: "For all have sinned, and come short of the glory of God;", say: "Every one of us has sinned." },
+  {
+    ref: "Romans 6:23",
+    text: "For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.",
+    say: "Sin earns death. Eternal life is a gift.",
+  },
+  {
+    ref: "Romans 5:8",
+    text: "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.",
+    say: "Jesus died in your place.",
+  },
+  {
+    ref: "Romans 10:9",
+    text: "That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine heart that God hath raised him from the dead, thou shalt be saved.",
+    say: "Believe on Him and confess Him.",
+  },
+  { ref: "Romans 10:13", text: "For whosoever shall call upon the name of the Lord shall be saved.", say: "Whosoever means you." },
+];
+
+export default function Home() {
+  const next = nextService();
+  const events = upcoming(12).filter((e) => e.kind === "event");
+
+  return (
+    <>
+      {/* ---------- header ---------- */}
+      <header className="border-b border-rule bg-paper">
+        <div className="wrap flex items-center justify-between gap-4 py-3">
+          <a href="#top" className="font-display text-[1.15rem] leading-tight tracking-wide text-ink sm:text-[1.3rem]">
+            Flat Gap Baptist
+          </a>
+          <nav aria-label="On this page" className="hidden items-center gap-6 font-sans text-[0.95rem] font-semibold md:flex">
+            {nav.map((n) => (
+              <a key={n.href} href={n.href} className="hover:text-brick">
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <Phone className="time rounded-full bg-ink px-4 py-2 text-[0.95rem] font-bold text-paper hover:bg-brick" fallback="Call us" />
+        </div>
+      </header>
+
+      {/* ---------- hero: their own skyline ---------- */}
+      <section id="top" className="relative overflow-hidden">
+        <div className="wrap relative z-10 pt-12 pb-44 sm:pt-16 sm:pb-56 md:pb-72">
+          <p className="kicker">
+            {church.city}, {church.county}, {church.state}
+          </p>
+          <h1 className="mt-4 font-display text-[2.9rem] leading-[0.98] text-ink sm:text-[4.4rem] md:text-[5.6rem]">
+            Flat Gap
+            <br />
+            Baptist Church
+          </h1>
+          <p className="mt-6 max-w-[34rem] text-[1.3rem] leading-snug text-ink-soft md:text-[1.6rem]">
+            An old-fashioned country church on Flat Gap Drive. We sing the hymns, preach the Bible, and we’d be glad to have you on
+            Sunday.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <a href="#times" className="btn">
+              Service times
+            </a>
+            <a href="#find" className="btn btn-ghost">
+              Directions
+            </a>
+          </div>
+          {next && (
+            <p className="mt-8 font-sans text-[1rem] text-ink-soft">
+              Next: <strong className="text-ink">{next.title}</strong>,{" "}
+              <span className="time">
+                {relativeDay(next.date)} at {fmtTime(next.time24)}
+              </span>
+            </p>
+          )}
+        </div>
+        <Ridges className="absolute inset-x-0 bottom-0 h-[13rem] w-full sm:h-[17rem] md:h-[22rem]" />
+      </section>
+
+      {/* ---------- times, bulletin style ---------- */}
+      <section id="times" className="bg-hill-4 text-paper">
+        <div className="wrap grid gap-10 py-16 md:grid-cols-[1fr_1.35fr] md:gap-16 md:py-24">
+          <div data-reveal>
+            <p className="kicker !text-hill-1">Every week</p>
+            <h2 className="mt-3 font-display text-[2.3rem] leading-tight md:text-[3rem]">Service times</h2>
+            <p className="mt-5 max-w-sm text-paper/85">
+              Come early and somebody will find you a seat. There’s no dress code. Wear what you’ve got.
+            </p>
+          </div>
+          <ul className="space-y-6" data-reveal="1">
+            {services.map((s) => (
+              <li key={s.id}>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-serif text-[1.35rem] font-semibold md:text-[1.6rem]">{s.name}</span>
+                  <span className="leader !border-paper/30" />
+                  <span className="time whitespace-nowrap text-[1.35rem] font-bold md:text-[1.6rem]">{fmtTime(s.time24)}</span>
+                </div>
+                <p className="time mt-0.5 text-[0.95rem] text-paper/75">
+                  {s.rule}
+                  {s.note && ` · ${s.note}`}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---------- welcome ---------- */}
+      <section className="wrap grid gap-10 py-16 md:grid-cols-[1.4fr_1fr] md:gap-16 md:py-24">
+        <div data-reveal>
+          <p className="kicker">If it’s your first Sunday</p>
+          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">A small church, and glad of it</h2>
+          <div className="mt-6 space-y-5">
+            <p>
+              Most Sundays there are somewhere between {church.attendance} of us. Plenty of folks have been coming here for most of
+              their lives, and they’ll want to know your name and who your people are.
+            </p>
+            <p>
+              The service is plain: congregational singing out of the hymnbook, prayer, and preaching from the Bible. Nobody will put
+              you on the spot. If you have children, bring them along.
+            </p>
+          </div>
+        </div>
+        <aside data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
+          <p className="kicker">Our pastor</p>
+          <p className="mt-2 font-display text-[1.6rem] leading-tight">{pastor.name}</p>
+          <p className="mt-3 text-ink-soft">
+            If you need prayer, a visit, or someone to talk to about the Lord, call {pastor.first}. He’s glad to hear from you.
+          </p>
+          <p className="mt-4">
+            <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="Call Pastor Eric" />
+          </p>
+        </aside>
+      </section>
+
+      {/* ---------- the gospel, tract style ---------- */}
+      <section id="saved" className="border-y border-rule bg-paper-deep">
+        <div className="wrap py-16 md:py-24">
+          <div className="max-w-2xl" data-reveal>
+            <p className="kicker">The most important thing on this page</p>
+            <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.9rem]">How can I be saved?</h2>
+            <p className="mt-5 text-ink-soft">The Bible answers it plainly, in five verses from the book of Romans.</p>
+          </div>
+          <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            {romansRoad.map((v, i) => (
+              <li
+                key={v.ref}
+                data-reveal={String(i)}
+                className="relative flex flex-col rounded-sm bg-paper p-5 shadow-[0_1px_0_var(--rule),0_10px_24px_-18px_rgba(29,27,23,0.45)]"
+              >
+                <span className="time text-[0.8rem] font-bold tracking-[0.14em] text-brick">{String(i + 1).padStart(2, "0")}</span>
+                <p className="mt-2 font-sans text-[1.05rem] font-bold leading-snug">{v.say}</p>
+                <blockquote className="mt-3 flex-1 text-[1.02rem] italic leading-relaxed text-ink-soft">“{v.text}”</blockquote>
+                <p className="time mt-4 text-[0.9rem] font-semibold">{v.ref}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-10 max-w-2xl" data-reveal>
+            If you want to talk it over, call Pastor {pastor.first} at{" "}
+            <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="his number" />, or come by on Sunday and
+            ask for him.
+          </p>
+        </div>
+      </section>
+
+      {/* ---------- fish fry & gospel sing ---------- */}
+      <section className="wrap grid items-center gap-10 py-16 md:grid-cols-[1fr_1fr] md:gap-16 md:py-24">
+        <div
+          data-reveal
+          className="border-[6px] border-double border-ink bg-paper px-6 py-8 text-center sm:px-10 md:-rotate-1"
+          aria-label="Fish Fry and Gospel Sing"
+        >
+          <p className="time text-[0.8rem] font-bold tracking-[0.3em]">FLAT GAP BAPTIST CHURCH</p>
+          <p className="mt-3 font-display text-[3.2rem] leading-[0.9] text-brick sm:text-[4.2rem]">FISH FRY</p>
+          <p className="my-2 font-serif text-[1.6rem] italic">and</p>
+          <p className="font-display text-[2.3rem] leading-[0.95] sm:text-[3rem]">GOSPEL SING</p>
+          <div className="mx-auto mt-5 h-[3px] w-24 bg-ink" />
+          <p className="time mt-4 text-[0.95rem] font-semibold tracking-[0.12em]">EVERYBODY WELCOME</p>
+        </div>
+        <div data-reveal="1">
+          <p className="kicker">Out in the community</p>
+          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Supper, singing and the Gospel</h2>
+          <p className="mt-6">
+            This September the church put on a big Fish Fry and Gospel Sing for the whole community: fried fish, gospel singing,
+            and a good evening together. We hand out gospel tracts too, wherever we go.
+          </p>
+          <p className="mt-5">We aim to do it again. When the next one is set, you’ll find it right here.</p>
+          {events.length > 0 && (
+            <ul className="mt-6 space-y-3 border-t border-rule pt-5">
+              {events.map((e) => (
+                <li key={e.title + e.date}>
+                  <p className="font-semibold">{e.title}</p>
+                  <p className="time text-[0.95rem] text-ink-soft">
+                    {e.when ?? `${relativeDay(e.date)}${e.time24 && e.time24 !== "00:00" ? ` at ${fmtTime(e.time24)}` : ""}`}
+                  </p>
+                  {e.note && <p className="text-[1rem] text-ink-soft">{e.note}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      {/* ---------- find us ---------- */}
+      <section id="find" className="border-t border-rule">
+        <div className="wrap grid gap-10 py-16 md:grid-cols-[1fr_1.15fr] md:gap-14 md:py-24">
+          <div data-reveal>
+            <p className="kicker">Finding us</p>
+            <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">In the gap, by the post office</h2>
+            <address className="mt-6 not-italic">
+              <span className="block font-semibold">{church.name}</span>
+              {church.streetNumber} {church.street}
+              <br />
+              {church.city}, {church.stateCode} {church.zip}
+            </address>
+            <h3 className="mt-8 font-sans text-[1rem] font-bold tracking-wide">From Paintsville (about 25 minutes)</h3>
+            <ol className="mt-3 list-decimal space-y-2 pl-6 marker:font-sans marker:font-bold marker:text-brick">
+              <li>Take KY 40 west out of town.</li>
+              <li>Bear right onto KY 172 toward West Liberty and go about 7 miles.</li>
+              <li>Turn right on KY 689 and go about a mile into Flat Gap.</li>
+              <li>At the end of the road, turn left onto KY 1092, then take the first right onto Flat Gap Drive. The church is on your left.</li>
+            </ol>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={church.mapsUrl} className="btn" target="_blank" rel="noopener">
+                Open in Google Maps
+              </a>
+              <Phone className="btn btn-ghost time" fallback="Call the church" />
+            </div>
+          </div>
+          <figure data-reveal="1" className="self-start">
+            <div className="overflow-hidden rounded-sm border border-rule bg-paper">
+              <FlatGapMap />
+            </div>
+            <figcaption className="mt-3 font-sans text-[0.85rem] leading-snug text-ink-soft">
+              The hills are drawn to scale from elevation data; the brown lines are every 10 meters of rise. Flat Gap is named for
+              the low, level saddle here between Lower Laurel Creek and Mudlick Creek.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* ---------- footer ---------- */}
+      <footer className="bg-ink text-paper">
+        <div className="wrap grid gap-8 py-12 sm:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <p className="font-display text-[1.5rem] leading-tight">Flat Gap Baptist Church</p>
+            <p className="mt-3 text-[1rem] text-paper/75">
+              Brother {foundingPastor} was the church’s first pastor. {pastor.title} {pastor.name} serves here today.
+            </p>
+          </div>
+          <div className="font-sans text-[0.98rem]">
+            <p className="font-bold">Visit</p>
+            <p className="mt-2 text-paper/80">
+              {church.streetNumber} {church.street}
+              <br />
+              {church.city}, {church.stateCode} {church.zip}
+            </p>
+          </div>
+          <div className="font-sans text-[0.98rem]">
+            <p className="font-bold">Call</p>
+            <p className="mt-2">
+              <Phone className="time text-paper/90 underline decoration-paper/40 underline-offset-4 hover:text-paper" />
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
