@@ -42,7 +42,7 @@ Preview: https://flatgapbaptist.elijahdesent.com (hidden from search engines; se
 
 ## Confirm with the church
 
-- **Service times are a guess** (Sunday School 10, worship 11, Sunday evening 6, Wednesday 7). Nobody has given them yet.
+- **Service times are a guess** (Sunday School 10, worship 11, Wednesday 7). Nobody has given them yet. No Sunday evening service (confirmed 2026-10-23).
 - **Phone:** the church line (606) 265-4800 is from the Google listing and may be out of date. Pastor Eric's own number (606) 793-5737 is from the grant entry and shows in the pastor box and the Gospel section.
 - **Founding pastor Fredrick Crislip** comes from a single Google review by his grandson. The footer names him.
 - **The Fish Fry and Gospel Sing** was in September 2026 (from the grant entry). Whether it was free, and when the next one is, isn't known.
