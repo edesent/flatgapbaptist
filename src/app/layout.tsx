@@ -24,7 +24,7 @@ const franklin = localFont({
   display: "swap",
 });
 
-const description = `${church.name} is a small, old-fashioned Baptist church at ${church.streetNumber} ${church.street} in ${church.city}, ${church.county}, ${church.state}. ${pastor.title} ${pastor.name}. Sunday School, morning and evening worship, and Wednesday prayer meeting.`;
+const description = `${church.name} is a small, old-fashioned Baptist church at ${church.streetNumber} ${church.street} in ${church.city}, ${church.county}, ${church.state}. ${pastor.title} ${pastor.name}. Sunday School, morning worship, and Wednesday prayer meeting.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
