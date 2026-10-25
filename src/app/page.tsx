@@ -2,7 +2,7 @@ import FlatGapMap from "@/components/FlatGapMap";
 import Phone from "@/components/Phone";
 import Ridges from "@/components/Ridges";
 import { fmtTime, nextService, relativeDay, upcoming } from "@/lib/schedule";
-import { church, foundingPastor, nav, pastor, services } from "@/lib/site";
+import { church, nav, pastor, pastorHistory, services } from "@/lib/site";
 
 // The Romans Road, King James text.
 const romansRoad = [
@@ -90,7 +90,7 @@ export default function Home() {
             <p className="kicker !text-hill-1">Every week</p>
             <h2 className="mt-3 font-display text-[2.3rem] leading-tight md:text-[3rem]">Service times</h2>
             <p className="mt-5 max-w-sm text-paper/85">
-              Come early and somebody will find you a seat. There’s no dress code. Wear what you’ve got.
+              Come early and sit where you want. There’s no dress code. Wear what you’ve got.
             </p>
           </div>
           <ul className="space-y-6" data-reveal="1">
@@ -111,14 +111,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ---------- church building photo ---------- */}
+      <figure className="wrap pt-16 md:pt-24">
+        <img
+          src="/photos/church-building.jpg"
+          alt="Flat Gap Baptist Church, a brick building with a white steeple, on Flat Gap Drive"
+          width={1600}
+          height={877}
+          className="w-full rounded-sm border border-rule"
+        />
+      </figure>
+
       {/* ---------- welcome ---------- */}
       <section className="wrap grid gap-10 py-16 md:grid-cols-[1.4fr_1fr] md:gap-16 md:py-24">
         <div data-reveal>
           <p className="kicker">If it’s your first Sunday</p>
-          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">A small church, and glad of it</h2>
+          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">A small church, with room to grow</h2>
           <div className="mt-6 space-y-5">
             <p>
-              Most Sundays there are somewhere between {church.attendance} of us. Plenty of folks have been coming here for most of
+              Most Sundays there are somewhere around {church.attendance} of us. Plenty of folks have been coming here for most of
               their lives, and they’ll want to know your name and who your people are.
             </p>
             <p>
@@ -128,6 +139,13 @@ export default function Home() {
           </div>
         </div>
         <aside data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
+          <img
+            src="/photos/pastor-eric.jpg"
+            alt="Pastor Eric Lauterwasser preaching"
+            width={750}
+            height={1000}
+            className="mb-5 aspect-[3/4] w-full max-w-[14rem] rounded-sm border border-rule object-cover"
+          />
           <p className="kicker">Our pastor</p>
           <p className="mt-2 font-display text-[1.6rem] leading-tight">{pastor.name}</p>
           <p className="mt-3 text-ink-soft">
@@ -188,9 +206,12 @@ export default function Home() {
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Supper, singing and the Gospel</h2>
           <p className="mt-6">
             This September the church put on a big Fish Fry and Gospel Sing for the whole community: fried fish, gospel singing,
-            and a good evening together. We hand out gospel tracts too, wherever we go.
+            and a good evening together.
           </p>
-          <p className="mt-5">We aim to do it again. When the next one is set, you’ll find it right here.</p>
+          <p className="mt-5">
+            We aim to do this the 3rd Saturday of September every year, Lord willing! When the next one is set, you’ll find it right
+            here.
+          </p>
           {events.length > 0 && (
             <ul className="mt-6 space-y-3 border-t border-rule pt-5">
               {events.map((e) => (
@@ -212,7 +233,9 @@ export default function Home() {
         <div className="wrap grid gap-10 py-16 md:grid-cols-[1fr_1.15fr] md:gap-14 md:py-24">
           <div data-reveal>
             <p className="kicker">Finding us</p>
-            <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">In the gap, by the post office</h2>
+            <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">
+              In the gap, next to Wildcat Grocery, behind the firehouse
+            </h2>
             <address className="mt-6 not-italic">
               <span className="block font-semibold">{church.name}</span>
               {church.streetNumber} {church.street}
@@ -251,7 +274,7 @@ export default function Home() {
           <div>
             <p className="font-display text-[1.5rem] leading-tight">Flat Gap Baptist Church</p>
             <p className="mt-3 text-[1rem] text-paper/75">
-              Brother {foundingPastor} was the church’s first pastor. {pastor.title} {pastor.name} serves here today.
+              {pastorHistory} {pastor.title} {pastor.name} serves here today.
             </p>
           </div>
           <div className="font-sans text-[0.98rem]">
@@ -263,7 +286,7 @@ export default function Home() {
             </p>
           </div>
           <div className="font-sans text-[0.98rem]">
-            <p className="font-bold">Call</p>
+            <p className="font-bold">Church phone</p>
             <p className="mt-2">
               <Phone className="time text-paper/90 underline decoration-paper/40 underline-offset-4 hover:text-paper" />
             </p>

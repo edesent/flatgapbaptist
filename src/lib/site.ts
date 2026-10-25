@@ -3,10 +3,9 @@
  * service times, special events, address and phone.
  *
  * Sources: the Small Church Grant entry Pastor Eric Lauterwasser sent in
- * (October 2026: name, address, attendance, the Fish Fry and Gospel Sing),
- * his email of October 23, 2026, and the church's Google Maps listing (church
- * phone, a review naming the founding pastor). Service times are a guess
- * until the church confirms them; see README "Confirm with the church".
+ * (October 2026: name, address, the Fish Fry and Gospel Sing), his emails of
+ * October 23 and October 25, 2026 (service times, attendance, phone, pastor
+ * history), and the church's Google Maps listing (church phone).
  */
 
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://flatgapbaptist.elijahdesent.com";
@@ -30,8 +29,8 @@ export const church = {
   state: "Kentucky",
   zip: "41219",
   county: "Johnson County",
-  /** From the grant entry: "15 to 50" on a Sunday. */
-  attendance: "fifteen to fifty",
+  /** Per Pastor Eric's email, October 25, 2026. */
+  attendance: "50",
   /**
    * The church phone from its Google listing, base64'd so it never sits in
    * the HTML for scrapers: `printf 6062654800 | base64`. Rendered by
@@ -47,12 +46,12 @@ export const pastor = {
   name: "Eric Lauterwasser",
   first: "Eric",
   title: "Pastor",
-  /** His own number from the grant entry, base64'd like the church line. */
-  phoneB64: "NjA2NzkzNTczNw==",
+  /** His home number, from his email of October 25, 2026: `printf 6062973878 | base64`. */
+  phoneB64: "NjA2Mjk3Mzg3OA==",
 };
 
-/** From a Google review by his grandson, Edward Crislip. */
-export const foundingPastor = "Fredrick Crislip";
+/** Per Pastor Eric's email, October 25, 2026. */
+export const pastorHistory = "Brother Harold Salyer was the pastor from 1964 through 1991 and still faithfully attends today.";
 
 /**
  * The regular week. `nth` limits a service to certain weeks of the month
@@ -69,11 +68,11 @@ export type Service = {
   note: string;
 };
 
-// TODO(confirm) typical times for a country Baptist church; the church has not sent its own yet.
+// Confirmed by Pastor Eric's email, October 25, 2026.
 export const services: Service[] = [
-  { id: "school", name: "Sunday School", dow: 0, time24: "10:00", rule: "Sundays", note: "Classes for every age." },
+  { id: "school", name: "Sunday School", dow: 0, time24: "09:30", rule: "Sundays", note: "Meet in the fellowship hall." },
   { id: "worship", name: "Morning Worship", dow: 0, time24: "11:00", rule: "Sundays", note: "Hymns, prayer and preaching." },
-  { id: "prayer", name: "Prayer Meeting", dow: 3, time24: "19:00", rule: "Wednesdays", note: "Bible study and prayer." },
+  { id: "prayer", name: "Prayer Meeting", dow: 3, time24: "19:00", rule: "Wednesdays", note: "Bible study and prayer, March through October." },
 ];
 
 /**

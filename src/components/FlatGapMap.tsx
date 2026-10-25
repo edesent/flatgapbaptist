@@ -55,13 +55,12 @@ function Label({ x, y, children, size = 22, anchor = "start", weight = 600, colo
 export default function FlatGapMap() {
   const [cx, cy] = map.church;
   const [sx, sy] = map.school;
-  const [px, py] = map.po;
   return (
     <svg
       viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`}
       className="block h-auto w-full"
       role="img"
-      aria-label="Map of Flat Gap: KY 689 comes up from the south and ends at KY 1092; turn left, then right onto Flat Gap Drive, and the church is on the left near the post office and Flat Gap Elementary."
+      aria-label="Map of Flat Gap: KY 689 comes up from the south and ends at KY 1092; turn left, then right onto Flat Gap Drive, and the church is on the left near Flat Gap Elementary."
     >
       <rect x={VIEW.x} y={VIEW.y} width={VIEW.w} height={VIEW.h} fill="var(--paper)" />
       <image href="/map/flat-gap.svg" x={0} y={0} width={map.VW} height={map.VH} />
@@ -79,9 +78,6 @@ export default function FlatGapMap() {
       <circle cx={sx} cy={sy} r={9} fill="var(--ink-soft)" />
       <Label x={sx - 16} y={sy - 4} size={26} anchor="end">Flat Gap</Label>
       <Label x={sx - 16} y={sy + 24} size={26} anchor="end">Elementary</Label>
-
-      <circle cx={px} cy={py} r={8} fill="var(--ink-soft)" />
-      <Label x={px + 18} y={py + 30} size={26}>Post office</Label>
 
       <g transform={`translate(${cx} ${cy})`}>
         <circle r={30} fill="var(--brick)" opacity={0.18} />

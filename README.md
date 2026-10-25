@@ -40,14 +40,15 @@ Preview: https://flatgapbaptist.elijahdesent.com (hidden from search engines; se
 - **Events expire by themselves.** Each event has `endsOn`; the page re-renders hourly (`revalidate = 3600` in `layout.tsx`). Keep that line. With no events listed, the Fish Fry section just says the next one will be posted.
 - **Forms:** none on the page. `/api/form` is still there (posts to `FORM_WEBHOOK_URL`) if a prayer-request form is wanted later.
 
-## Confirm with the church
+## Confirmed by the church (2026-10-25)
 
-- **Service times are a guess** (Sunday School 10, worship 11, Wednesday 7). Nobody has given them yet. No Sunday evening service (confirmed 2026-10-23).
-- **Phone:** the church line (606) 265-4800 is from the Google listing and may be out of date. Pastor Eric's own number (606) 793-5737 is from the grant entry and shows in the pastor box and the Gospel section.
-- **Founding pastor Fredrick Crislip** comes from a single Google review by his grandson. The footer names him.
-- **The Fish Fry and Gospel Sing** was in September 2026 (from the grant entry). Whether it was free, and when the next one is, isn't known.
-- The welcome copy assumes hymnbook singing and no dress code.
-- No photos exist online (no website, no Facebook, no photos on the Maps listing). If the church sends a photo of the building, it can go above the "A small church" section.
+- **Service times:** Sunday School 9:30 (meets in the fellowship hall), worship 11, Wednesday prayer 7pm, March through October only (winter hours dismissed). No Sunday evening service.
+- **Phone:** the church line (606) 265-4800 (from the Google listing) is unchanged. Pastor Eric's own number is now his home phone, (606) 297-3878, shown in the pastor box and the Gospel section.
+- **Pastor history:** Brother Harold Salyer was pastor from 1964–1991 and still attends. (The earlier "founding pastor Fredrick Crislip," from a single Google review, was superseded by this.)
+- **The Fish Fry and Gospel Sing** happens the 3rd Saturday of September every year.
+- Attendance is "around 50," not a range.
+- **Photos:** the church building (`public/photos/church-building.jpg`) and Pastor Eric preaching (`public/photos/pastor-eric.jpg`), both from his October 25 email.
+- **The post office pin was removed from the hand-drawn map** — Eric said its location was wrong and offered either moving or deleting it; without a confirmed real location, it was deleted. The "Finding us" copy now says "next to Wildcat Grocery, behind the firehouse" instead.
 
 ## Rules that keep the site honest
 

@@ -11,9 +11,5 @@ export const map = {
   "school": [
     560.6,
     455.6
-  ],
-  "po": [
-    620.9,
-    646.0
   ]
 } as const;
