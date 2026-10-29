@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { EDITOR } from "./config";
 
 /**
  * Email sign-in for the text editor, with no database: the link in the email
@@ -8,7 +9,7 @@ import { cookies } from "next/headers";
  * the moment its address is taken out of that list.
  */
 
-export const SESSION_COOKIE = "fgb_edit";
+export const SESSION_COOKIE = EDITOR.cookieName;
 /** Only the editor's API reads the session, so the cookie never rides along on page requests. */
 export const SESSION_PATH = "/api/edit";
 export const LINK_MINUTES = 20;

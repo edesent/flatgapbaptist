@@ -3,13 +3,14 @@
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
+import { EDITOR } from "./config";
 
 // Its own chunk: visitors who never open /edit never download the editor.
 const Editor = dynamic(() => import("./Editor").then((m) => m.Editor), { ssr: false });
 
 /** Opening /edit switches editing on for the rest of that tab, so every page can be edited. */
-const FLAG = "rh-editing";
-const EVENT = "rh-editing-change";
+const FLAG = `${EDITOR.storagePrefix}-editing`;
+const EVENT = `${EDITOR.storagePrefix}-editing-change`;
 
 function readFlag() {
   try {

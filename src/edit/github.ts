@@ -3,8 +3,10 @@
  * GitHub API. Vercel deploys main on every commit, so a commit is a publish.
  */
 
-const REPO = process.env.EDIT_REPO ?? "edesent/flatgapbaptist";
-const BRANCH = process.env.EDIT_BRANCH ?? "main";
+import { EDITOR } from "./config";
+
+const REPO = process.env.EDIT_REPO ?? EDITOR.repo;
+const BRANCH = process.env.EDIT_BRANCH ?? EDITOR.branch;
 
 async function gh(path: string, init: RequestInit = {}) {
   const token = process.env.EDIT_GITHUB_TOKEN;
@@ -16,7 +18,7 @@ async function gh(path: string, init: RequestInit = {}) {
       accept: "application/vnd.github+json",
       authorization: `Bearer ${token}`,
       "x-github-api-version": "2022-11-28",
-      "user-agent": "flatgapbaptist-site-editor",
+      "user-agent": "dfd-inline-site-editor",
       ...init.headers,
     },
   });

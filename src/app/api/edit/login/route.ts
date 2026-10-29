@@ -1,4 +1,4 @@
-import { church } from "@/lib/site";
+import { EDITOR } from "@/edit/config";
 import { LINK_MINUTES, canEdit, editorEmails, linkToken, sameOrigin } from "@/edit/auth";
 import { PUBLIC_SITE, canSignInFrom, requestOrigin } from "@/edit/hosts";
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
   const key = process.env.EDIT_RESEND_API_KEY;
   // Sent as a person on the sending domain. A church name on an elijahdesent.com
   // address, with one button to another domain, reads as phishing to Gmail.
-  const from = process.env.EDIT_FROM_EMAIL ?? "Eli Desent <contact@elijahdesent.com>";
+  const from = process.env.EDIT_FROM_EMAIL ?? "Eli Desent <noreply@dfd.llc>";
   if (!key || !from) return Response.json({ error: "Sign-in email isn’t configured yet." }, { status: 503 });
 
   const link = `${requestOrigin(req)}/api/edit/verify?t=${linkToken(email)}`;
@@ -52,14 +52,14 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       from,
       to: [email],
-      subject: `Edit the ${church.short} website`,
-      text: `Hi,\n\nHere is your link to edit the ${church.name} website. It opens the editor at ${PUBLIC_SITE}/edit:\n\n${link}\n\nThe link works for ${LINK_MINUTES} minutes. It was requested from the editor just now; if that wasn't you, you can ignore this email.\n\nEli Desent\nelijahdesent.com`,
+      subject: `Edit the ${EDITOR.siteShortName} website`,
+      text: `Hi,\n\nHere is your link to edit the ${EDITOR.siteName} website. It opens the editor at ${PUBLIC_SITE}/edit:\n\n${link}\n\nThe link works for ${LINK_MINUTES} minutes. It was requested from the editor just now; if that wasn't you, you can ignore this email.\n\nEli Desent\nDigital Front Door\ndfd.llc`,
       html: `<div style="font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:#222;max-width:520px">
 <p>Hi,</p>
-<p>Here is your link to edit the ${esc(church.name)} website. It opens the editor at <b>${esc(PUBLIC_SITE)}/edit</b>.</p>
-<p style="margin:26px 0"><a href="${esc(link)}" style="display:inline-block;background:#a3402a;color:#fff;padding:14px 22px;font-weight:700;text-decoration:none">Open the editor</a></p>
+<p>Here is your link to edit the ${esc(EDITOR.siteName)} website. It opens the editor at <b>${esc(PUBLIC_SITE)}/edit</b>.</p>
+<p style="margin:26px 0"><a href="${esc(link)}" style="display:inline-block;background:${esc(EDITOR.accent)};color:#fff;padding:14px 22px;font-weight:700;text-decoration:none">Open the editor</a></p>
 <p style="font-size:14px;color:#555">The link works for ${LINK_MINUTES} minutes. It was requested from the editor just now; if that wasn't you, you can ignore this email.</p>
-<p style="margin-top:28px">Eli Desent<br><span style="color:#777">elijahdesent.com</span></p>
+<p style="margin-top:28px">Eli Desent<br><span style="color:#777">Digital Front Door · dfd.llc</span></p>
 </div>`,
     }),
   }).catch(() => null);

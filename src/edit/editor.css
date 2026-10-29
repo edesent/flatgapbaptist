@@ -1,16 +1,191 @@
-/* Loaded only with the editor (/edit). Gold reads on both the ivory pages and the wine hero. */
+/* Self-contained editor styles. No site theme or Tailwind tokens are required. */
+:root {
+  --dfd-editor-accent: #a3402a;
+  --dfd-editor-ink: #1d1b17;
+  --dfd-editor-muted: #68645d;
+  --dfd-editor-paper: #fffdf8;
+  --dfd-editor-rule: #d8d2c8;
+  --dfd-editor-gold: #f0b429;
+}
 
-html[data-editor] body { padding-bottom: 112px; }
-
+html[data-editor] body { padding-bottom: 112px !important; }
 html[data-editing] main [data-txt] { cursor: text; }
 html[data-editing] main [data-txt-hover] {
-  outline: 2px solid #d99a00;
+  outline: 2px solid var(--dfd-editor-gold) !important;
   outline-offset: 3px;
   border-radius: 2px;
 }
 html[data-editing] main [data-txt-changed] {
-  outline: 2px solid #d99a00;
+  outline: 2px solid var(--dfd-editor-gold) !important;
   outline-offset: 3px;
   border-radius: 2px;
-  background: rgba(217, 154, 0, 0.16);
+  background: color-mix(in srgb, var(--dfd-editor-gold) 16%, transparent) !important;
 }
+
+.dfd-editor-modal,
+.dfd-editor-bar,
+.dfd-editor-dialog,
+.dfd-editor-dialog * {
+  box-sizing: border-box;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.dfd-editor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 16px;
+  background: rgba(29, 27, 23, 0.66);
+  backdrop-filter: blur(5px);
+}
+.dfd-editor-dialog {
+  width: min(100%, 500px);
+  margin: auto;
+  border: 0;
+  border-top: 4px solid var(--dfd-editor-accent);
+  border-radius: 3px;
+  background: var(--dfd-editor-paper);
+  color: var(--dfd-editor-ink);
+  padding: 30px;
+  box-shadow: 0 30px 80px -20px rgba(29, 27, 23, 0.55);
+}
+.dfd-editor-dialog--wide { width: min(100%, 640px); }
+.dfd-editor-title {
+  margin: 0;
+  color: var(--dfd-editor-ink);
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.dfd-editor-copy { margin: 12px 0 0; color: var(--dfd-editor-ink); font-size: 16px; line-height: 1.6; }
+.dfd-editor-copy--spaced { margin-top: 16px; }
+.dfd-editor-copy--muted { color: var(--dfd-editor-muted); font-size: 15px; }
+.dfd-editor-label {
+  display: block;
+  margin: 26px 0 8px;
+  color: var(--dfd-editor-ink);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.dfd-editor-field {
+  width: 100%;
+  border: 1px solid var(--dfd-editor-rule);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--dfd-editor-ink);
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.dfd-editor-field::placeholder { color: #8a857d; }
+.dfd-editor-field:focus { border-color: var(--dfd-editor-accent); outline: 2px solid transparent; box-shadow: 0 0 0 3px color-mix(in srgb, var(--dfd-editor-accent) 18%, transparent); }
+.dfd-editor-field--textarea { min-height: 92px; margin-top: 20px; resize: vertical; }
+.dfd-editor-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 10px 19px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.dfd-editor-btn:disabled { cursor: progress; opacity: .58; }
+.dfd-editor-btn--solid { background: var(--dfd-editor-accent); color: #fff; }
+.dfd-editor-btn--solid:hover:not(:disabled) { filter: brightness(.9); }
+.dfd-editor-btn--outline { border-color: var(--dfd-editor-accent); background: transparent; color: var(--dfd-editor-accent); }
+.dfd-editor-btn--outline:hover:not(:disabled) { background: var(--dfd-editor-accent); color: #fff; }
+.dfd-editor-btn--dark { border-color: rgba(255,255,255,.34); background: transparent; color: #fff; padding-inline: 15px; }
+.dfd-editor-btn--dark:hover:not(:disabled) { background: rgba(255,255,255,.1); }
+.dfd-editor-btn--full { width: 100%; margin-top: 16px; min-height: 48px; }
+.dfd-editor-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.dfd-editor-actions--spaced { margin-top: 26px; }
+.dfd-editor-link {
+  border: 0;
+  background: transparent;
+  color: var(--dfd-editor-muted);
+  padding: 0;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.dfd-editor-link--accent { color: var(--dfd-editor-accent); }
+.dfd-editor-link--below { margin-top: 20px; }
+.dfd-editor-link--push { margin-left: auto; }
+.dfd-editor-note { margin: 20px 0 0; color: var(--dfd-editor-ink); font-size: 15px; line-height: 1.5; }
+.dfd-editor-note--bad { color: var(--dfd-editor-accent); }
+.dfd-editor-location { margin: 8px 0 0; color: var(--dfd-editor-muted); font-size: 13.5px; }
+.dfd-editor-before { margin: 12px 0 0; color: var(--dfd-editor-muted); font-size: 13.5px; }
+.dfd-editor-before span { text-decoration: line-through; }
+.dfd-editor-help { margin: 20px 0 0; color: #7d786f; font-size: 13px; }
+
+.dfd-editor-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 2147483645;
+  background: rgba(29, 27, 23, .97);
+  color: rgba(255,255,255,.86);
+  font-size: 15px;
+  box-shadow: 0 -12px 40px rgba(29,27,23,.35);
+  backdrop-filter: blur(8px);
+}
+.dfd-editor-bar-accent { height: 3px; background: var(--dfd-editor-accent); }
+.dfd-editor-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  width: min(100%, 1280px);
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 12px 20px;
+}
+.dfd-editor-bar-copy { min-width: 0; flex: 1 1 260px; }
+.dfd-editor-eyebrow { margin: 0; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.dfd-editor-unsaved { margin-left: 12px; color: var(--dfd-editor-gold); }
+.dfd-editor-instruction { overflow: hidden; margin: 2px 0 0; color: rgba(255,255,255,.62); font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.dfd-editor-bar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.dfd-editor-status { flex-basis: 100%; margin: 0; font-size: 14px; line-height: 1.45; }
+.dfd-editor-status--info { color: rgba(255,255,255,.76); }
+.dfd-editor-status--good { color: #fff; }
+.dfd-editor-status--bad { color: var(--dfd-editor-gold); }
+.dfd-editor-status-link { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+
+.dfd-editor-alert { margin: 20px 0 0; border: 1px solid; border-radius: 3px; padding: 15px; color: var(--dfd-editor-ink); font-size: 15px; line-height: 1.55; }
+.dfd-editor-alert--bad { border-color: color-mix(in srgb, var(--dfd-editor-accent) 34%, transparent); background: color-mix(in srgb, var(--dfd-editor-accent) 10%, transparent); }
+.dfd-editor-alert--wait { margin-top: 24px; border-color: rgba(217,154,0,.46); background: rgba(217,154,0,.11); }
+.dfd-editor-change-list { max-height: 40vh; margin: 20px 0 0; padding: 0 4px 0 0; overflow-y: auto; list-style: none; }
+.dfd-editor-change { display: flex; gap: 12px; margin: 0 0 16px; border-left: 2px solid var(--dfd-editor-accent); padding-left: 14px; font-size: 15px; line-height: 1.35; }
+.dfd-editor-change-copy { min-width: 0; flex: 1; }
+.dfd-editor-change-old { margin: 0; color: var(--dfd-editor-muted); text-decoration: line-through; }
+.dfd-editor-change-new { margin: 4px 0 0; color: var(--dfd-editor-ink); }
+.dfd-editor-change-where { margin: 4px 0 0; color: #7d786f; font-size: 12.5px; }
+.dfd-editor-change-problem { margin: 4px 0 0; color: var(--dfd-editor-accent); font-size: 13.5px; font-weight: 700; }
+.dfd-editor-remove { width: 32px; height: 32px; flex: 0 0 auto; border: 0; border-radius: 3px; background: transparent; color: var(--dfd-editor-muted); cursor: pointer; }
+.dfd-editor-remove:hover { background: #eee9df; color: var(--dfd-editor-ink); }
+
+@media (max-width: 640px) {
+  html[data-editor] body { padding-bottom: 158px !important; }
+  .dfd-editor-dialog { padding: 24px 20px; }
+  .dfd-editor-bar-inner { padding: 11px 12px; }
+  .dfd-editor-bar-actions { width: 100%; }
+  .dfd-editor-bar-actions .dfd-editor-btn { flex: 1 1 auto; padding-inline: 12px; }
+  .dfd-editor-instruction { white-space: normal; }
+  .dfd-editor-link--push { margin-left: 0; width: 100%; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .dfd-editor-btn { transition: none; } }

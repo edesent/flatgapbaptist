@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "installedAt": "2026-10-29T16:36:57.839Z",
+  "repo": "edesent/flatgapbaptist",
+  "domain": "flatgapbaptist.org",
+  "hosts": [
+    "flatgapbaptist.org",
+    "www.flatgapbaptist.org",
+    "flatgapbaptist.elijahdesent.com",
+    "localhost"
+  ]
+}

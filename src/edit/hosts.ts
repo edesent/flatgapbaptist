@@ -1,11 +1,10 @@
-/**
- * The editor lives at /edit on the public site. Sign-in links are only sent
- * from these hosts, and the session cookie stays on the host that set it.
- */
-export const SIGN_IN_HOSTS = ["flatgapbaptist.org", "www.flatgapbaptist.org", "flatgapbaptist.elijahdesent.com", "localhost"];
+import { EDITOR } from "./config";
+
+/** The editor lives at /edit on the public site and approved demo hosts. */
+export const SIGN_IN_HOSTS: readonly string[] = EDITOR.hosts;
 
 /** Where published changes show up — named in the editor's "it's live" message. */
-export const PUBLIC_SITE = "flatgapbaptist.org";
+export const PUBLIC_SITE = EDITOR.publicSite;
 
 export function canSignInFrom(host: string | null | undefined) {
   return Boolean(host) && SIGN_IN_HOSTS.includes(host!.toLowerCase().split(":")[0]);
