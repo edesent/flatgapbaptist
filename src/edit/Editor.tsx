@@ -24,6 +24,30 @@ type Deploy = {
   check: { path: string; to: string }[];
 };
 type Confirm = { kind: "publish"; problems?: Record<string, string> } | { kind: "exit" };
+/** Events and the notice live in src/content/*.json; /api/edit/board reads and saves them. */
+type BoardEvent = { id: string; title: string; start: string; endsOn: string; time24?: string; summary: string };
+type Board = { events: BoardEvent[]; notice: { text: string; until: string } };
+type EventForm = { replaceId?: string; title: string; start: string; endsOn: string; time24: string; summary: string };
+type Panel =
+  | { kind: "events" }
+  | { kind: "event"; form: EventForm }
+  | { kind: "remove"; ev: BoardEvent }
+  | { kind: "notice"; text: string; until: string };
+
+const BLANK_EVENT: EventForm = { title: "", start: "", endsOn: "", time24: "", summary: "" };
+/** Today at the church, as YYYY-MM-DD (the earliest date the forms accept). */
+const churchToday = () =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+const dayName = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric", year: "numeric" });
+function timeName(t: string) {
+  const [h, m] = t.split(":").map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`;
+}
+const eventWhen = (ev: Pick<BoardEvent, "start" | "endsOn" | "time24">) =>
+  ev.endsOn && ev.endsOn !== ev.start
+    ? `${dayName(ev.start)} – ${dayName(ev.endsOn)}`
+    : `${dayName(ev.start)}${ev.time24 ? ` at ${timeName(ev.time24)}` : ""}`;
 
 const DRAFT_KEY = `${EDITOR.storagePrefix}-edit-draft`;
 /** What we tell people a publish takes to reach the live site (Vercel build + deploy). */
@@ -128,6 +152,9 @@ export function Editor({ onClose }: { onClose: () => void }) {
   const [missing, setMissing] = useState<string[]>([]);
   // The text box for one piece of text.
   const [open, setOpen] = useState<{ node: Text; text: string; context: string[]; where: string; value: string } | null>(null);
+  // The Events / Notice panels.
+  const [panel, setPanel] = useState<Panel | null>(null);
+  const [board, setBoard] = useState<Board | null>(null);
 
   /** Per text node: its words as the source has them (before any edit here) and where they live. */
   const original = useRef(new WeakMap<Text, string>());
@@ -301,7 +328,7 @@ export function Editor({ onClose }: { onClose: () => void }) {
 
   /* ── Dialog plumbing ── */
 
-  const dialogOpen = email === null || confirm !== null || open !== null;
+  const dialogOpen = email === null || confirm !== null || open !== null || panel !== null;
   useEffect(() => {
     if (!dialogOpen) return;
     const prev = document.body.style.overflow;
@@ -312,15 +339,16 @@ export function Editor({ onClose }: { onClose: () => void }) {
   }, [dialogOpen]);
 
   useEffect(() => {
-    if (!confirm && !open) return;
+    if (!confirm && !open && !panel) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || busy) return;
       setConfirm(null);
       setOpen(null);
+      setPanel(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [confirm, open, busy]);
+  }, [confirm, open, panel, busy]);
 
   useEffect(() => {
     const warn = (e: BeforeUnloadEvent) => {
@@ -462,6 +490,60 @@ export function Editor({ onClose }: { onClose: () => void }) {
     }
   }
 
+  /* ── Events and the notice ── */
+
+  async function openBoard(kind: "events" | "notice") {
+    setNote(null);
+    setBusy(true);
+    try {
+      const r = await fetch("/api/edit/board", { cache: "no-store" });
+      if (r.status === 401) return setEmail(null);
+      const j = (await r.json().catch(() => ({}))) as Partial<Board> & { error?: string };
+      if (!r.ok || !j.events || !j.notice) throw new Error(j.error);
+      setBoard({ events: j.events, notice: j.notice });
+      setPanel(kind === "events" ? { kind } : { kind, text: j.notice.text, until: j.notice.until });
+    } catch (e) {
+      setNote({ tone: "bad", text: e instanceof Error && e.message ? e.message : "Couldn’t load the events. Try again." });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** Every save here is its own publish: one commit, then the same countdown as text changes. */
+  async function sendBoard(method: "POST" | "DELETE", body: unknown) {
+    setBusy(true);
+    setNote(null);
+    try {
+      const r = await fetch("/api/edit/board", {
+        method,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const j = (await r.json().catch(() => ({}))) as { error?: string; commit?: string };
+      if (r.status === 401) {
+        setPanel(null);
+        setEmail(null);
+        setNote({ tone: "bad", text: "Your sign-in ran out. Sign in again, then make that change again." });
+        return;
+      }
+      if (!r.ok || !j.commit) return setNote({ tone: "bad", text: j.error ?? "Saving failed. Try again." });
+      setPanel(null);
+      setDeploy({ commit: j.commit, state: "pending", startedAt: Date.now(), check: [] });
+      setNow(Date.now());
+    } catch {
+      setNote({ tone: "bad", text: "Couldn’t reach the server. Nothing was saved. Try again." });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function saveEvent(e: React.FormEvent) {
+    e.preventDefault();
+    if (panel?.kind !== "event") return;
+    const { replaceId, ...f } = panel.form;
+    sendBoard("POST", { replaceId, event: { ...f, endsOn: f.endsOn || f.start } });
+  }
+
   function discardAll() {
     writeEdits([]);
     setNote(null);
@@ -575,6 +657,16 @@ export function Editor({ onClose }: { onClose: () => void }) {
                 </p>
               </div>
               <div className="dfd-editor-bar-actions">
+                {!preview && (
+                  <>
+                    <button type="button" onClick={() => openBoard("events")} disabled={busy} className={onDark}>
+                      Events
+                    </button>
+                    <button type="button" onClick={() => openBoard("notice")} disabled={busy} className={onDark}>
+                      Notice
+                    </button>
+                  </>
+                )}
                 <button type="button" onClick={() => setPreview((p) => !p)} className={onDark}>
                   {preview ? "Back to editing" : "Preview"}
                 </button>
@@ -654,6 +746,216 @@ export function Editor({ onClose }: { onClose: () => void }) {
             )}
           </div>
           <p className="dfd-editor-help">Nothing goes live until you press Publish in the bar.</p>
+        </Dialog>
+      )}
+
+      {panel?.kind === "events" && board && (
+        <Dialog title="Events" wide>
+          <p className="dfd-editor-copy">
+            Events show under “Coming up” in the service times. Each one comes off the website by itself after its last day.
+          </p>
+          {board.events.length ? (
+            <ul className="dfd-editor-change-list">
+              {board.events.map((ev) => (
+                <li key={ev.id} className="dfd-editor-item">
+                  <div className="dfd-editor-item-copy">
+                    <p className="dfd-editor-item-title">{ev.title}</p>
+                    <p className="dfd-editor-item-when">{eventWhen(ev)}</p>
+                  </div>
+                  <div className="dfd-editor-item-actions">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setPanel({
+                          kind: "event",
+                          form: {
+                            replaceId: ev.id,
+                            title: ev.title,
+                            start: ev.start,
+                            endsOn: ev.endsOn !== ev.start ? ev.endsOn : "",
+                            time24: ev.time24 ?? "",
+                            summary: ev.summary,
+                          },
+                        })
+                      }
+                      className="dfd-editor-link dfd-editor-link--accent"
+                    >
+                      Change
+                    </button>
+                    <button type="button" onClick={() => setPanel({ kind: "remove", ev })} className="dfd-editor-link">
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="dfd-editor-copy dfd-editor-copy--spaced dfd-editor-copy--muted">There are no events on the website right now.</p>
+          )}
+          <div className="dfd-editor-actions dfd-editor-actions--spaced">
+            <button type="button" onClick={() => setPanel({ kind: "event", form: BLANK_EVENT })} className={solid}>
+              Add an event
+            </button>
+            <button type="button" onClick={() => setPanel(null)} className={outline}>
+              Close
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {panel?.kind === "event" && (
+        <Dialog title={panel.form.replaceId ? "Change this event" : "Add an event"} wide>
+          <form onSubmit={saveEvent}>
+            <label htmlFor="ev-title" className="dfd-editor-label">
+              What’s happening
+            </label>
+            <input
+              id="ev-title"
+              required
+              autoFocus
+              maxLength={100}
+              placeholder="Trunk or Treat"
+              value={panel.form.title}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, title: e.target.value } })}
+              className={field}
+            />
+            <div className="dfd-editor-row">
+              <div>
+                <label htmlFor="ev-start" className="dfd-editor-label">
+                  Day
+                </label>
+                <input
+                  id="ev-start"
+                  type="date"
+                  required
+                  min={churchToday()}
+                  value={panel.form.start}
+                  onChange={(e) => setPanel({ ...panel, form: { ...panel.form, start: e.target.value } })}
+                  className={field}
+                />
+              </div>
+              <div>
+                <label htmlFor="ev-time" className="dfd-editor-label">
+                  Time<span className="dfd-editor-optional">optional</span>
+                </label>
+                <input
+                  id="ev-time"
+                  type="time"
+                  value={panel.form.time24}
+                  onChange={(e) => setPanel({ ...panel, form: { ...panel.form, time24: e.target.value } })}
+                  className={field}
+                />
+              </div>
+            </div>
+            <label htmlFor="ev-end" className="dfd-editor-label">
+              Last day<span className="dfd-editor-optional">only if it runs more than one day</span>
+            </label>
+            <input
+              id="ev-end"
+              type="date"
+              min={panel.form.start || churchToday()}
+              value={panel.form.endsOn}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, endsOn: e.target.value } })}
+              className={field}
+            />
+            <label htmlFor="ev-summary" className="dfd-editor-label">
+              A line about it<span className="dfd-editor-optional">optional</span>
+            </label>
+            <textarea
+              id="ev-summary"
+              rows={3}
+              maxLength={400}
+              placeholder="Candy for the kids in the church parking lot. Everybody welcome."
+              value={panel.form.summary}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, summary: e.target.value } })}
+              className={field}
+            />
+            {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+            <div className="dfd-editor-actions dfd-editor-actions--spaced">
+              <button type="submit" disabled={busy} className={solid}>
+                {busy ? "Saving…" : panel.form.replaceId ? "Save and publish" : "Add to the website"}
+              </button>
+              <button type="button" onClick={() => openBoard("events")} disabled={busy} className={outline}>
+                Back
+              </button>
+            </div>
+            <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
+          </form>
+        </Dialog>
+      )}
+
+      {panel?.kind === "remove" && (
+        <Dialog title={`Remove ${panel.ev.title}?`}>
+          <p className="dfd-editor-copy dfd-editor-copy--spaced">
+            It comes off the website in about 2 minutes. ({eventWhen(panel.ev)})
+          </p>
+          {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+          <div className="dfd-editor-actions dfd-editor-actions--spaced">
+            <button type="button" onClick={() => sendBoard("DELETE", { id: panel.ev.id })} disabled={busy} className={solid}>
+              {busy ? "Removing…" : "Yes, remove it"}
+            </button>
+            <button type="button" onClick={() => setPanel({ kind: "events" })} disabled={busy} className={outline}>
+              Keep it
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {panel?.kind === "notice" && board && (
+        <Dialog title="Notice at the top of the page">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendBoard("POST", { notice: { text: panel.text, until: panel.until } });
+            }}
+          >
+            <p className="dfd-editor-copy">One line across the very top of the website, for something everyone should see.</p>
+            <label htmlFor="notice-text" className="dfd-editor-label">
+              Notice
+            </label>
+            <textarea
+              id="notice-text"
+              required
+              autoFocus
+              rows={2}
+              maxLength={200}
+              placeholder="Trunk or Treat this Saturday at 6 pm in the church parking lot!"
+              value={panel.text}
+              onChange={(e) => setPanel({ ...panel, text: e.target.value })}
+              className={field}
+            />
+            <label htmlFor="notice-until" className="dfd-editor-label">
+              Take it down after<span className="dfd-editor-optional">optional</span>
+            </label>
+            <input
+              id="notice-until"
+              type="date"
+              min={churchToday()}
+              value={panel.until}
+              onChange={(e) => setPanel({ ...panel, until: e.target.value })}
+              className={field}
+            />
+            {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+            <div className="dfd-editor-actions dfd-editor-actions--spaced">
+              <button type="submit" disabled={busy} className={solid}>
+                {busy ? "Saving…" : board.notice.text ? "Save and publish" : "Put it up"}
+              </button>
+              <button type="button" onClick={() => setPanel(null)} disabled={busy} className={outline}>
+                Cancel
+              </button>
+              {board.notice.text && (
+                <button
+                  type="button"
+                  onClick={() => sendBoard("POST", { notice: { text: "", until: "" } })}
+                  disabled={busy}
+                  className="dfd-editor-link dfd-editor-link--push"
+                >
+                  Take the notice down
+                </button>
+              )}
+            </div>
+            <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
+          </form>
         </Dialog>
       )}
 

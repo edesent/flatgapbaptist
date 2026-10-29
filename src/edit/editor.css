@@ -189,3 +189,13 @@ html[data-editing] main [data-txt-changed] {
   .dfd-editor-link--push { margin-left: 0; width: 100%; text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) { .dfd-editor-btn { transition: none; } }
+
+/* Events and Notice panels */
+.dfd-editor-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+@media (max-width: 480px) { .dfd-editor-row { grid-template-columns: 1fr; } }
+.dfd-editor-label .dfd-editor-optional { margin-left: 6px; color: var(--dfd-editor-muted); font-weight: 600; letter-spacing: 0; text-transform: none; }
+.dfd-editor-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0 0 16px; border-left: 2px solid var(--dfd-editor-accent); padding-left: 14px; }
+.dfd-editor-item-copy { min-width: 0; flex: 1 1 260px; }
+.dfd-editor-item-title { margin: 0; color: var(--dfd-editor-ink); font-size: 16px; font-weight: 700; }
+.dfd-editor-item-when { margin: 2px 0 0; color: var(--dfd-editor-muted); font-size: 14px; }
+.dfd-editor-item-actions { display: flex; gap: 16px; }

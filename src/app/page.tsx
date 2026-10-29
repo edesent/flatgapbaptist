@@ -2,8 +2,8 @@ import FlatGapMap from "@/components/FlatGapMap";
 import Phone from "@/components/Phone";
 import PrayerModal from "@/components/PrayerModal";
 import Ridges from "@/components/Ridges";
-import { fmtTime, nextService, relativeDay, upcoming } from "@/lib/schedule";
-import { church, nav, pastor, pastorHistory, services } from "@/lib/site";
+import { fmtDay, fmtTime, nextService, nowInChurch, relativeDay, upcoming, type Entry } from "@/lib/schedule";
+import { church, nav, notice, pastor, pastorHistory, services } from "@/lib/site";
 
 // The Romans Road, King James text.
 const romansRoad = [
@@ -26,12 +26,29 @@ const romansRoad = [
   { ref: "Romans 10:13", text: "For whosoever shall call upon the name of the Lord shall be saved.", say: "Whosoever means you." },
 ];
 
+/** "Saturday, Oct 31 at 6:00 pm", or "Fri, Nov 6 – Sun, Nov 8" for a few days running. */
+function whenOf(e: Entry) {
+  if (e.when) return e.when;
+  if (e.endsOn && e.endsOn > e.date) {
+    const short = { weekday: "short", month: "short", day: "numeric" } as const;
+    return `${e.date === nowInChurch().date ? "Now" : fmtDay(e.date, short)} – ${fmtDay(e.endsOn, short)}`;
+  }
+  return `${relativeDay(e.date)}${e.time24 && e.time24 !== "00:00" ? ` at ${fmtTime(e.time24)}` : ""}`;
+}
+
 export default function Home() {
   const next = nextService();
   const events = upcoming(12).filter((e) => e.kind === "event");
+  const today = nowInChurch().date;
+  const showNotice = notice.text.trim() !== "" && (!notice.until || notice.until >= today);
 
   return (
     <>
+      {/* ---------- notice (set from /edit) ---------- */}
+      {showNotice && (
+        <p className="bg-brick px-4 py-2.5 text-center font-sans text-[1rem] font-semibold leading-snug text-paper">{notice.text}</p>
+      )}
+
       {/* ---------- header ---------- */}
       <header className="border-b border-rule bg-paper">
         <div className="wrap flex items-center justify-between gap-4 py-3">
@@ -109,6 +126,20 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          {events.length > 0 && (
+            <div id="coming-up" className="md:col-start-2" data-reveal="2">
+              <p className="kicker !text-hill-1">Coming up</p>
+              <ul className="mt-4 space-y-5 border-t border-paper/25 pt-5">
+                {events.map((e) => (
+                  <li key={e.title + e.date}>
+                    <p className="font-serif text-[1.35rem] font-semibold md:text-[1.5rem]">{e.title}</p>
+                    <p className="time mt-0.5 text-[1rem] font-bold text-paper/90">{whenOf(e)}</p>
+                    {e.note && <p className="mt-1 text-[1rem] text-paper/80">{e.note}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
 
@@ -221,19 +252,6 @@ export default function Home() {
             We aim to do this the 3rd Saturday of September every year, Lord willing! When the next one is set, you’ll find it right
             here.
           </p>
-          {events.length > 0 && (
-            <ul className="mt-6 space-y-3 border-t border-rule pt-5">
-              {events.map((e) => (
-                <li key={e.title + e.date}>
-                  <p className="font-semibold">{e.title}</p>
-                  <p className="time text-[0.95rem] text-ink-soft">
-                    {e.when ?? `${relativeDay(e.date)}${e.time24 && e.time24 !== "00:00" ? ` at ${fmtTime(e.time24)}` : ""}`}
-                  </p>
-                  {e.note && <p className="text-[1rem] text-ink-soft">{e.note}</p>}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </section>
 

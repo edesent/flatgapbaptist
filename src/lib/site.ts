@@ -8,6 +8,9 @@
  * history), and the church's Google Maps listing (church phone).
  */
 
+import eventsFile from "@/content/events.json";
+import noticeFile from "@/content/notice.json";
+
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://flatgapbaptist.elijahdesent.com";
 
 /**
@@ -76,9 +79,10 @@ export const services: Service[] = [
 ];
 
 /**
- * Special events. Give each one a start date and an `endsOn` date; it drops
- * off the site by itself the day after it ends (the layout re-renders hourly).
- * Dates are YYYY-MM-DD.
+ * Special events. They live in src/content/events.json, which Pastor Eric
+ * adds to, changes and clears from the editor at /edit. Each has a start date
+ * and an `endsOn` date; it drops off the site by itself the day after it ends
+ * (the layout re-renders hourly). Dates are YYYY-MM-DD.
  */
 export type SpecialEvent = {
   id: string;
@@ -92,8 +96,15 @@ export type SpecialEvent = {
   href?: string;
 };
 
-// The next Fish Fry, a revival, the Christmas program… add them here.
-export const events: SpecialEvent[] = [];
+export const events = eventsFile as SpecialEvent[];
+
+/**
+ * One line across the top of the page ("Trunk or Treat this Saturday at 6!").
+ * Lives in src/content/notice.json and is set from /edit. Empty text means no
+ * notice; `until` (YYYY-MM-DD, optional) takes it down after that day.
+ */
+export type Notice = { text: string; until: string };
+export const notice = noticeFile as Notice;
 
 /** Online giving: none yet. Leave `url` empty and the site never shows a Give button. */
 export const giving = {
