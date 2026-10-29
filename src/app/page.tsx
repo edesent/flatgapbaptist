@@ -251,7 +251,7 @@ export default function Home() {
               <br />
               {church.city}, {church.stateCode} {church.zip}
             </address>
-            <h3 className="mt-8 font-sans text-[1rem] font-bold tracking-wide">From Paintsville (about 25 minutes)</h3>
+            <h3 className="mt-8 font-sans text-[1rem] font-bold tracking-wide">From Paintsville (about 22 minutes)</h3>
             <ol className="mt-3 list-decimal space-y-2 pl-6 marker:font-sans marker:font-bold marker:text-brick">
               <li>Take KY 40 west out of town.</li>
               <li>Bear right onto KY 172 toward West Liberty and go about 7 miles.</li>
