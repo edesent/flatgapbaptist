@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import ChatWidget from "@/components/ChatWidget";
 import Reveal from "@/components/Reveal";
 import { EditGate } from "@/edit/EditGate";
 import { church, isDemo, pastor, siteUrl } from "@/lib/site";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Reveal />
         <EditGate />
+        <ChatWidget />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>
