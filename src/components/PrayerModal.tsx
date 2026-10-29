@@ -147,7 +147,8 @@ export default function PrayerModal() {
 
                     {status === "error" && (
                       <p className="font-sans text-[0.92rem] text-brick">
-                        Something went wrong sending that. Please call the church instead.
+                        Something went wrong sending that. Please call{" "}
+                        <Phone b64={pastor.phoneB64} className="link font-bold" fallback="Pastor Eric" /> instead.
                       </p>
                     )}
 
