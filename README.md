@@ -38,9 +38,9 @@ Preview: https://flatgapbaptist.elijahdesent.com (hidden from search engines; se
 - **The map is drawn, not embedded.** `public/map/flat-gap.svg` holds contour lines every 10 m (from elevation tiles) plus creeks and roads (Census TIGER 2024, Johnson County). `components/FlatGapMap.tsx` draws the route in on KY 689, the pins and the labels on top.
 - **Large type throughout** (19–21px body). Many of the members are in their 70s and 80s. Don't shrink it.
 - **Events expire by themselves.** Each event has `endsOn`; the page re-renders hourly (`revalidate = 3600` in `layout.tsx`). Keep that line. With no events listed, the Fish Fry section just says the next one will be posted.
-- **Forms:** none on the page. `/api/form` is still there (posts to `FORM_WEBHOOK_URL`) if a prayer-request form is wanted later.
+- **Prayer request form:** `PrayerModal` in the pastor box opens a short form that posts to `/api/prayer`, which emails `lauterw@foothills.net` via Resend (`src/lib/email.ts`), sent from Resend's shared `onboarding@resend.dev` so no domain verification is needed. Needs `RESEND_API_KEY` set in Vercel, or submissions fail with "the form isn't configured yet." Delivery is by email on purpose — Pastor Eric asked for that, not a text (his email of October 29, 2026), since his listed church phone has no answering machine.
 
-## Confirmed by the church (2026-10-25)
+## Confirmed by the church (2026-10-25, 2026-10-29)
 
 - **Service times:** Sunday School 9:30 (meets in the fellowship hall), worship 11, Wednesday prayer 7pm, March through October only (winter hours dismissed). No Sunday evening service.
 - **Phone:** the church line (606) 265-4800 (from the Google listing) is unchanged. Pastor Eric's own number is now his home phone, (606) 297-3878, shown in the pastor box and the Gospel section.
@@ -49,6 +49,7 @@ Preview: https://flatgapbaptist.elijahdesent.com (hidden from search engines; se
 - Attendance is "around 50," not a range.
 - **Photos:** the church building (`public/photos/church-building.jpg`) and Pastor Eric preaching (`public/photos/pastor-eric.jpg`), both from his October 25 email.
 - **The post office pin was removed from the hand-drawn map** — Eric said its location was wrong and offered either moving or deleting it; without a confirmed real location, it was deleted. The "Finding us" copy now says "next to Wildcat Grocery, behind the firehouse" instead.
+- **Pastor history wording:** dropped the trailing "today" from `pastorHistory` in `src/lib/site.ts` — the footer sentence right after it ("Pastor Eric Lauterwasser serves here today.") already ends with "today," and Eric flagged the repeat as not sounding right.
 
 ## Rules that keep the site honest
 

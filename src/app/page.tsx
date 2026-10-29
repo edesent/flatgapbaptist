@@ -1,5 +1,6 @@
 import FlatGapMap from "@/components/FlatGapMap";
 import Phone from "@/components/Phone";
+import PrayerModal from "@/components/PrayerModal";
 import Ridges from "@/components/Ridges";
 import { fmtTime, nextService, relativeDay, upcoming } from "@/lib/schedule";
 import { church, nav, pastor, pastorHistory, services } from "@/lib/site";
@@ -158,6 +159,9 @@ export default function Home() {
           </p>
           <p className="mt-4">
             <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="Call Pastor Eric" />
+          </p>
+          <p className="mt-4">
+            <PrayerModal />
           </p>
         </aside>
       </section>

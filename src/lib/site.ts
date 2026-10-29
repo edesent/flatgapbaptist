@@ -50,8 +50,8 @@ export const pastor = {
   phoneB64: "NjA2Mjk3Mzg3OA==",
 };
 
-/** Per Pastor Eric's email, October 25, 2026. */
-export const pastorHistory = "Brother Harold Salyer was the pastor from 1964 through 1991 and still faithfully attends today.";
+/** Per Pastor Eric's email, October 29, 2026 (dropped "today" — the next sentence already has one). */
+export const pastorHistory = "Brother Harold Salyer was the pastor from 1964 through 1991 and still faithfully attends.";
 
 /**
  * The regular week. `nth` limits a service to certain weeks of the month
