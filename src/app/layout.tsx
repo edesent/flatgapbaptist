@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Reveal from "@/components/Reveal";
+import { EditGate } from "@/edit/EditGate";
 import { church, isDemo, pastor, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <main>{children}</main>
         <Reveal />
+        <EditGate />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>

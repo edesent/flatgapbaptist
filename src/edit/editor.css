@@ -1,0 +1,16 @@
+/* Loaded only with the editor (/edit). Gold reads on both the ivory pages and the wine hero. */
+
+html[data-editor] body { padding-bottom: 112px; }
+
+html[data-editing] main [data-txt] { cursor: text; }
+html[data-editing] main [data-txt-hover] {
+  outline: 2px solid #d99a00;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+html[data-editing] main [data-txt-changed] {
+  outline: 2px solid #d99a00;
+  outline-offset: 3px;
+  border-radius: 2px;
+  background: rgba(217, 154, 0, 0.16);
+}
