@@ -111,19 +111,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- church building photo ---------- */}
-      <figure className="wrap pt-16 md:pt-24">
+      {/* ---------- church building photo: full width, fading into the welcome below ---------- */}
+      <figure className="relative">
         <img
           src="/photos/church-building.jpg"
           alt="Flat Gap Baptist Church, a brick building with a white steeple, on Flat Gap Drive"
           width={1600}
           height={877}
-          className="w-full rounded-sm border border-rule"
+          className="block h-[22rem] w-full object-cover object-[64%_40%] sm:h-[30rem] md:h-auto md:max-h-[85vh]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+          style={{ background: "linear-gradient(to bottom, rgba(245,239,225,0) 0%, rgba(245,239,225,0.55) 45%, var(--paper) 100%)" }}
         />
       </figure>
 
       {/* ---------- welcome ---------- */}
-      <section className="wrap grid gap-10 py-16 md:grid-cols-[1.4fr_1fr] md:gap-16 md:py-24">
+      <section className="wrap relative grid gap-10 pt-2 pb-16 md:-mt-24 md:grid-cols-[1.4fr_1fr] md:gap-16 md:pb-24">
         <div data-reveal>
           <p className="kicker">If it’s your first Sunday</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">A small church, with room to grow</h2>
