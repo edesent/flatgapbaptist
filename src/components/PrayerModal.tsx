@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Phone from "./Phone";
+import { pastor } from "@/lib/site";
 
 export default function PrayerModal() {
   const [open, setOpen] = useState(false);
