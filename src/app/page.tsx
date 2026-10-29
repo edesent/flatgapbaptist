@@ -292,6 +292,17 @@ export default function Home() {
             </p>
           </div>
         </div>
+        <p className="wrap border-t border-paper/15 py-5 text-center font-sans text-[0.85rem] text-paper/65">
+          <a
+            href="https://www.elijahdesent.com/churches"
+            target="_blank"
+            rel="noopener"
+            className="underline decoration-paper/35 underline-offset-4 hover:text-paper"
+          >
+            Church website development
+          </a>{" "}
+          by Elijah Desent
+        </p>
       </footer>
     </>
   );
