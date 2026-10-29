@@ -228,6 +228,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ---------- seasonal Trunk or Treat feature ---------- */}
+      {trunkOrTreat && (
+        <section className="border-b border-rule bg-paper-deep">
+          <div className="wrap grid items-center gap-10 py-16 md:grid-cols-[0.8fr_1.2fr] md:gap-16 md:py-24">
+            <img
+              src="/photos/trunk-or-treat-2026.jpg"
+              alt="Trunk or Treat at Flat Gap Baptist Church, October 31st from 6pm to 8pm"
+              width={1294}
+              height={2000}
+              className="mx-auto w-full max-w-[28rem] rounded-sm border border-rule shadow-[0_18px_50px_-30px_rgba(29,27,23,0.55)]"
+            />
+            <div data-reveal>
+              <p className="kicker">This Saturday</p>
+              <h2 className="mt-3 font-display text-[2.4rem] leading-tight text-brick md:text-[3.2rem]">{trunkOrTreat.title}</h2>
+              <p className="time mt-4 font-sans text-[1.05rem] font-bold text-ink">{whenOf(trunkOrTreat)}</p>
+              <p className="mt-6 text-[1.2rem] leading-relaxed text-ink-soft">{trunkOrTreat.note}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ---------- fish fry & gospel sing ---------- */}
       <section className="wrap grid items-center gap-10 py-16 md:grid-cols-[1fr_1fr] md:gap-16 md:py-24">
         <div
