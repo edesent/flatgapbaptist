@@ -178,7 +178,7 @@ export default function Home() {
         <aside data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
           <img
             src="/photos/pastor-eric.jpg"
-            alt="Pastor Eric Lauterwasser"
+            alt="Pastor Eric Lauterwasser preaching"
             width={750}
             height={1000}
             className="mb-5 aspect-[3/4] w-full max-w-[14rem] rounded-sm border border-rule object-cover"
