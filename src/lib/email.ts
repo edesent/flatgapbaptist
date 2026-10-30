@@ -28,7 +28,7 @@ export async function sendEmail(opts: {
   text: string;
   html: string;
 }): Promise<SendResult> {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY ?? process.env.EDIT_RESEND_API_KEY;
   if (!apiKey) {
     console.error("RESEND_API_KEY is not set.");
     return { ok: false, status: 500, error: "The form isn't configured yet." };
