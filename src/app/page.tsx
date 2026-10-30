@@ -63,7 +63,6 @@ export default function Home() {
               </a>
             ))}
           </nav>
-          <Phone className="time rounded-full bg-ink px-4 py-2 text-[0.95rem] font-bold text-paper hover:bg-brick" fallback="Call us" />
         </div>
       </header>
 
