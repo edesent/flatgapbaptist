@@ -267,7 +267,10 @@ export default function Home() {
               <p className="kicker">This Saturday</p>
               <h2 className="mt-3 font-display text-[2.4rem] leading-tight text-brick md:text-[3.2rem]">{trunkOrTreat.title}</h2>
               <p className="time mt-4 font-sans text-[1.05rem] font-bold text-ink">{whenOf(trunkOrTreat)}</p>
-              <p className="mt-6 text-[1.2rem] leading-relaxed text-ink-soft">{trunkOrTreat.note}</p>
+              <p className="mt-6 text-[1.2rem] leading-relaxed text-ink-soft">
+                We&rsquo;d love to see your family this Saturday evening. Everyone is welcome to come by the church for some fun and
+                fellowship (and candy). Look for us in the church parking lot - it will be hard to miss us!
+              </p>
             </div>
           </div>
         </section>
