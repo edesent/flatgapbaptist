@@ -186,10 +186,7 @@ export default function Home() {
           <p className="kicker">Our pastor</p>
           <p className="mt-2 font-display text-[1.6rem] leading-tight">{pastor.name}</p>
           <p className="mt-3 text-ink-soft">
-            If you need prayer, a visit, or someone to talk to about the Lord, call {pastor.first}. He’s glad to hear from you.
-          </p>
-          <p className="mt-4">
-            <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="Call Pastor Eric" />
+            If you need prayer, a visit, or someone to talk to about the Lord, {pastor.first} is glad to hear from you.
           </p>
           <p className="mt-4">
             <PrayerModal />
