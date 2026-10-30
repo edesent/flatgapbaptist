@@ -1,14 +1,14 @@
 import { Resend } from "resend";
 
 // ── Where messages go ─────────────────────────────────────────────────────────
-// CHURCH_INBOX receives every form submission. SENDER uses Resend's shared
-// onboarding domain so no DNS/domain verification is needed for flatgapbaptist.org;
-// switch it to an address at a verified domain later if wanted. Pastor Eric
-// asked for prayer requests by email, not text (his email of October 29, 2026).
-// Needs RESEND_API_KEY set on this project in Vercel — until then /api/prayer
-// answers "The form isn't configured yet." instead of actually sending.
+// CHURCH_INBOX receives every form submission. Pastor Eric asked for prayer
+// requests by email, not text (his email of October 29, 2026). SENDER uses the
+// dfd.llc domain, already verified in Resend for the site editor's login
+// emails, reusing EDIT_RESEND_API_KEY below — resend.dev's shared sandbox
+// domain only delivers to the Resend account owner, not arbitrary recipients
+// like Eric, so it can't be used here.
 export const CHURCH_INBOX = "lauterw@foothills.net";
-export const SENDER = "Flat Gap Baptist Church Website <onboarding@resend.dev>";
+export const SENDER = "Flat Gap Baptist Church Website <noreply@dfd.llc>";
 
 export function escapeHtml(value: string) {
   return value
