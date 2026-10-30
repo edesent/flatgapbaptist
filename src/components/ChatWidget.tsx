@@ -16,6 +16,7 @@ export default function ChatWidget() {
       data-agent-icon={CHAT.agentIcon}
       data-greeting={CHAT.greeting}
       data-form-subtitle={CHAT.formSubtitle}
+      data-header-subtitle={CHAT.headerSubtitle}
       data-dismiss-days="1"
       strategy="afterInteractive"
     />

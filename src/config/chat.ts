@@ -17,4 +17,6 @@ export const CHAT = {
   agentIcon: "/photos/pastor-face.jpg",
   greeting: "Thinking about visiting Flat Gap? I’m Pastor Eric. Ask me anything.",
   formSubtitle: "Leave your name and a number or email and Pastor Eric will get back to you.",
+  /** Line under "Chat with us" in the chat header. */
+  headerSubtitle: "We will reply as soon as possible",
 } as const;
