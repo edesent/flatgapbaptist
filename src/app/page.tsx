@@ -301,7 +301,6 @@ export default function Home() {
               <a href={church.mapsUrl} className="btn" target="_blank" rel="noopener">
                 Open in Google Maps
               </a>
-              <Phone className="btn btn-ghost time" fallback="Call the church" />
             </div>
           </div>
           <figure data-reveal="1" className="self-start">
