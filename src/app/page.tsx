@@ -217,7 +217,7 @@ export default function Home() {
             ))}
           </ol>
           <p className="mt-10 max-w-2xl" data-reveal>
-            If you want to talk it over, call Pastor {pastor.first} at{" "}
+            If you want to talk it over, call Brother {pastor.first} at{" "}
             <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="his number" />, or come by on Sunday and
             ask for him.
           </p>
