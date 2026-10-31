@@ -13,6 +13,17 @@
   --hill-4: #34503a;
   --brick: #a3402a;
   --creek: #4f86a0;
+
+  /* Church Tools (src/tools/*) read these. */
+  --ct-accent: var(--hill-4);
+  --ct-accent-deep: #22372a;
+  --ct-heading: var(--ink);
+  --ct-ink: var(--ink);
+  --ct-muted: var(--ink-soft);
+  --ct-line: var(--rule);
+  --ct-paper: #fffdf7;
+  --ct-serif: var(--font-text), Georgia, serif;
+  --ct-sans: var(--font-franklin), system-ui, sans-serif;
 }
 
 @theme inline {
