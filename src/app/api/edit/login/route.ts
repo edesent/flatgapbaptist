@@ -1,6 +1,6 @@
 import { EDITOR } from "@/edit/config";
 import { LINK_MINUTES, canEdit, editorEmails, linkToken, sameOrigin } from "@/edit/auth";
-import { PUBLIC_SITE, canSignInFrom, requestOrigin } from "@/edit/hosts";
+import { PUBLIC_SITE, afterSignIn, canSignInFrom, requestOrigin } from "@/edit/hosts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   const host = req.headers.get("host");
   if (!canSignInFrom(host) || !sameOrigin(req)) return Response.json({ error: "Not available here." }, { status: 404 });
 
-  const body = (await req.json().catch(() => ({}))) as { email?: unknown };
+  const body = (await req.json().catch(() => ({}))) as { email?: unknown; next?: unknown };
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase().slice(0, 200) : "";
   if (!email) return Response.json({ error: "Enter your email address." }, { status: 400 });
 
@@ -45,20 +45,26 @@ export async function POST(req: Request) {
   const from = process.env.EDIT_FROM_EMAIL ?? "Eli Desent <noreply@dfd.llc>";
   if (!key || !from) return Response.json({ error: "Sign-in email isn’t configured yet." }, { status: 503 });
 
-  const link = `${requestOrigin(req)}/api/edit/verify?t=${linkToken(email)}`;
+  // The same sign-in opens the editor or the visitor numbers (/analytics).
+  const page = afterSignIn(body.next);
+  const link = `${requestOrigin(req)}/api/edit/verify?t=${linkToken(email)}${page === "/edit" ? "" : `&next=${page}`}`;
+  const what =
+    page === "/analytics"
+      ? { subject: `Visitors to the ${EDITOR.siteShortName} website`, line: `see who has been visiting the ${EDITOR.siteName} website. It opens ${PUBLIC_SITE}/analytics`, button: "See the visitor numbers" }
+      : { subject: `Edit the ${EDITOR.siteShortName} website`, line: `edit the ${EDITOR.siteName} website. It opens the editor at ${PUBLIC_SITE}/edit`, button: "Open the editor" };
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
     body: JSON.stringify({
       from,
       to: [email],
-      subject: `Edit the ${EDITOR.siteShortName} website`,
-      text: `Hi,\n\nHere is your link to edit the ${EDITOR.siteName} website. It opens the editor at ${PUBLIC_SITE}/edit:\n\n${link}\n\nThe link works for ${LINK_MINUTES} minutes. It was requested from the editor just now; if that wasn't you, you can ignore this email.\n\nEli Desent\nDigital Front Door\ndfd.llc`,
+      subject: what.subject,
+      text: `Hi,\n\nHere is your link to ${what.line}:\n\n${link}\n\nThe link works for ${LINK_MINUTES} minutes. It was requested from the website just now; if that wasn't you, you can ignore this email.\n\nEli Desent\nDigital Front Door\ndfd.llc`,
       html: `<div style="font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:#222;max-width:520px">
 <p>Hi,</p>
-<p>Here is your link to edit the ${esc(EDITOR.siteName)} website. It opens the editor at <b>${esc(PUBLIC_SITE)}/edit</b>.</p>
-<p style="margin:26px 0"><a href="${esc(link)}" style="display:inline-block;background:${esc(EDITOR.accent)};color:#fff;padding:14px 22px;font-weight:700;text-decoration:none">Open the editor</a></p>
-<p style="font-size:14px;color:#555">The link works for ${LINK_MINUTES} minutes. It was requested from the editor just now; if that wasn't you, you can ignore this email.</p>
+<p>Here is your link to ${esc(what.line)}.</p>
+<p style="margin:26px 0"><a href="${esc(link)}" style="display:inline-block;background:${esc(EDITOR.accent)};color:#fff;padding:14px 22px;font-weight:700;text-decoration:none">${esc(what.button)}</a></p>
+<p style="font-size:14px;color:#555">The link works for ${LINK_MINUTES} minutes. It was requested from the website just now; if that wasn't you, you can ignore this email.</p>
 <p style="margin-top:28px">Eli Desent<br><span style="color:#777">Digital Front Door · dfd.llc</span></p>
 </div>`,
     }),

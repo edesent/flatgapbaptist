@@ -32,7 +32,8 @@ function subscribe(cb: () => void) {
 }
 
 export function EditGate() {
-  const atEdit = usePathname() === "/edit";
+  const pathname = usePathname();
+  const atEdit = pathname === "/edit";
   const flagged = useSyncExternalStore(subscribe, readFlag, () => false);
 
   useEffect(() => {
@@ -47,7 +48,8 @@ export function EditGate() {
     history.replaceState(history.state, "", url);
   }, []);
 
-  if (!atEdit && !flagged) return null;
+  // The visitor numbers page shares the sign-in but is not an editable page.
+  if ((!atEdit && !flagged) || pathname?.startsWith("/analytics")) return null;
   return (
     <Editor
       onClose={() => {

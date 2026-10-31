@@ -19,3 +19,6 @@ export function requestOrigin(req: Request) {
   const proto = req.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || new URL(req.url).protocol.replace(":", "");
   return `${proto}://${req.headers.get("host")}`;
 }
+
+/** Pages a sign-in link may land on. Anything else goes to the editor. */
+export const afterSignIn = (page: unknown): "/edit" | "/analytics" => (page === "/analytics" ? "/analytics" : "/edit");

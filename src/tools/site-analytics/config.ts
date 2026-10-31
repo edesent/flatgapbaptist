@@ -1,19 +1,20 @@
-// Site Analytics — per-church configuration.
-//
-// The key is a read-only analytics key (sak_…) minted by elijahdesent.com for
-// THIS site's domains. It can only read this site's visitor counts, so it is
-// fine to keep here in the repo. Mint one per site — see the README.
+// Site Analytics — per-church configuration. Safe for the browser: no key here.
 
 export const analyticsConfig = {
-  // The analytics API. Leave as-is.
-  apiBase: "https://www.elijahdesent.com/api/site-stats",
-
-  // This site's analytics key: flatgapbaptist.org + flatgapbaptist.elijahdesent.com.
-  key: "sak_eyJoIjpbImZsYXRnYXBiYXB0aXN0LmVsaWphaGRlc2VudC5jb20iLCJmbGF0Z2FwYmFwdGlzdC5vcmciXX0.SOhFuW7tN8BGGRt5EcxjoJ_B",
-
   // Shown in the page heading.
   siteName: "Flat Gap Baptist Church",
 
   // The church's time zone: "today" and each day's midnight are counted here.
   timeZone: "America/New_York",
+
+  // true  → the page asks for the site editor's emailed sign-in link (same
+  //         EDIT_EMAILS as /edit) and loads the numbers through the site's own
+  //         /api/edit/analytics route. The key stays on the server (key.ts).
+  //         Needs the DFD editor installed (src/edit).
+  // false → anyone with the page's address sees the numbers; the browser calls
+  //         elijahdesent.com directly with `publicKey`. For demos without the editor.
+  signIn: true,
+
+  // Only when signIn is false: the site's analytics key (sak_…).
+  publicKey: "",
 };

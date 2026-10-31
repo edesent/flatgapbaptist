@@ -188,3 +188,41 @@
 .ct-sa-muted { margin: 8px 0 0; color: var(--ct-muted, #5b6474); font-size: 0.93rem; }
 .ct-sa-error { margin: 0 0 16px; color: #a3402a; font-weight: 600; }
 .ct-sa-note { margin: 22px 0 0; color: var(--ct-muted, #5b6474); font-size: 0.82rem; }
+
+/* Sign-in mode */
+.ct-sa-head { position: relative; }
+.ct-sa-signout { position: absolute; top: 0; right: 0; }
+.ct-sa-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ct-muted, #5b6474);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.ct-sa-signin { max-width: 460px; margin-top: 24px; }
+.ct-sa-signin p { margin: 10px 0 0; line-height: 1.55; }
+.ct-sa-signin label {
+  display: block;
+  margin: 20px 0 6px;
+  color: var(--ct-muted, #5b6474);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.ct-sa-signin input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--ct-line, #e5e1d8);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ct-ink, #1f2733);
+  font: inherit;
+  font-size: 1rem;
+}
+.ct-sa-signin .ct-sa-chip { width: 100%; min-height: 46px; margin-top: 12px; }
+.ct-sa-signin .ct-sa-error { margin: 12px 0 0; }
+.ct-sa-signin .ct-sa-link { margin-top: 14px; }

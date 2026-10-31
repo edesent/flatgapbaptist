@@ -28,6 +28,7 @@ const PRESETS = [
 ] as const;
 
 const DEVICE_NAMES: Record<string, string> = { mobile: "Phones", desktop: "Computers", tablet: "Tablets" };
+const PUBLIC_API = "https://www.elijahdesent.com/api/site-stats";
 
 const nf = new Intl.NumberFormat("en-US");
 
@@ -188,6 +189,78 @@ function ListCard({ title, rows, empty }: { title: string; rows: { label: string
   );
 }
 
+/** Sign-in mode: the same emailed link as the site editor, landing back on this page. */
+function SignIn() {
+  const [addr, setAddr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const [expired] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const url = new URL(location.href);
+    if (url.searchParams.get("signin") !== "expired") return false;
+    url.searchParams.delete("signin");
+    history.replaceState(history.state, "", url);
+    return true;
+  });
+
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await fetch("/api/edit/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: addr, next: "/analytics" }),
+      });
+      const j = (await r.json().catch(() => ({}))) as { error?: string };
+      if (r.ok) setSent(addr.trim());
+      else setErr(j.error ?? "Couldn’t send the link. Try again.");
+    } catch {
+      setErr("Couldn’t reach the website. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (sent)
+    return (
+      <section className="ct-sa-card ct-sa-signin">
+        <h3>Check your email</h3>
+        <p>
+          We sent a sign-in link to <strong>{sent}</strong>. It works for 20 minutes and brings you straight back here.
+        </p>
+        <p className="ct-sa-muted">Not there after a minute? Look in Spam and mark it “Not spam.”</p>
+        <button type="button" className="ct-sa-link" onClick={() => setSent(null)}>
+          Use a different email
+        </button>
+      </section>
+    );
+
+  return (
+    <form className="ct-sa-card ct-sa-signin" onSubmit={send}>
+      <h3>Sign in to see the numbers</h3>
+      <p>Use the same email you use to edit the website. We’ll email you a link to sign in.</p>
+      {expired && <p className="ct-sa-error">That sign-in link has expired. Send yourself a new one.</p>}
+      <label htmlFor="ct-sa-email">Email</label>
+      <input
+        id="ct-sa-email"
+        type="email"
+        required
+        autoComplete="email"
+        placeholder="you@example.com"
+        value={addr}
+        onChange={(e) => setAddr(e.target.value)}
+      />
+      <button type="submit" disabled={busy} className="ct-sa-chip is-on">
+        {busy ? "Sending…" : "Email me a sign-in link"}
+      </button>
+      {err && <p className="ct-sa-error">{err}</p>}
+    </form>
+  );
+}
+
 export function SiteAnalytics() {
   const [today] = useState(() => todayIn(cfg.timeZone));
   const [preset, setPreset] = useState<string>("30");
@@ -196,6 +269,7 @@ export function SiteAnalytics() {
   const [data, setData] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [needSignIn, setNeedSignIn] = useState(false);
 
   const valid = isDate(from) && isDate(to) && from <= to;
 
@@ -204,11 +278,19 @@ export function SiteAnalytics() {
     const ctl = new AbortController();
     setLoading(true);
     setError(null);
-    const q = new URLSearchParams({ key: cfg.key, from, to, tz: cfg.timeZone });
-    fetch(`${cfg.apiBase}?${q}`, { signal: ctl.signal })
+    // Sign-in mode asks the site's own route (it holds the key); otherwise the browser asks elijahdesent.com.
+    const url = cfg.signIn
+      ? `/api/edit/analytics?${new URLSearchParams({ from, to })}`
+      : `${PUBLIC_API}?${new URLSearchParams({ key: cfg.publicKey, from, to, tz: cfg.timeZone })}`;
+    fetch(url, { signal: ctl.signal, credentials: "same-origin" })
       .then(async (r) => {
+        if (r.status === 401 && cfg.signIn) {
+          setNeedSignIn(true);
+          return;
+        }
         const j = (await r.json().catch(() => ({}))) as Stats & { error?: string };
         if (!r.ok) throw new Error(j.error || "Couldn’t load the numbers.");
+        setNeedSignIn(false);
         setData(j);
       })
       .catch((e: unknown) => {
@@ -233,11 +315,32 @@ export function SiteAnalytics() {
   );
   const deviceTotal = data?.devices.reduce((s, d) => s + d.visitors, 0) ?? 0;
 
+  async function signOut() {
+    await fetch("/api/edit/session", { method: "DELETE" }).catch(() => null);
+    location.reload();
+  }
+
+  if (needSignIn)
+    return (
+      <div className="ct-sa">
+        <header className="ct-sa-head">
+          <p className="ct-sa-eyebrow">{cfg.siteName}</p>
+          <h2>Website visitors</h2>
+        </header>
+        <SignIn />
+      </div>
+    );
+
   return (
     <div className="ct-sa">
       <header className="ct-sa-head">
         <p className="ct-sa-eyebrow">{cfg.siteName}</p>
         <h2>Website visitors</h2>
+        {cfg.signIn && data && (
+          <button type="button" className="ct-sa-link ct-sa-signout" onClick={signOut}>
+            Sign out
+          </button>
+        )}
       </header>
 
       <div className="ct-sa-filters" role="group" aria-label="Date range">
