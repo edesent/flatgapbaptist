@@ -3,7 +3,7 @@ import Phone from "@/components/Phone";
 import PrayerModal from "@/components/PrayerModal";
 import Ridges from "@/components/Ridges";
 import { fmtDay, fmtTime, nextService, nowInChurch, relativeDay, upcoming, type Entry } from "@/lib/schedule";
-import { church, nav, notice, pastor, pastorHistory, services } from "@/lib/site";
+import { church, events as allEvents, nav, notice, pastor, pastorHistory, services } from "@/lib/site";
 
 // The Romans Road, King James text.
 const romansRoad = [
