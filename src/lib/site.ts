@@ -69,13 +69,24 @@ export type Service = {
   nth?: number[];
   rule: string;
   note: string;
+  /** Still shown in the full service-times list, just left out of the homepage "Next:" banner. */
+  excludeFromNext?: boolean;
 };
 
 // Confirmed by Pastor Eric's email, October 25, 2026.
 export const services: Service[] = [
   { id: "school", name: "Sunday School", dow: 0, time24: "09:30", rule: "Sundays", note: "Meet in the fellowship hall." },
   { id: "worship", name: "Morning Worship", dow: 0, time24: "11:00", rule: "Sundays", note: "Hymns, prayer and preaching." },
-  { id: "prayer", name: "Prayer Meeting", dow: 3, time24: "19:00", rule: "Wednesdays", note: "Bible study and prayer, March through October." },
+  {
+    id: "prayer",
+    name: "Prayer Meeting",
+    dow: 3,
+    time24: "19:00",
+    rule: "Wednesdays",
+    note: "Bible study and prayer, March through October.",
+    /** Pastor Eric's email, Nov 1, 2026: leave it out of the automatic "next" rotation. */
+    excludeFromNext: true,
+  },
 ];
 
 /**
