@@ -39,7 +39,7 @@ function whenOf(e: Entry) {
 export default function Home() {
   const next = nextService();
   const events = upcoming(12).filter((e) => e.kind === "event");
-  const trunkOrTreat = events.find((e) => e.title === "Trunk or Treat");
+  const trunkOrTreat = allEvents.find((e) => e.title === "Trunk or Treat");
   const today = nowInChurch().date;
   const showNotice = notice.text.trim() !== "" && (!notice.until || notice.until >= today);
 
