@@ -118,8 +118,10 @@ export function upcoming(limit: number, horizonDays = 120): Entry[] {
   return list.sort((a, b) => (a.date + a.time24).localeCompare(b.date + b.time24)).slice(0, limit);
 }
 
+const excludedFromNext = new Set(services.filter((s) => s.excludeFromNext).map((s) => s.id));
+
 export function nextService(): Entry | null {
-  return upcoming(40).find((x) => x.kind !== "event") ?? null;
+  return upcoming(40).find((x) => x.kind !== "event" && !excludedFromNext.has(x.kind)) ?? null;
 }
 
 export function relativeDay(iso: string) {
