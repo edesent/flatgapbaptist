@@ -199,3 +199,10 @@ html[data-editing] main [data-txt-changed] {
 .dfd-editor-item-title { margin: 0; color: var(--dfd-editor-ink); font-size: 16px; font-weight: 700; }
 .dfd-editor-item-when { margin: 2px 0 0; color: var(--dfd-editor-muted); font-size: 14px; }
 .dfd-editor-item-actions { display: flex; gap: 16px; }
+
+/* Blog and History panels */
+.dfd-editor-field--long { min-height: 260px; font-size: 16px; line-height: 1.6; }
+.dfd-editor-photo { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 16px; margin-bottom: 12px; }
+.dfd-editor-photo img { width: 168px; max-height: 168px; border: 1px solid var(--dfd-editor-rule); border-radius: 3px; object-fit: cover; }
+.dfd-editor-file { position: relative; overflow: hidden; cursor: pointer; }
+.dfd-editor-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }

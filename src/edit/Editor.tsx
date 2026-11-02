@@ -32,7 +32,15 @@ type Panel =
   | { kind: "events" }
   | { kind: "event"; form: EventForm }
   | { kind: "remove"; ev: BoardEvent }
-  | { kind: "notice"; text: string; until: string };
+  | { kind: "notice"; text: string; until: string }
+  | { kind: "blog"; posts: BlogPost[] }
+  | { kind: "post"; form: PostForm; original: string }
+  | { kind: "removePost"; post: BlogPost }
+  | { kind: "history"; body: string; original: string };
+/** Blog articles live in src/content/blog.json (/api/edit/blog); the history page in src/content/history.json. */
+type BlogPost = { slug: string; title: string; date: string; body: string; photo?: { src: string; alt: string } };
+type PostPhoto = { kind: "none" } | { kind: "keep"; src: string } | { kind: "new"; url: string; blob: Blob };
+type PostForm = { slug?: string; title: string; date: string; body: string; photo: PostPhoto };
 
 const BLANK_EVENT: EventForm = { title: "", start: "", endsOn: "", time24: "", summary: "" };
 /** Today at the church, as YYYY-MM-DD (the earliest date the forms accept). */
@@ -48,6 +56,21 @@ const eventWhen = (ev: Pick<BoardEvent, "start" | "endsOn" | "time24">) =>
   ev.endsOn && ev.endsOn !== ev.start
     ? `${dayName(ev.start)} – ${dayName(ev.endsOn)}`
     : `${dayName(ev.start)}${ev.time24 ? ` at ${timeName(ev.time24)}` : ""}`;
+
+/** A photo as a JPEG no wider than 1800px, the way it will be committed. */
+async function shrinkPhoto(file: File) {
+  const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+  const scale = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bmp.width * scale);
+  canvas.height = Math.round(bmp.height * scale);
+  const ctx = canvas.getContext("2d")!;
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+  return new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("encode"))), "image/jpeg", 0.84));
+}
+const formKey = (f: PostForm) => JSON.stringify([f.title, f.date, f.body, f.photo.kind, f.photo.kind === "keep" ? f.photo.src : ""]);
 
 const DRAFT_KEY = `${EDITOR.storagePrefix}-edit-draft`;
 /** What we tell people a publish takes to reach the live site (Vercel build + deploy). */
@@ -342,6 +365,8 @@ export function Editor({ onClose }: { onClose: () => void }) {
     if (!confirm && !open && !panel) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || busy) return;
+      // Escape never throws away an article or the history text being written.
+      if (panel?.kind === "post" || panel?.kind === "history") return;
       setConfirm(null);
       setOpen(null);
       setPanel(null);
@@ -351,12 +376,14 @@ export function Editor({ onClose }: { onClose: () => void }) {
   }, [confirm, open, panel, busy]);
 
   useEffect(() => {
+    // An article or the history text being written counts as unsaved too.
+    const writing = panel?.kind === "post" || panel?.kind === "history";
     const warn = (e: BeforeUnloadEvent) => {
-      if (editsRef.current.length) e.preventDefault();
+      if (editsRef.current.length || writing) e.preventDefault();
     };
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
-  }, []);
+  }, [panel?.kind]);
 
   /* ── After publishing: count down, watch the deploy, then check the page ── */
 
@@ -510,11 +537,11 @@ export function Editor({ onClose }: { onClose: () => void }) {
   }
 
   /** Every save here is its own publish: one commit, then the same countdown as text changes. */
-  async function sendBoard(method: "POST" | "DELETE", body: unknown) {
+  async function sendBoard(method: "POST" | "DELETE", body: unknown, url = "/api/edit/board") {
     setBusy(true);
     setNote(null);
     try {
-      const r = await fetch("/api/edit/board", {
+      const r = await fetch(url, {
         method,
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
@@ -542,6 +569,83 @@ export function Editor({ onClose }: { onClose: () => void }) {
     if (panel?.kind !== "event") return;
     const { replaceId, ...f } = panel.form;
     sendBoard("POST", { replaceId, event: { ...f, endsOn: f.endsOn || f.start } });
+  }
+
+  /* ── The blog and the history page ── */
+
+  async function openContent(kind: "blog" | "history") {
+    setNote(null);
+    setBusy(true);
+    try {
+      const r = await fetch(`/api/edit/${kind}`, { cache: "no-store" });
+      if (r.status === 401) return setEmail(null);
+      const j = (await r.json().catch(() => ({}))) as { posts?: BlogPost[]; body?: string; error?: string };
+      if (!r.ok) throw new Error(j.error);
+      if (kind === "blog") setPanel({ kind, posts: j.posts ?? [] });
+      else setPanel({ kind, body: j.body ?? "", original: j.body ?? "" });
+    } catch (e) {
+      setNote({ tone: "bad", text: e instanceof Error && e.message ? e.message : "Couldn’t load that. Try again." });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function editPost(post?: BlogPost) {
+    const form: PostForm = post
+      ? { slug: post.slug, title: post.title, date: post.date, body: post.body, photo: post.photo ? { kind: "keep", src: post.photo.src } : { kind: "none" } }
+      : { title: "", date: churchToday(), body: "", photo: { kind: "none" } };
+    setNote(null);
+    setPanel({ kind: "post", form, original: formKey(form) });
+  }
+
+  async function choosePhoto(file: File | undefined) {
+    if (panel?.kind !== "post" || !file) return;
+    try {
+      const blob = await shrinkPhoto(file);
+      if (panel.form.photo.kind === "new") URL.revokeObjectURL(panel.form.photo.url);
+      setPanel({ ...panel, form: { ...panel.form, photo: { kind: "new", url: URL.createObjectURL(blob), blob } } });
+      setNote(null);
+    } catch {
+      setNote({
+        tone: "bad",
+        text: `“${file.name}” couldn’t be opened. Use a photo (JPG or PNG)${/heic|heif/i.test(file.name) ? ". iPhone HEIC photos need to be saved as JPG first" : ""}.`,
+      });
+    }
+  }
+
+  async function savePost(e: React.FormEvent) {
+    e.preventDefault();
+    if (panel?.kind !== "post" || busy) return;
+    const f = panel.form;
+    let photo: { keep: true } | { sha: string } | null = f.photo.kind === "keep" ? { keep: true } : null;
+    if (f.photo.kind === "new") {
+      setBusy(true);
+      setNote(null);
+      try {
+        const r = await fetch("/api/edit/photo", { method: "POST", headers: { "content-type": "image/jpeg" }, body: f.photo.blob });
+        const j = (await r.json().catch(() => ({}))) as { sha?: string; error?: string };
+        if (r.status === 401) {
+          setBusy(false);
+          return setNote({ tone: "bad", text: "Your sign-in ran out. Copy your article somewhere safe, sign in again, then add it again." });
+        }
+        if (!r.ok || !j.sha) throw new Error(j.error);
+        photo = { sha: j.sha };
+      } catch (err) {
+        setBusy(false);
+        return setNote({ tone: "bad", text: err instanceof Error && err.message ? err.message : "Uploading the photo failed. Try again." });
+      }
+    }
+    await sendBoard("POST", { slug: f.slug, title: f.title, date: f.date, body: f.body, photo }, "/api/edit/blog");
+  }
+
+  /** Closing a form with unsaved writing asks first. */
+  function leaveForm(next: Panel | null) {
+    const dirty =
+      (panel?.kind === "post" && formKey(panel.form) !== panel.original) || (panel?.kind === "history" && panel.body !== panel.original);
+    if (dirty && !window.confirm("Throw away what you’ve written here?")) return;
+    if (panel?.kind === "post" && panel.form.photo.kind === "new") URL.revokeObjectURL(panel.form.photo.url);
+    setNote(null);
+    setPanel(next);
   }
 
   function discardAll() {
@@ -664,6 +768,12 @@ export function Editor({ onClose }: { onClose: () => void }) {
                     </button>
                     <button type="button" onClick={() => openBoard("notice")} disabled={busy} className={onDark}>
                       Notice
+                    </button>
+                    <button type="button" onClick={() => openContent("blog")} disabled={busy} className={onDark}>
+                      Blog
+                    </button>
+                    <button type="button" onClick={() => openContent("history")} disabled={busy} className={onDark}>
+                      History
                     </button>
                   </>
                 )}
@@ -953,6 +1063,186 @@ export function Editor({ onClose }: { onClose: () => void }) {
                   Take the notice down
                 </button>
               )}
+            </div>
+            <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
+          </form>
+        </Dialog>
+      )}
+
+      {panel?.kind === "blog" && (
+        <Dialog title="Blog" wide>
+          <p className="dfd-editor-copy">
+            Articles show on the Blog page, newest first. Each one gets its own page.
+          </p>
+          {panel.posts.length ? (
+            <ul className="dfd-editor-change-list">
+              {panel.posts.map((post) => (
+                <li key={post.slug} className="dfd-editor-item">
+                  <div className="dfd-editor-item-copy">
+                    <p className="dfd-editor-item-title">{post.title}</p>
+                    <p className="dfd-editor-item-when">
+                      {dayName(post.date)}
+                      {post.photo ? " · with a photo" : ""}
+                    </p>
+                  </div>
+                  <div className="dfd-editor-item-actions">
+                    <a href={`/blog/${post.slug}`} target="_blank" rel="noopener" className="dfd-editor-link">
+                      View
+                    </a>
+                    <button type="button" onClick={() => editPost(post)} className="dfd-editor-link dfd-editor-link--accent">
+                      Change
+                    </button>
+                    <button type="button" onClick={() => setPanel({ kind: "removePost", post })} className="dfd-editor-link">
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="dfd-editor-copy dfd-editor-copy--spaced dfd-editor-copy--muted">There are no articles yet.</p>
+          )}
+          <div className="dfd-editor-actions dfd-editor-actions--spaced">
+            <button type="button" onClick={() => editPost()} className={solid}>
+              Write an article
+            </button>
+            <button type="button" onClick={() => setPanel(null)} className={outline}>
+              Close
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {panel?.kind === "post" && (
+        <Dialog title={panel.form.slug ? "Change this article" : "Write an article"} wide>
+          <form onSubmit={savePost}>
+            <label htmlFor="post-title" className="dfd-editor-label">
+              Title
+            </label>
+            <input
+              id="post-title"
+              required
+              autoFocus
+              maxLength={140}
+              value={panel.form.title}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, title: e.target.value } })}
+              className={field}
+            />
+            <label htmlFor="post-date" className="dfd-editor-label">
+              Date
+            </label>
+            <input
+              id="post-date"
+              type="date"
+              required
+              value={panel.form.date}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, date: e.target.value } })}
+              className={field}
+            />
+            <label htmlFor="post-body" className="dfd-editor-label">
+              The article<span className="dfd-editor-optional">leave a blank line between paragraphs</span>
+            </label>
+            <textarea
+              id="post-body"
+              required
+              rows={12}
+              maxLength={30000}
+              value={panel.form.body}
+              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, body: e.target.value } })}
+              className={`${field} dfd-editor-field--long`}
+            />
+            <span className="dfd-editor-label">
+              Photo<span className="dfd-editor-optional">optional</span>
+            </span>
+            {panel.form.photo.kind !== "none" && (
+              <div className="dfd-editor-photo">
+                <img src={panel.form.photo.kind === "keep" ? panel.form.photo.src : panel.form.photo.url} alt="The article’s photo" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (panel.form.photo.kind === "new") URL.revokeObjectURL(panel.form.photo.url);
+                    setPanel({ ...panel, form: { ...panel.form, photo: { kind: "none" } } });
+                  }}
+                  className="dfd-editor-link"
+                >
+                  Take the photo off
+                </button>
+              </div>
+            )}
+            <label className={`${outline} dfd-editor-file`}>
+              {panel.form.photo.kind === "none" ? "Choose a photo" : "Use a different photo"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  choosePhoto(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+            {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+            <div className="dfd-editor-actions dfd-editor-actions--spaced">
+              <button type="submit" disabled={busy} className={solid}>
+                {busy ? "Saving…" : panel.form.slug ? "Save and publish" : "Publish the article"}
+              </button>
+              <button type="button" onClick={() => leaveForm(null)} disabled={busy} className={outline}>
+                Cancel
+              </button>
+            </div>
+            <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
+          </form>
+        </Dialog>
+      )}
+
+      {panel?.kind === "removePost" && (
+        <Dialog title={`Remove “${panel.post.title}”?`}>
+          <p className="dfd-editor-copy dfd-editor-copy--spaced">
+            The article and its page come off the website in about 2 minutes. This can’t be undone from here.
+          </p>
+          {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+          <div className="dfd-editor-actions dfd-editor-actions--spaced">
+            <button type="button" onClick={() => sendBoard("DELETE", { slug: panel.post.slug }, "/api/edit/blog")} disabled={busy} className={solid}>
+              {busy ? "Removing…" : "Yes, remove it"}
+            </button>
+            <button type="button" onClick={() => openContent("blog")} disabled={busy} className={outline}>
+              Keep it
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {panel?.kind === "history" && (
+        <Dialog title="The history page" wide>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendBoard("POST", { body: panel.body }, "/api/edit/history");
+            }}
+          >
+            <p className="dfd-editor-copy">
+              Everything on the History page. Leave a blank line between paragraphs.{" "}
+              <a href="/history" target="_blank" rel="noopener" className="dfd-editor-link dfd-editor-link--accent">
+                See the page
+              </a>
+            </p>
+            <textarea
+              aria-label="The history page"
+              required
+              autoFocus
+              rows={14}
+              maxLength={30000}
+              value={panel.body}
+              onChange={(e) => setPanel({ ...panel, body: e.target.value })}
+              className={`${field} dfd-editor-field--textarea dfd-editor-field--long`}
+            />
+            {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+            <div className="dfd-editor-actions dfd-editor-actions--spaced">
+              <button type="submit" disabled={busy || panel.body === panel.original} className={solid}>
+                {busy ? "Saving…" : "Save and publish"}
+              </button>
+              <button type="button" onClick={() => leaveForm(null)} disabled={busy} className={outline}>
+                Cancel
+              </button>
             </div>
             <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
           </form>

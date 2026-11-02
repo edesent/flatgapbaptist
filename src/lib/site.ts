@@ -124,9 +124,14 @@ export const giving = {
   label: "Give online",
 };
 
-/** One page; these jump to its sections. Keep labels short. */
-export const nav: { href: string; label: string; short: string }[] = [
-  { href: "#times", label: "Service times", short: "Times" },
-  { href: "#saved", label: "How to be saved", short: "Saved" },
-  { href: "#find", label: "Directions", short: "Directions" },
+/**
+ * The header links. The first three jump to sections of the home page. `short`
+ * is used on tablets; `phone` links are the only ones shown on a phone.
+ */
+export const nav: { href: string; label: string; short: string; phone?: boolean }[] = [
+  { href: "/#times", label: "Service times", short: "Times", phone: true },
+  { href: "/#saved", label: "How to be saved", short: "Saved" },
+  { href: "/#find", label: "Directions", short: "Directions" },
+  { href: "/history", label: "History", short: "History", phone: true },
+  { href: "/blog", label: "Blog", short: "Blog", phone: true },
 ];

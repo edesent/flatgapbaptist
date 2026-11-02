@@ -1,9 +1,11 @@
 import FlatGapMap from "@/components/FlatGapMap";
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import Phone from "@/components/Phone";
 import PrayerModal from "@/components/PrayerModal";
 import Ridges from "@/components/Ridges";
 import { fmtDay, fmtTime, nextService, nowInChurch, relativeDay, upcoming, type Entry } from "@/lib/schedule";
-import { church, events as allEvents, nav, notice, pastor, pastorHistory, services } from "@/lib/site";
+import { church, events as allEvents, notice, pastor, services } from "@/lib/site";
 
 // The Romans Road, King James text.
 const romansRoad = [
@@ -50,21 +52,7 @@ export default function Home() {
         <p className="bg-brick px-4 py-2.5 text-center font-sans text-[1rem] font-semibold leading-snug text-paper">{notice.text}</p>
       )}
 
-      {/* ---------- header ---------- */}
-      <header className="border-b border-rule bg-paper">
-        <div className="wrap flex items-center justify-between gap-4 py-3">
-          <a href="#top" className="font-display text-[1.15rem] leading-tight tracking-wide text-ink sm:text-[1.3rem]">
-            Flat Gap Baptist
-          </a>
-          <nav aria-label="On this page" className="hidden items-center gap-6 font-sans text-[0.95rem] font-semibold md:flex">
-            {nav.map((n) => (
-              <a key={n.href} href={n.href} className="hover:text-brick">
-                {n.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* ---------- hero: their own skyline ---------- */}
       <section id="top" className="relative overflow-hidden">
@@ -313,42 +301,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- footer ---------- */}
-      <footer className="bg-ink text-paper">
-        <div className="wrap grid gap-8 py-12 sm:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <p className="font-display text-[1.5rem] leading-tight">Flat Gap Baptist Church</p>
-            <p className="mt-3 text-[1rem] text-paper/75">
-              {pastorHistory} {pastor.title} {pastor.name} serves here today.
-            </p>
-          </div>
-          <div className="font-sans text-[0.98rem]">
-            <p className="font-bold">Visit</p>
-            <p className="mt-2 text-paper/80">
-              {church.streetNumber} {church.street}
-              <br />
-              {church.city}, {church.stateCode} {church.zip}
-            </p>
-          </div>
-          <div className="font-sans text-[0.98rem]">
-            <p className="font-bold">Church phone</p>
-            <p className="mt-2">
-              <Phone className="time text-paper/90 underline decoration-paper/40 underline-offset-4 hover:text-paper" />
-            </p>
-          </div>
-        </div>
-        <p className="wrap border-t border-paper/15 py-5 text-center font-sans text-[0.85rem] text-paper/65">
-          <a
-            href="https://www.elijahdesent.com/churches"
-            target="_blank"
-            rel="noopener"
-            className="underline decoration-paper/35 underline-offset-4 hover:text-paper"
-          >
-            Church website development
-          </a>{" "}
-          by Elijah Desent
-        </p>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
