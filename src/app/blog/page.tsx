@@ -17,7 +17,7 @@ export default function BlogPage() {
     <>
       <SiteHeader />
       <section className="wrap pt-12 pb-16 md:pt-16 md:pb-24">
-        <p className="kicker">News from the church</p>
+        <p className="kicker">From the Pastor's Pen</p>
         <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">Blog</h1>
 
         {posts.length ? (
