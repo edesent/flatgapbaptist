@@ -206,3 +206,49 @@ html[data-editing] main [data-txt-changed] {
 .dfd-editor-photo img { width: 168px; max-height: 168px; border: 1px solid var(--dfd-editor-rule); border-radius: 3px; object-fit: cover; }
 .dfd-editor-file { position: relative; overflow: hidden; cursor: pointer; }
 .dfd-editor-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* The blog's word processor (rte/RichText.tsx) */
+.dfd-rte { border: 1px solid var(--dfd-editor-rule); border-radius: 3px; background: #fff; }
+.dfd-rte:focus-within { border-color: var(--dfd-editor-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dfd-editor-accent) 18%, transparent); }
+.dfd-rte-bar {
+  position: sticky;
+  top: -30px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-bottom: 1px solid var(--dfd-editor-rule);
+  background: #faf8f3;
+}
+.dfd-rte-btn {
+  min-width: 34px;
+  min-height: 34px;
+  padding: 4px 9px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--dfd-editor-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.dfd-rte-btn:hover:not(:disabled) { border-color: var(--dfd-editor-rule); background: #fff; }
+.dfd-rte-btn.is-on { border-color: var(--dfd-editor-accent); background: color-mix(in srgb, var(--dfd-editor-accent) 12%, #fff); color: var(--dfd-editor-accent); }
+.dfd-rte-btn:disabled { opacity: 0.4; cursor: default; }
+.dfd-rte-select { min-height: 34px; padding: 4px 6px; border: 1px solid var(--dfd-editor-rule); border-radius: 3px; background: #fff; color: var(--dfd-editor-ink); font-size: 14px; }
+.dfd-rte-sep { width: 1px; height: 22px; margin: 0 3px; background: var(--dfd-editor-rule); }
+.dfd-rte-content {
+  min-height: 300px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 14px 16px;
+  color: var(--dfd-editor-ink);
+  font-family: Georgia, "Source Serif 4", serif;
+  font-size: 17px;
+  line-height: 1.6;
+  outline: none;
+}
+.dfd-rte-content p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: #8a857d; float: left; height: 0; pointer-events: none; }

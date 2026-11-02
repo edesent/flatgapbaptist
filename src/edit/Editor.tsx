@@ -3,6 +3,8 @@
 import "./editor.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { EDITOR } from "./config";
+import { RichText } from "./rte/RichText";
+import { htmlToText, isHtml, textToHtml } from "@/lib/text-html";
 
 /**
  * The pastor's editor, opened at /edit.
@@ -592,7 +594,14 @@ export function Editor({ onClose }: { onClose: () => void }) {
 
   function editPost(post?: BlogPost) {
     const form: PostForm = post
-      ? { slug: post.slug, title: post.title, date: post.date, body: post.body, photo: post.photo ? { kind: "keep", src: post.photo.src } : { kind: "none" } }
+      ? {
+          slug: post.slug,
+          title: post.title,
+          date: post.date,
+          // Articles written before the word processor are plain text.
+          body: isHtml(post.body) ? post.body : textToHtml(post.body),
+          photo: post.photo ? { kind: "keep", src: post.photo.src } : { kind: "none" },
+        }
       : { title: "", date: churchToday(), body: "", photo: { kind: "none" } };
     setNote(null);
     setPanel({ kind: "post", form, original: formKey(form) });
@@ -617,6 +626,7 @@ export function Editor({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     if (panel?.kind !== "post" || busy) return;
     const f = panel.form;
+    if (!htmlToText(f.body)) return setNote({ tone: "bad", text: "Write the article before publishing it." });
     let photo: { keep: true } | { sha: string } | null = f.photo.kind === "keep" ? { keep: true } : null;
     if (f.photo.kind === "new") {
       setBusy(true);
@@ -1139,17 +1149,12 @@ export function Editor({ onClose }: { onClose: () => void }) {
               onChange={(e) => setPanel({ ...panel, form: { ...panel.form, date: e.target.value } })}
               className={field}
             />
-            <label htmlFor="post-body" className="dfd-editor-label">
-              The article<span className="dfd-editor-optional">leave a blank line between paragraphs</span>
-            </label>
-            <textarea
-              id="post-body"
-              required
-              rows={12}
-              maxLength={30000}
+            <span className="dfd-editor-label">The article</span>
+            <RichText
+              key={panel.form.slug ?? "new"}
+              label="The article"
               value={panel.form.body}
-              onChange={(e) => setPanel({ ...panel, form: { ...panel.form, body: e.target.value } })}
-              className={`${field} dfd-editor-field--long`}
+              onChange={(body) => setPanel((cur) => (cur?.kind === "post" ? { ...cur, form: { ...cur.form, body } } : cur))}
             />
             <span className="dfd-editor-label">
               Photo<span className="dfd-editor-optional">optional</span>

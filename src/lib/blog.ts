@@ -1,12 +1,14 @@
 /**
  * The blog and the history page. Both live in src/content/*.json, which
  * Pastor Eric writes from the editor at /edit (Blog and History buttons, saved
- * through /api/edit/blog and /api/edit/history). Text is plain: a blank line
- * starts a new paragraph.
+ * through /api/edit/blog and /api/edit/history). Articles are HTML from the
+ * blog's word processor (older ones plain text); the history is plain text,
+ * where a blank line starts a new paragraph.
  */
 
 import blogFile from "@/content/blog.json";
 import historyFile from "@/content/history.json";
+import { htmlToText, isHtml } from "./text-html";
 
 export type Photo = { src: string; alt: string };
 export type Post = {
@@ -33,8 +35,8 @@ export const paragraphs = (text: string) =>
     .filter(Boolean);
 
 /** The first paragraph, cut to about two lines, for the blog list. */
-export function excerpt(text: string, max = 220) {
-  const first = paragraphs(text)[0] ?? "";
+export function excerpt(body: string, max = 220) {
+  const first = paragraphs(isHtml(body) ? htmlToText(body) : body)[0] ?? "";
   if (first.length <= max) return first;
   return `${first.slice(0, first.lastIndexOf(" ", max)).replace(/[,;:.!?-]+$/, "")}…`;
 }

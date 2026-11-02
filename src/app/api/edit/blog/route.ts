@@ -2,6 +2,8 @@ import { sameOrigin, sessionEmail } from "@/edit/auth";
 import { snapshot, type FileChange, type Snapshot } from "@/edit/github";
 import { isRealDate, json, readJson, save, tidy, tidyText } from "@/edit/content";
 import type { Post } from "@/lib/blog";
+import { cleanHtml } from "@/lib/rich-text";
+import { htmlToText, isHtml } from "@/lib/text-html";
 import { church } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -11,7 +13,7 @@ export const dynamic = "force-dynamic";
  * The editor's Blog panel (src/content/blog.json).
  *
  *   GET                                         → { posts }
- *   POST { slug?, title, date, body, photo }    → add, or change the article `slug`
+ *   POST { slug?, title, date, body, photo }    → add, or change the article `slug` (body: HTML from the editor)
  *        photo: { keep: true } | { sha } (from /api/edit/photo) | null (none)
  *   DELETE { slug }                             → remove it (and a photo the editor uploaded for it)
  */
@@ -60,8 +62,10 @@ export async function POST(req: Request) {
   if (!title) return Response.json({ error: "Give the article a title." }, { status: 400 });
   if (!isRealDate(b.date)) return Response.json({ error: "Pick the article’s date." }, { status: 400 });
   const date = b.date;
-  const body = tidyText(b.body, 30000);
-  if (!body) return Response.json({ error: "Write the article before saving it." }, { status: 400 });
+  // The word processor sends HTML, cleaned here to the formatting it can make; plain text still works.
+  const raw = typeof b.body === "string" ? b.body.slice(0, 200000) : "";
+  const body = isHtml(raw) ? cleanHtml(raw) : tidyText(raw, 30000);
+  if (!htmlToText(body)) return Response.json({ error: "Write the article before saving it." }, { status: 400 });
   const slug = typeof b.slug === "string" ? b.slug : undefined;
   const photoIn = b.photo as { keep?: unknown; sha?: unknown } | null | undefined;
   const newSha = typeof photoIn?.sha === "string" && /^[0-9a-f]{40}$/.test(photoIn.sha) ? photoIn.sha : null;

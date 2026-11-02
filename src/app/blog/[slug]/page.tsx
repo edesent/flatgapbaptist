@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
-import { excerpt, longDate, paragraphs, postBySlug, posts } from "@/lib/blog";
+import { excerpt, longDate, postBySlug, posts } from "@/lib/blog";
+import { bodyHtml } from "@/lib/rich-text";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -41,13 +42,8 @@ export default async function PostPage({ params }: Props) {
             className="mx-auto mt-8 max-h-[80vh] w-auto max-w-full rounded-sm border border-rule shadow-[0_18px_50px_-30px_rgba(29,27,23,0.55)]"
           />
         )}
-        <div className="mt-8">
-          {paragraphs(post.body).map((p, i) => (
-            <p key={i} className={`whitespace-pre-line ${i ? "mt-6" : ""}`}>
-              {p}
-            </p>
-          ))}
-        </div>
+        {/* Cleaned to the editor's formatting in src/lib/rich-text.ts. */}
+        <div className="rich mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml(post.body) }} />
       </article>
       <SiteFooter />
     </>
