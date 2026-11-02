@@ -238,7 +238,6 @@ html[data-editing] main [data-txt-changed] {
 .dfd-rte-btn:hover:not(:disabled) { border-color: var(--dfd-editor-rule); background: #fff; }
 .dfd-rte-btn.is-on { border-color: var(--dfd-editor-accent); background: color-mix(in srgb, var(--dfd-editor-accent) 12%, #fff); color: var(--dfd-editor-accent); }
 .dfd-rte-btn:disabled { opacity: 0.4; cursor: default; }
-.dfd-rte-select { min-height: 34px; padding: 4px 6px; border: 1px solid var(--dfd-editor-rule); border-radius: 3px; background: #fff; color: var(--dfd-editor-ink); font-size: 14px; }
 .dfd-rte-sep { width: 1px; height: 22px; margin: 0 3px; background: var(--dfd-editor-rule); }
 .dfd-rte-content {
   min-height: 300px;

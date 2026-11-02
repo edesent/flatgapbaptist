@@ -1,6 +1,6 @@
 "use client";
 
-import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { Indent } from "./indent";
@@ -13,6 +13,8 @@ import { Indent } from "./indent";
 export function RichText({ value, onChange, label }: { value: string; onChange: (html: string) => void; label: string }) {
   const editor = useEditor({
     immediatelyRender: false,
+    // Re-render on every change so the toolbar shows what's on where the cursor is.
+    shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit.configure({
         heading: { levels: [2, 3] },
@@ -28,28 +30,22 @@ export function RichText({ value, onChange, label }: { value: string; onChange: 
     onUpdate: ({ editor }) => onChange(editor.isEmpty ? "" : editor.getHTML()),
   });
 
-  const on = useEditorState({
-    editor,
-    selector: ({ editor: e }) =>
-      e
-        ? {
-            h2: e.isActive("heading", { level: 2 }),
-            h3: e.isActive("heading", { level: 3 }),
-            bold: e.isActive("bold"),
-            italic: e.isActive("italic"),
-            underline: e.isActive("underline"),
-            bullets: e.isActive("bulletList"),
-            numbers: e.isActive("orderedList"),
-            quote: e.isActive("blockquote"),
-            center: e.isActive({ textAlign: "center" }),
-            link: e.isActive("link"),
-            canUndo: e.can().undo(),
-            canRedo: e.can().redo(),
-          }
-        : null,
-  });
+  if (!editor) return <div className="dfd-rte" aria-busy="true" />;
 
-  if (!editor || !on) return <div className="dfd-rte" aria-busy="true" />;
+  const on = {
+    h2: editor.isActive("heading", { level: 2 }),
+    h3: editor.isActive("heading", { level: 3 }),
+    bold: editor.isActive("bold"),
+    italic: editor.isActive("italic"),
+    underline: editor.isActive("underline"),
+    bullets: editor.isActive("bulletList"),
+    numbers: editor.isActive("orderedList"),
+    quote: editor.isActive("blockquote"),
+    center: editor.isActive({ textAlign: "center" }),
+    link: editor.isActive("link"),
+    canUndo: editor.can().undo(),
+    canRedo: editor.can().redo(),
+  };
 
   const run = () => editor.chain().focus();
   const btn = (active: boolean) => `dfd-rte-btn${active ? " is-on" : ""}`;
@@ -65,21 +61,17 @@ export function RichText({ value, onChange, label }: { value: string; onChange: 
 
   return (
     <div className="dfd-rte">
-      <div className="dfd-rte-bar" role="toolbar" aria-label="Formatting">
-        <select
-          aria-label="Text style"
-          className="dfd-rte-select"
-          value={on.h2 ? "h2" : on.h3 ? "h3" : "p"}
-          onChange={(e) => {
-            const v = e.target.value;
-            if (v === "p") run().setParagraph().run();
-            else run().setHeading({ level: v === "h2" ? 2 : 3 }).run();
-          }}
-        >
-          <option value="p">Normal text</option>
-          <option value="h2">Big heading</option>
-          <option value="h3">Small heading</option>
-        </select>
+      {/* Toolbar clicks never take focus, so typing carries on in the article where the cursor was. */}
+      <div className="dfd-rte-bar" role="toolbar" aria-label="Formatting" onMouseDown={(e) => e.preventDefault()}>
+        <button type="button" className={btn(!on.h2 && !on.h3)} onClick={() => run().setParagraph().run()} aria-pressed={!on.h2 && !on.h3}>
+          Normal
+        </button>
+        <button type="button" className={btn(on.h2)} onClick={() => run().toggleHeading({ level: 2 }).run()} aria-pressed={on.h2}>
+          Heading
+        </button>
+        <button type="button" className={btn(on.h3)} onClick={() => run().toggleHeading({ level: 3 }).run()} aria-pressed={on.h3}>
+          Subheading
+        </button>
         <span className="dfd-rte-sep" />
         <button type="button" className={btn(on.bold)} onClick={() => run().toggleBold().run()} title="Bold (Ctrl+B)" aria-pressed={on.bold}>
           <b>B</b>

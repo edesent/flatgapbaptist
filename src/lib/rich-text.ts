@@ -9,7 +9,7 @@ import { isHtml, textToHtml } from "./text-html";
 const INDENTS = ["1", "2", "3", "4", "5", "6"];
 
 export function cleanHtml(html: string) {
-  return sanitizeHtml(html, {
+  const clean = sanitizeHtml(html, {
     allowedTags: ["p", "br", "strong", "em", "u", "s", "h2", "h3", "ul", "ol", "li", "blockquote", "hr", "a"],
     allowedAttributes: {
       a: ["href"],
@@ -29,6 +29,8 @@ export function cleanHtml(html: string) {
     },
     exclusiveFilter: (frame) => frame.tag === "a" && !frame.attribs.href,
   });
+  // The editor always keeps an empty paragraph at the end; don't save it.
+  return clean.replace(/(<p>\s*<\/p>\s*)+$/, "");
 }
 
 /** An article's body, plain text or HTML, as safe HTML for the page. */

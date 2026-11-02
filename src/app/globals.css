@@ -209,6 +209,10 @@ body {
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
   }
+  /* An outline: indented lines sit close under the line they belong to. */
+  .rich p + p[data-indent] {
+    margin-top: 0.3em;
+  }
   .rich [data-indent="1"] { margin-left: 2em; }
   .rich [data-indent="2"] { margin-left: 4em; }
   .rich [data-indent="3"] { margin-left: 6em; }
