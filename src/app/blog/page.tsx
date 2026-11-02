@@ -45,7 +45,7 @@ export default function BlogPage() {
             ))}
           </ul>
         ) : (
-          <p className="mt-10 text-ink-soft">Nothing here yet. Check back soon.</p>
+          <p className="mt-10 text-ink-soft">Coming soon.</p>
         )}
       </section>
       <SiteFooter />
