@@ -25,15 +25,18 @@ export default function HistoryPage() {
           alt="Flat Gap Baptist Church, a brick building with a white steeple, on Flat Gap Drive"
           width={1600}
           height={877}
-          className="block h-[18rem] w-full object-cover object-[64%_40%] sm:h-[26rem] md:h-[32rem]"
+          className="block h-auto w-full"
         />
       </figure>
-      <article className="wrap max-w-[46rem] py-12 md:py-16">
-        {paragraphs(history.body).map((p, i) => (
-          <p key={i} className={`whitespace-pre-line ${i ? "mt-6" : "text-[1.25rem] leading-relaxed md:text-[1.45rem]"}`}>
-            {p}
-          </p>
-        ))}
+      {/* Lined up with the heading above; the measure stays readable. */}
+      <article className="wrap py-12 md:py-16">
+        <div className="max-w-[46rem]">
+          {paragraphs(history.body).map((p, i) => (
+            <p key={i} className={`whitespace-pre-line ${i ? "mt-6" : "text-[1.25rem] leading-relaxed md:text-[1.45rem]"}`}>
+              {p}
+            </p>
+          ))}
+        </div>
       </article>
       <SiteFooter />
     </>
