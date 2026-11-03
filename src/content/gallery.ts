@@ -20,7 +20,7 @@ function range(start: number, end: number, alt: string): GalleryPhoto[] {
 }
 
 export const galleryPhotos: GalleryPhoto[] = [
-  ...range(1, 19, "Fall fellowship evening at Flat Gap Baptist Church"),
+  ...range(1, 19, "Trunk or Treat at Flat Gap Baptist Church, October 31, 2026"),
   ...range(20, 20, "Flat Gap Baptist Church members together"),
   ...range(21, 25, "Fish fry fellowship at Flat Gap Baptist Church"),
   ...range(26, 27, "Fellowship time at Flat Gap Baptist Church"),
