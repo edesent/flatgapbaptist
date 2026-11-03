@@ -133,5 +133,6 @@ export const nav: { href: string; label: string; short: string; phone?: boolean 
   { href: "/#saved", label: "How to be saved", short: "Saved", phone: true },
   { href: "/#find", label: "Directions", short: "Directions", phone: true },
   { href: "/history", label: "History", short: "History" },
+  { href: "/gallery", label: "Photo Gallery", short: "Photos", phone: true },
   { href: "/blog", label: "Blog", short: "Blog", phone: true },
 ];
