@@ -6,9 +6,8 @@
  * final. Captions below are generic by design; Pastor Eric can tighten them
  * up (who, what, when) once he picks the keepers.
  *
- * Files live in public/gallery/gallery-01.jpg … gallery-48.jpg.
+ * Files live in public/gallery/gallery-01.jpg … gallery-49.jpg.
  */
-
 export type GalleryPhoto = { file: string; alt: string };
 
 function range(start: number, end: number, alt: string): GalleryPhoto[] {
@@ -33,4 +32,5 @@ export const galleryPhotos: GalleryPhoto[] = [
   ...range(37, 39, "Flat Gap Baptist Church congregation and fellowship"),
   ...range(41, 46, "Flat Gap Baptist Church congregation and fellowship"),
   ...range(47, 48, "Brother Harold"),
+  ...range(49, 49, "Brother Eric's family"),
 ];
