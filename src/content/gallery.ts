@@ -32,5 +32,5 @@ export const galleryPhotos: GalleryPhoto[] = [
   ...range(37, 39, "Flat Gap Baptist Church congregation and fellowship"),
   ...range(41, 46, "Flat Gap Baptist Church congregation and fellowship"),
   ...range(47, 48, "Brother Harold"),
-  ...range(49, 49, "Brother Eric's family"),
+  ...range(49, 49, "Lisa and Eric's family"),
 ];
