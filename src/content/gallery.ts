@@ -8,7 +8,9 @@
  *
  * Files live in public/gallery/gallery-01.jpg … gallery-48.jpg.
  */
+
 export type GalleryPhoto = { file: string; alt: string };
+
 function range(start: number, end: number, alt: string): GalleryPhoto[] {
   const out: GalleryPhoto[] = [];
   for (let i = start; i <= end; i++) {
@@ -16,6 +18,7 @@ function range(start: number, end: number, alt: string): GalleryPhoto[] {
   }
   return out;
 }
+
 export const galleryPhotos: GalleryPhoto[] = [
   ...range(1, 19, "Trunk or Treat at Flat Gap Baptist Church, October 31, 2026"),
   ...range(20, 20, "Flat Gap Baptist Church members together"),
