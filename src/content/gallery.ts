@@ -25,7 +25,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   ...range(21, 25, "Fish fry fellowship at Flat Gap Baptist Church"),
   ...range(26, 27, "Fellowship time at Flat Gap Baptist Church"),
   ...range(28, 28, "A family at Flat Gap Baptist Church"),
-  ...range(29, 30, "A baby dedication at Flat Gap Baptist Church"),
+  ...range(29, 30, "We love babies!"),
   ...range(31, 32, "Flat Gap Baptist Church congregation together"),
   ...range(33, 46, "Flat Gap Baptist Church congregation and fellowship"),
 ];
