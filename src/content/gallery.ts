@@ -6,11 +6,9 @@
  * final. Captions below are generic by design; Pastor Eric can tighten them
  * up (who, what, when) once he picks the keepers.
  *
- * Files live in public/gallery/gallery-01.jpg … gallery-46.jpg.
+ * Files live in public/gallery/gallery-01.jpg … gallery-48.jpg.
  */
-
 export type GalleryPhoto = { file: string; alt: string };
-
 function range(start: number, end: number, alt: string): GalleryPhoto[] {
   const out: GalleryPhoto[] = [];
   for (let i = start; i <= end; i++) {
@@ -18,7 +16,6 @@ function range(start: number, end: number, alt: string): GalleryPhoto[] {
   }
   return out;
 }
-
 export const galleryPhotos: GalleryPhoto[] = [
   ...range(1, 19, "Trunk or Treat at Flat Gap Baptist Church, October 31, 2026"),
   ...range(20, 20, "Flat Gap Baptist Church members together"),
@@ -32,4 +29,5 @@ export const galleryPhotos: GalleryPhoto[] = [
   ...range(36, 36, "We are here to serve!"),
   ...range(37, 39, "Flat Gap Baptist Church congregation and fellowship"),
   ...range(41, 46, "Flat Gap Baptist Church congregation and fellowship"),
+  ...range(47, 48, "Brother Harold"),
 ];
