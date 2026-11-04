@@ -266,7 +266,7 @@ export default function Home() {
                 A great evening was had by everyone who came by the church for our Trunk or Treat event. We had 80+ children visit and they all left happy with plenty of candy and treats! We also gave out 100 New Testaments and over 100 Gospel tracts to the children and adults. Thank you to our many volunteers, and to the community, who made this possible!
               </p>
               <a href="/gallery" className="btn mt-8">
-                See the photos
+                See some photos
               </a>
             </div>
           </div>
