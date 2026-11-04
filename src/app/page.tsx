@@ -78,13 +78,20 @@ export default function Home() {
               Directions
             </a>
           </div>
-          {next && (
-            <p className="mt-8 font-sans text-[1rem] text-ink-soft">
-              Next: <strong className="text-ink">{next.title}</strong>,{" "}
-              <span className="time">
-                {relativeDay(next.date)} at {fmtTime(next.time24)}
-              </span>
-            </p>
+          {nextList.length > 0 && (
+            <div className="mt-8 flex items-baseline gap-x-2 font-sans text-[1rem] text-ink-soft">
+              <span>Next:</span>
+              <ul className="space-y-1">
+                {nextList.map((n) => (
+                  <li key={n.kind + n.time24}>
+                    <strong className="text-ink">{n.title}</strong>,{" "}
+                    <span className="time">
+                      {relativeDay(n.date)} at {fmtTime(n.time24)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
         <Ridges className="absolute inset-x-0 bottom-0 h-[13rem] w-full sm:h-[17rem] md:h-[22rem]" />
