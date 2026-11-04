@@ -33,7 +33,7 @@ export const church = {
   zip: "41219",
   county: "Johnson County",
   /** Per Pastor Eric's email, October 25, 2026. */
-  attendance: "50",
+  attendance: "40 or 50",
   /**
    * The church phone from its Google listing, base64'd so it never sits in
    * the HTML for scrapers: `printf 6062654800 | base64`. Rendered by
