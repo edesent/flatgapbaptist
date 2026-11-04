@@ -4,7 +4,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Phone from "@/components/Phone";
 import PrayerModal from "@/components/PrayerModal";
 import Ridges from "@/components/Ridges";
-import { fmtDay, fmtTime, nextService, nextServices, nowInChurch, relativeDay, upcoming, type Entry } from "@/lib/schedule";
+import { fmtDay, fmtTime, nextServices, nowInChurch, relativeDay, upcoming, type Entry } from "@/lib/schedule";
 import { church, events as allEvents, notice, pastor, services } from "@/lib/site";
 
 // The Romans Road, King James text.
