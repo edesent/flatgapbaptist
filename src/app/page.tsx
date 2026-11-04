@@ -83,8 +83,9 @@ export default function Home() {
               <ul className="space-y-1">
                 {nextList.map((n) => (
                   <li key={n.kind + n.time24}>
-                    <strong className="text-ink">{n.title}</strong>,{" "}
-                    <span className="time">
+                    <strong className="block text-ink sm:inline">{n.title}</strong>
+                    <span className="hidden sm:inline">, </span>
+                    <span className="time block whitespace-nowrap sm:inline">
                       {relativeDay(n.date)} at {fmtTime(n.time24)}
                     </span>
                   </li>
