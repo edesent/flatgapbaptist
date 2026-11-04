@@ -124,6 +124,13 @@ export function nextService(): Entry | null {
   return upcoming(40).find((x) => x.kind !== "event" && !excludedFromNext.has(x.kind)) ?? null;
 }
 
+/** The next service plus any others on that same day (e.g. Sunday School and Worship), in time order. */
+export function nextServices(): Entry[] {
+  const first = nextService();
+  if (!first) return [];
+  return upcoming(40).filter((x) => x.kind !== "event" && !excludedFromNext.has(x.kind) && x.date === first.date);
+}
+
 export function relativeDay(iso: string) {
   const today = nowInChurch().date;
   if (iso === today) return "Today";
