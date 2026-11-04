@@ -39,7 +39,6 @@ function whenOf(e: Entry) {
 }
 
 export default function Home() {
-  const next = nextService();
   const nextList = nextServices();
   const events = upcoming(12).filter((e) => e.kind === "event");
   const trunkOrTreat = allEvents.find((e) => e.title === "Trunk or Treat");
