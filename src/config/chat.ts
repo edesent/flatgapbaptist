@@ -15,7 +15,7 @@ export const CHAT = {
   brandColor: "#1d1b17",
   /** Pastor Eric's face, so visitors see they are writing to a person. */
   agentIcon: "/photos/pastor-face.jpg",
-  greeting: "Thinking about visiting Flat Gap? I’m Pastor Eric. Ask me anything.",
+  greeting: "Thanks for visiting our site. Feel free to ask me anything!",
   formSubtitle: "Leave your name and a number or email and Pastor Eric will get back to you.",
   /** Line under "Chat with us" in the chat header. */
   headerSubtitle: "We will reply as soon as possible",
