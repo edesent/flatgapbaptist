@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pastor" },
 };
 
-/** Our Pastor. The text comes from src/content/pastor.ts. */
+/** Our Pastor. Pastor Eric writes the text from /edit → Pastor (src/content/pastor.json). */
 export default function PastorPage() {
   return (
     <>
