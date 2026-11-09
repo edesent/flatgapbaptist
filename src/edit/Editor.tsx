@@ -369,7 +369,7 @@ export function Editor({ onClose }: { onClose: () => void }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || busy) return;
       // Escape never throws away an article or the history text being written.
-      if (panel?.kind === "post" || panel?.kind === "history") return;
+      if (panel?.kind === "post" || panel?.kind === "history" || panel?.kind === "pastor") return;
       setConfirm(null);
       setOpen(null);
       setPanel(null);
