@@ -54,17 +54,36 @@ export default function MobileMenu({ items }: { items: Item[] }) {
           className="absolute inset-x-0 top-full z-50 border-b border-rule bg-paper shadow-[0_18px_30px_-20px_rgba(29,27,23,0.45)]"
         >
           <ul className="wrap py-2">
-            {items.map((n) => (
-              <li key={n.href} className="border-b border-rule last:border-b-0">
-                <Link
-                  href={n.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3.5 font-sans text-[1.1rem] font-semibold text-ink hover:text-brick"
-                >
-                  {n.label}
-                </Link>
-              </li>
-            ))}
+            {items.map((n) =>
+              n.children ? (
+                <li key={n.label} className="border-b border-rule last:border-b-0">
+                  <p className="pt-3.5 pb-1 font-sans text-[1.1rem] font-semibold text-ink">{n.label}</p>
+                  <ul className="pb-2 pl-4">
+                    {n.children.map((c) => (
+                      <li key={c.href}>
+                        <Link
+                          href={c.href}
+                          onClick={() => setOpen(false)}
+                          className="block py-2.5 font-sans text-[1.05rem] text-ink-soft hover:text-brick"
+                        >
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li key={n.href} className="border-b border-rule last:border-b-0">
+                  <Link
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className="block py-3.5 font-sans text-[1.1rem] font-semibold text-ink hover:text-brick"
+                  >
+                    {n.label}
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
         </nav>
       )}
