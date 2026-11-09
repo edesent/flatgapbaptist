@@ -48,7 +48,7 @@ export const church = {
 export const pastor = {
   name: "Eric Lauterwasser",
   first: "Eric",
-  title: "Pastor",
+  title: "Brother",
   /** His home number, from his email of October 25, 2026: `printf 6062973878 | base64`. */
   phoneB64: "NjA2Mjk3Mzg3OA==",
 };
