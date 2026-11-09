@@ -51,8 +51,8 @@ export default function NavDropdown({
         </svg>
       </button>
       {open && (
-        <ul className="absolute right-0 top-full z-50 min-w-[12rem] pt-2">
-          <div className="border border-rule bg-paper py-1 shadow-[0_14px_28px_-18px_rgba(29,27,23,0.5)]">
+        <div className="absolute right-0 top-full z-50 min-w-[12rem] pt-2">
+          <ul className="border border-rule bg-paper py-1 shadow-[0_14px_28px_-18px_rgba(29,27,23,0.5)]">
             {items.map((i) => (
               <li key={i.href} className="list-none">
                 <Link href={i.href} onClick={() => setOpen(false)} className="block whitespace-nowrap px-4 py-2.5 hover:bg-paper-deep hover:text-brick">
@@ -60,8 +60,8 @@ export default function NavDropdown({
                 </Link>
               </li>
             ))}
-          </div>
-        </ul>
+          </ul>
+        </div>
       )}
     </div>
   );
