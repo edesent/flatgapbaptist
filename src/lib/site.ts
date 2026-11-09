@@ -146,7 +146,7 @@ export const nav: NavItem[] = [
     label: "About",
     short: "About",
     children: [
-      { href: "/#pastor", label: "Our Pastor" },
+      { href: "/pastor", label: "Our Pastor" },
       { href: "/history", label: "Church History" },
     ],
   },
