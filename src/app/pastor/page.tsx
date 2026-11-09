@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import PrayerModal from "@/components/PrayerModal";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
-import { pastorBio } from "@/content/pastor";
+import { paragraphs } from "@/lib/blog";
+import pastorFile from "@/content/pastor.json";
 import { church, pastor } from "@/lib/site";
+
+const pastorBio = paragraphs(pastorFile.body).filter((p) => p.trim());
 
 export const metadata: Metadata = {
   title: "Our pastor",
