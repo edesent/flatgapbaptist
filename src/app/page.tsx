@@ -171,7 +171,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <aside data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
+        <aside id="pastor" data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
           <img
             src="/photos/pastor-eric.jpg"
             alt="Pastor Eric Lauterwasser preaching"
