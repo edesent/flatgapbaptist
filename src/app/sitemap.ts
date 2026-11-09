@@ -6,6 +6,7 @@ import { siteUrl } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl, changeFrequency: "weekly", priority: 1 },
+    { url: `${siteUrl}/pastor`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/history`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/blog`, changeFrequency: "weekly", priority: 0.7 },
     ...posts.map((p) => ({ url: `${siteUrl}/blog/${p.slug}`, lastModified: p.date, changeFrequency: "monthly" as const, priority: 0.5 })),
