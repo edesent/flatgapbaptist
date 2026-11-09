@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MobileMenu from "@/components/MobileMenu";
+import NavDropdown from "@/components/NavDropdown";
 import { nav } from "@/lib/site";
 
 /** The top bar on every page: the church's name home, and the links in site.ts. */
@@ -12,15 +13,19 @@ export default function SiteHeader() {
         </Link>
         {/* Tablets and larger: the links across the top. */}
         <nav aria-label="Site" className="hidden items-center gap-4 font-sans text-[0.92rem] font-semibold md:flex sm:gap-5 lg:gap-6 lg:text-[0.95rem]">
-          {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="hover:text-brick">
-              <span className="lg:hidden">{n.short}</span>
-              <span className="hidden lg:inline">{n.label}</span>
-            </Link>
-          ))}
+          {nav.map((n) =>
+            n.children ? (
+              <NavDropdown key={n.label} label={n.label} short={n.short} items={n.children} />
+            ) : (
+              <Link key={n.href} href={n.href} className="hover:text-brick">
+                <span className="lg:hidden">{n.short}</span>
+                <span className="hidden lg:inline">{n.label}</span>
+              </Link>
+            ),
+          )}
         </nav>
         {/* Phones: a menu button that opens every link. */}
-        <MobileMenu items={nav.map((n) => ({ href: n.href, label: n.label }))} />
+        <MobileMenu items={nav.map((n) => ({ href: n.href, label: n.label, children: n.children }))} />
       </div>
     </header>
   );
