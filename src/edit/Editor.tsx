@@ -576,7 +576,7 @@ export function Editor({ onClose }: { onClose: () => void }) {
 
   /* ── The blog and the history page ── */
 
-  async function openContent(kind: "blog" | "history") {
+  async function openContent(kind: "blog" | "history" | "pastor") {
     setNote(null);
     setBusy(true);
     try {
