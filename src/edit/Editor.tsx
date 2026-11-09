@@ -380,7 +380,7 @@ export function Editor({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     // An article or the history text being written counts as unsaved too.
-    const writing = panel?.kind === "post" || panel?.kind === "history";
+    const writing = panel?.kind === "post" || panel?.kind === "history" || panel?.kind === "pastor";
     const warn = (e: BeforeUnloadEvent) => {
       if (editsRef.current.length || writing) e.preventDefault();
     };
