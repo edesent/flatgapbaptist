@@ -652,7 +652,8 @@ export function Editor({ onClose }: { onClose: () => void }) {
   /** Closing a form with unsaved writing asks first. */
   function leaveForm(next: Panel | null) {
     const dirty =
-      (panel?.kind === "post" && formKey(panel.form) !== panel.original) || (panel?.kind === "history" && panel.body !== panel.original);
+      (panel?.kind === "post" && formKey(panel.form) !== panel.original) ||
+      ((panel?.kind === "history" || panel?.kind === "pastor") && panel.body !== panel.original);
     if (dirty && !window.confirm("Throw away what you’ve written here?")) return;
     if (panel?.kind === "post" && panel.form.photo.kind === "new") URL.revokeObjectURL(panel.form.photo.url);
     setNote(null);
