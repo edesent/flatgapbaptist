@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type Item = { href: string; label: string };
+type Item = { href: string; label: string; children?: { href: string; label: string }[] };
 
 /**
  * The phone menu: a button in the header that opens a list of every link.
