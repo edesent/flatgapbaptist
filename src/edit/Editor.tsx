@@ -38,7 +38,8 @@ type Panel =
   | { kind: "blog"; posts: BlogPost[] }
   | { kind: "post"; form: PostForm; original: string }
   | { kind: "removePost"; post: BlogPost }
-  | { kind: "history"; body: string; original: string };
+  | { kind: "history"; body: string; original: string }
+  | { kind: "pastor"; body: string; original: string };
 /** Blog articles live in src/content/blog.json (/api/edit/blog); the history page in src/content/history.json. */
 type BlogPost = { slug: string; title: string; date: string; body: string; photo?: { src: string; alt: string } };
 type PostPhoto = { kind: "none" } | { kind: "keep"; src: string } | { kind: "new"; url: string; blob: Blob };
