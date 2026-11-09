@@ -787,6 +787,9 @@ export function Editor({ onClose }: { onClose: () => void }) {
                     <button type="button" onClick={() => openContent("history")} disabled={busy} className={onDark}>
                       History
                     </button>
+                    <button type="button" onClick={() => openContent("pastor")} disabled={busy} className={onDark}>
+                      Pastor
+                    </button>
                   </>
                 )}
                 <button type="button" onClick={() => setPreview((p) => !p)} className={onDark}>
