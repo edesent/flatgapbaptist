@@ -39,7 +39,7 @@ export default function PastorPage() {
               </p>
             ))}
             <p className="mt-6 text-ink-soft">
-              If you need prayer, a visit, or someone to talk to about the Lord, {pastor.first} history coming soon...
+              coming soon... {pastor.first} history coming soon...
             </p>
             <p className="mt-4">
               <PrayerModal />
