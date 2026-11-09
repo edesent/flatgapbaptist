@@ -1259,6 +1259,43 @@ export function Editor({ onClose }: { onClose: () => void }) {
         </Dialog>
       )}
 
+      {panel?.kind === "pastor" && (
+        <Dialog title="The Our Pastor page" wide>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendBoard("POST", { body: panel.body }, "/api/edit/pastor");
+            }}
+          >
+            <p className="dfd-editor-copy">
+              Write about Pastor Eric here. It shows under his photo and name on the Our Pastor page. Leave a blank line between paragraphs.{" "}
+              <a href="/pastor" target="_blank" rel="noopener" className="dfd-editor-link dfd-editor-link--accent">
+                See the page
+              </a>
+            </p>
+            <textarea
+              aria-label="The Our Pastor page"
+              autoFocus
+              rows={14}
+              maxLength={30000}
+              value={panel.body}
+              onChange={(e) => setPanel({ ...panel, body: e.target.value })}
+              className={`${field} dfd-editor-field--textarea dfd-editor-field--long`}
+            />
+            {note?.tone === "bad" && <p className="dfd-editor-note dfd-editor-note--bad">{note.text}</p>}
+            <div className="dfd-editor-actions dfd-editor-actions--spaced">
+              <button type="submit" disabled={busy || panel.body === panel.original} className={solid}>
+                {busy ? "Saving…" : "Save and publish"}
+              </button>
+              <button type="button" onClick={() => leaveForm(null)} disabled={busy} className={outline}>
+                Cancel
+              </button>
+            </div>
+            <p className="dfd-editor-help">It shows on the live website about 2 minutes after you save.</p>
+          </form>
+        </Dialog>
+      )}
+
       {confirm?.kind === "publish" && (
         <Dialog title={`Publish ${plural(edits.length, "change")}?`} wide>
           {confirm.problems && (
