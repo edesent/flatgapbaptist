@@ -128,11 +128,28 @@ export const giving = {
  * The header links. The first three jump to sections of the home page. `short`
  * is used on tablets; `phone` links are the only ones shown on a phone.
  */
-export const nav: { href: string; label: string; short: string; phone?: boolean }[] = [
+export type NavItem = {
+  href: string;
+  label: string;
+  short: string;
+  phone?: boolean;
+  /** Links shown in a drop-down under this one. */
+  children?: { href: string; label: string }[];
+};
+
+export const nav: NavItem[] = [
   { href: "/#times", label: "Service times", short: "Times" },
   { href: "/#saved", label: "How to be saved", short: "Saved", phone: true },
   { href: "/#find", label: "Directions", short: "Directions", phone: true },
-  { href: "/history", label: "History", short: "History" },
+  {
+    href: "/history",
+    label: "About",
+    short: "About",
+    children: [
+      { href: "/#pastor", label: "Our Pastor" },
+      { href: "/history", label: "Church History" },
+    ],
+  },
   { href: "/gallery", label: "Photo Gallery", short: "Photos", phone: true },
   { href: "/blog", label: "Blog", short: "Blog", phone: true },
 ];
