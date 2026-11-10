@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Phone from "@/components/Phone";
 import { church, pastor, pastorHistory } from "@/lib/site";
 
@@ -13,11 +14,15 @@ export default function SiteFooter() {
         </div>
         <div className="font-sans text-[0.98rem]">
           <p className="font-bold">Visit</p>
-          <p className="mt-2 text-paper/80">
+          <Link
+            href="/#find"
+            aria-label="Directions to Flat Gap Baptist Church"
+            className="mt-2 block w-fit text-paper/80 underline decoration-paper/40 underline-offset-4 hover:text-paper"
+          >
             {church.streetNumber} {church.street}
             <br />
             {church.city}, {church.stateCode} {church.zip}
-          </p>
+          </Link>
         </div>
         <div className="font-sans text-[0.98rem]">
           <p className="font-bold">Church phone</p>
