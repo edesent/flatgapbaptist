@@ -38,9 +38,19 @@ export default function PastorPage() {
               {pastor.title} {pastor.name}
             </p>
             {pastorBio.map((p, i) => (
-              <p key={i} className={`whitespace-pre-line ${i ? "mt-5" : "mt-5 text-[1.2rem] leading-relaxed md:text-[1.35rem]"}`}>
-                {p}
-              </p>
+              <Fragment key={i}>
+                <p className={`whitespace-pre-line ${i ? "mt-5" : "mt-5 text-[1.2rem] leading-relaxed md:text-[1.35rem]"}`}>{p}</p>
+                {i === photoAfter && (
+                  <figure className="mt-6">
+                    <img
+                      src="/gallery/gallery-49.jpg"
+                      alt="Most of our family"
+                      className="h-auto w-full rounded-sm border border-rule"
+                    />
+                    <figcaption className="mt-3 font-sans text-[0.85rem] leading-snug text-ink-soft">Most of our family</figcaption>
+                  </figure>
+                )}
+              </Fragment>
             ))}
             <p className="mt-4">
               <PrayerModal />
