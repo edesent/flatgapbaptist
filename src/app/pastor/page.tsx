@@ -47,7 +47,7 @@ export default function PastorPage() {
                       alt="Most of our family"
                       className="h-auto w-full rounded-sm border border-rule"
                     />
-                    <figcaption className="mt-3 font-sans text-[0.85rem] leading-snug text-ink-soft">Most of our family</figcaption>
+                    <figcaption className="mt-3 font-sans text-[0.85rem] leading-snug text-ink-soft">Most of our family. God has blessed me in so many ways!</figcaption>
                   </figure>
                 )}
               </Fragment>
