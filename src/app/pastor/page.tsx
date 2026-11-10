@@ -63,11 +63,9 @@ export default function PastorPage() {
                 )}
               </Fragment>
             ))}
-            <p className="mt-4">
+            <p className="mt-4 md:hidden">
               <PrayerModal />
             </p>
-          </div>
-        </div>
       </section>
       <SiteFooter />
     </>
