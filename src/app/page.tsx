@@ -187,6 +187,11 @@ export default function Home() {
               {pastor.name}
             </a>
           </p>
+          <p className="mt-2 font-sans text-[0.95rem] font-semibold">
+            <a href="/pastor" className="link">
+              Meet {pastor.title} {pastor.first} →
+            </a>
+          </p>
           <p className="mt-3 text-ink-soft">
             If you need prayer, a visit, or someone to talk to about the Lord, {pastor.first} is glad to hear from you.
           </p>
