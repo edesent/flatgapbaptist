@@ -38,9 +38,6 @@ export default function PastorPage() {
                 {p}
               </p>
             ))}
-            <p className="mt-6 text-ink-soft">
-              coming soon... {pastor.first} history coming soon...
-            </p>
             <p className="mt-4">
               <PrayerModal />
             </p>
