@@ -28,11 +28,22 @@ export default function PastorPage() {
         <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">Our pastor</h1>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[16rem_1fr] md:gap-14">
-          <img
-            src="/photos/pastor-face.jpg"
-            alt={`${pastor.title} ${pastor.name}`}
-            className="aspect-square w-full max-w-[16rem] rounded-sm border border-rule object-cover"
-          />
+          <div>
+            <img
+              src="/photos/pastor-face.jpg"
+              alt={`${pastor.title} ${pastor.name}`}
+              className="aspect-square w-full max-w-[16rem] rounded-sm border border-rule object-cover"
+            />
+            {/* Laptops and tablets: the prayer line and button sit under the photo. Phones get the button below the biography. */}
+            <div className="mt-5 hidden max-w-[16rem] md:block">
+              <p className="text-ink-soft">
+                If you need prayer, a visit, or someone to talk to about the Lord, {pastor.first} is glad to hear from you.
+              </p>
+              <p className="mt-4">
+                <PrayerModal />
+              </p>
+            </div>
+          </div>
           <div className="max-w-[40rem]">
             <p className="font-display text-[2rem] leading-tight md:text-[2.4rem]">
               {pastor.title} {pastor.name}
