@@ -17,6 +17,9 @@ export const metadata: Metadata = {
 
 /** Our Pastor. Pastor Eric writes the text from /edit → Pastor (src/content/pastor.json). */
 export default function PastorPage() {
+  // The family photo goes after the paragraph ending with "Mamaw" (or the 2nd paragraph if that is reworded).
+  const mamaw = pastorBio.findIndex((p) => /mamaw/i.test(p));
+  const photoAfter = pastorBio.length ? (mamaw >= 0 ? mamaw : Math.min(1, pastorBio.length - 1)) : -1;
   return (
     <>
       <SiteHeader />
