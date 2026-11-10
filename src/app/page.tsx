@@ -172,15 +172,21 @@ export default function Home() {
           </div>
         </div>
         <aside id="pastor" data-reveal="1" className="self-start border-l-4 border-brick pl-6 md:mt-14">
-          <img
-            src="/photos/pastor-eric.jpg"
-            alt="Pastor Eric Lauterwasser preaching"
-            width={750}
-            height={1000}
-            className="mb-5 aspect-[3/4] w-full max-w-[14rem] rounded-sm border border-rule object-cover"
-          />
+          <a href="/pastor" aria-label={`Meet ${pastor.title} ${pastor.name}`} className="block w-fit">
+            <img
+              src="/photos/pastor-eric.jpg"
+              alt="Pastor Eric Lauterwasser preaching"
+              width={750}
+              height={1000}
+              className="mb-5 aspect-[3/4] w-full max-w-[14rem] rounded-sm border border-rule object-cover transition-opacity hover:opacity-90"
+            />
+          </a>
           <p className="kicker">Our pastor</p>
-          <p className="mt-2 font-display text-[1.6rem] leading-tight">{pastor.name}</p>
+          <p className="mt-2 font-display text-[1.6rem] leading-tight">
+            <a href="/pastor" className="hover:text-brick">
+              {pastor.name}
+            </a>
+          </p>
           <p className="mt-3 text-ink-soft">
             If you need prayer, a visit, or someone to talk to about the Lord, {pastor.first} is glad to hear from you.
           </p>
