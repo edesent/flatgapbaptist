@@ -189,7 +189,7 @@ export default function Home() {
           </p>
           <p className="mt-2 font-sans text-[0.95rem] font-semibold">
             <a href="/pastor" className="link">
-              Meet {pastor.title} {pastor.first} →
+              Learn more about our pastor →
             </a>
           </p>
           <p className="mt-3 text-ink-soft">
