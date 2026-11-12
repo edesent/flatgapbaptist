@@ -224,9 +224,9 @@ export default function Home() {
             ))}
           </ol>
           <p className="mt-10 max-w-2xl" data-reveal>
-            If you want to talk it over, call Brother Eric at (606) 297-3878, or try the chat on this site, or come by on Sunday and ask for him. {pastor.first} at{" "}
-            <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="his number" />, or come by on Sunday and
-            ask for him.
+            If you want to talk it over, call Brother {pastor.first} at{" "}
+            <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="his number" />, or try the chat on this
+            site, or come by on Sunday and ask for him.
           </p>
         </div>
       </section>
