@@ -224,7 +224,7 @@ export default function Home() {
             ))}
           </ol>
           <p className="mt-10 max-w-2xl" data-reveal>
-            If you want to talk it over, call Brother {pastor.first} at{" "}
+            If you want to talk it over, call Brother Eric at (606)297-3878, or try the chat on this site, or come by on Sunday and ask for him. {pastor.first} at{" "}
             <Phone b64={pastor.phoneB64} className="time link font-sans font-bold" fallback="his number" />, or try the chat on this
             site, or come by on Sunday and ask for him.
           </p>
@@ -249,8 +249,7 @@ export default function Home() {
           <p className="kicker">Out in the community</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Supper, singing and the Gospel</h2>
           <p className="mt-6">
-            This September the church put on a big Fish Fry and Gospel Sing for the whole community: fried fish, gospel singing,
-            and a good evening together.
+            This September the church had a big Fish Fry and Gospel Sing for the whole community: fried fish, gospel singing, and a good evening together. The participation was so great we gladly had to set up additional tables and chairs!
           </p>
           <p className="mt-5">
             We aim to do this the 3rd Saturday of September every year, Lord willing! When the next one is set, you’ll find it right
