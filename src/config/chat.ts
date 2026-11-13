@@ -17,6 +17,8 @@ export const CHAT = {
   agentIcon: "/photos/pastor-face.jpg",
   greeting: "Thanks for visiting our site. Feel free to ask me anything!",
   formSubtitle: "Leave your name and a number or email and Pastor Eric will get back to you.",
-  /** Line under "Chat with us" in the chat header. */
-  headerSubtitle: "We will reply as soon as possible",
+  /** The title at the top of the chat window. */
+  headerTitle: "Chat with me",
+  /** Line under the title in the chat header. */
+  headerSubtitle: "I will reply as soon as possible",
 } as const;
