@@ -44,6 +44,8 @@ export const metadata: Metadata = {
     description,
   },
   twitter: { card: "summary" },
+  // Proves to Bing Webmaster Tools that the church owns this site. Leave it in place.
+  verification: { other: { "msvalidate.01": "733ED461F5FA8D7210172E39933D5A84" } },
   robots: isDemo ? { index: false, follow: false } : undefined,
 };
 
