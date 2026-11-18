@@ -1,6 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="12" fill="#1d1b17"/>
-  <rect x="29" y="5" width="6" height="23" rx="1" fill="#e0b44c"/>
-  <rect x="22" y="11" width="20" height="6" rx="1" fill="#e0b44c"/>
-  <text x="32" y="56" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-weight="700" fill="#f4efe6">FG</text>
+  <!-- the cross, top to bottom -->
+  <rect x="28.5" y="4" width="7" height="56" rx="1" fill="#e0b44c"/>
+  <rect x="14" y="16" width="36" height="7" rx="1" fill="#e0b44c"/>
+  <!-- F on the left -->
+  <rect x="12" y="33" width="4.2" height="18" fill="#f4efe6"/>
+  <rect x="12" y="33" width="12" height="4" fill="#f4efe6"/>
+  <rect x="12" y="40.5" width="9" height="3.5" fill="#f4efe6"/>
+  <!-- G on the right -->
+  <path d="M53.4 37.5 A7 7 0 1 0 55 42 L48.5 42" fill="none" stroke="#f4efe6" stroke-width="4"/>
 </svg>
