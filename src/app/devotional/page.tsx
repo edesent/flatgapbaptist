@@ -128,6 +128,28 @@ export default async function DevotionalPage() {
           </div>
         )}
 
+        {/* Verse image of the day, from kingjamesbibleonline.org's free website widget (it is a 344 x 344 picture that changes daily). */}
+        <div className="mt-14 max-w-[40rem] border-t border-rule pt-8">
+          <h2 className="font-display text-[1.5rem]">Verse of the day</h2>
+          <div className="mt-4 max-w-full overflow-x-auto">
+            <iframe
+              src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
+              title="Bible verse image of the day, from King James Bible Online"
+              width={344}
+              height={344}
+              loading="lazy"
+              style={{ border: 0, width: 344, height: 344, maxWidth: "100%" }}
+            />
+          </div>
+          <p className="mt-3 font-sans text-[0.85rem] text-ink-soft">
+            From{" "}
+            <a href="https://www.kingjamesbibleonline.org" target="_blank" rel="noopener" className="link">
+              King James Bible Online
+            </a>
+            .
+          </p>
+        </div>
+
         {earlier.length > 0 && (
           <div className="mt-14 max-w-[40rem] border-t border-rule pt-8">
             <h2 className="font-display text-[1.5rem]">Recent devotionals</h2>
