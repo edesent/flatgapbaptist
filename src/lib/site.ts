@@ -152,4 +152,5 @@ export const nav: NavItem[] = [
   },
   { href: "/gallery", label: "Photo Gallery", short: "Photos", phone: true },
   { href: "/blog", label: "Blog", short: "Blog", phone: true },
+  { href: "/devotional", label: "Devotional", short: "Devotional" },
 ];
