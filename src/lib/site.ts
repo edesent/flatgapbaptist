@@ -151,6 +151,13 @@ export const nav: NavItem[] = [
     ],
   },
   { href: "/gallery", label: "Photo Gallery", short: "Photos", phone: true },
-  { href: "/blog", label: "Blog", short: "Blog", phone: true },
-  { href: "/devotional", label: "Devotional", short: "Devotional" },
+  {
+    href: "/blog",
+    label: "Study",
+    short: "Study",
+    children: [
+      { href: "/blog", label: "Blog" },
+      { href: "/devotional", label: "Daily Devotional" },
+    ],
+  },
 ];
