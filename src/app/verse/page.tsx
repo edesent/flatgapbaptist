@@ -15,7 +15,7 @@ export default function VersePage() {
       <SiteHeader />
       <section className="wrap pt-12 pb-16 md:pt-16 md:pb-24">
         <p className="kicker">God’s Word</p>
-        <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">Verse of the day</h1>
+        <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">A verse to meditate on</h1>
         <p className="mt-6 max-w-[40rem] text-[1.1rem] leading-relaxed">A new verse from the King James Bible each day, chosen from some of the best-known verses in Scripture.</p>
 
         {/* The widget lays itself out for 200 x 240, so we show it at that size and scale it up (the letters grow with it). */}
