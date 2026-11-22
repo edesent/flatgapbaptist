@@ -325,16 +325,17 @@ export default function Home() {
       {/* ---------- verse picture of the day (free widget from kingjamesbibleonline.org; 344 x 344, changes daily) ---------- */}
       <section className="border-t border-rule bg-paper-deep">
         <div className="wrap py-16 text-center md:py-20">
-          <p className="kicker">A verse for today</p>
-          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
-          <div className="mx-auto mt-8 max-w-full overflow-x-auto" style={{ width: 344 }}>
+          <p className="kicker">God’s Word</p>
+          <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Popular Bible verses</h2>
+          <div className="mx-auto mt-8 max-w-full overflow-x-auto" style={{ width: 200 }}>
             <iframe
-              src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
-              title="Bible verse image of the day, from King James Bible Online"
-              width={344}
-              height={344}
+              src="https://www.kingjamesbibleonline.org/popular-bible-verses-widget.php"
+              title="Popular Bible verses, from King James Bible Online"
+              width={200}
+              height={240}
               loading="lazy"
-              style={{ border: 0, width: 344, height: 344, maxWidth: "100%" }}
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              style={{ border: 0, width: 200, height: 240, maxWidth: "100%" }}
             />
           </div>
           <p className="mt-4 font-sans text-[0.85rem] text-ink-soft">
