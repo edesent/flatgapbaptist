@@ -327,16 +327,16 @@ export default function Home() {
         <div className="wrap py-16 text-center md:py-20">
           <p className="kicker">God’s Word</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
-          {/* The widget lays itself out for 200 x 240, so we show it at that size and scale it up (the letters grow with it). */}
-          <div className="relative mx-auto mt-8 h-[335px] w-[310px] overflow-hidden sm:h-[305px] sm:w-[480px]">
+          {/* The verse picture of the day: a free widget from kingjamesbibleonline.org, 344 x 344, a new picture each day. */}
+          <div className="mx-auto mt-8 max-w-full overflow-x-auto" style={{ width: 344 }}>
             <iframe
-              src="https://www.kingjamesbibleonline.org/popular-bible-verses-widget.php"
-              title="Verse of the day, from King James Bible Online"
-              width={200}
-              height={240}
+              src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
+              title="Bible verse image of the day, from King James Bible Online"
+              width={344}
+              height={344}
               loading="lazy"
               sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              className="absolute left-0 top-0 block h-[240px] w-[200px] origin-top-left scale-[1.55] border-0 sm:h-[210px] sm:w-[300px] sm:scale-[1.6]"
+              style={{ display: "block", border: 0, width: 344, height: 344, maxWidth: "100%" }}
             />
           </div>
           <p className="mt-1 font-sans text-[0.85rem] text-ink-soft">
