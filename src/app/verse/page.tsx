@@ -3,7 +3,7 @@ import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Verse of the day",
+  title: "A verse to meditate on",
   description: "A new King James Bible verse each day, from King James Bible Online.",
   alternates: { canonical: "/verse" },
 };
