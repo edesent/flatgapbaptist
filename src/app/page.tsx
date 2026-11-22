@@ -329,7 +329,7 @@ export default function Home() {
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
           {/* The verse picture of the day: a free widget from kingjamesbibleonline.org, 344 x 344, a new picture each day.
               It is shown as a picture only: a clear layer over it stops clicks, and the credit link below stays. */}
-          <div className="relative mx-auto mt-8 max-w-full overflow-hidden" style={{ width: 344, height: 344 }}>
+          <div className="relative mx-auto mt-8 h-[300px] w-[300px] overflow-hidden sm:h-[344px] sm:w-[344px]">
             <iframe
               src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
               title="Bible verse image of the day, from King James Bible Online"
@@ -338,7 +338,7 @@ export default function Home() {
               loading="lazy"
               tabIndex={-1}
               sandbox="allow-scripts allow-same-origin"
-              style={{ display: "block", border: 0, width: 344, height: 344 }}
+              className="absolute left-0 top-0 block h-[344px] w-[344px] origin-top-left scale-[0.872] border-0 sm:scale-100"
             />
             <div className="absolute inset-0" aria-hidden="true" />
           </div>
