@@ -322,7 +322,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- verse picture of the day (free widget from kingjamesbibleonline.org; 344 x 344, changes daily) ---------- */}
+      {/* ---------- popular Bible verses (free widget from kingjamesbibleonline.org). The earlier verse-picture-of-the-day widget was inspiring-images-widget.php, 344 x 344. ---------- */}
       <section className="border-t border-rule bg-paper-deep">
         <div className="wrap py-16 text-center md:py-20">
           <p className="kicker">God’s Word</p>
