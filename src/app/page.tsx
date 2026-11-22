@@ -327,17 +327,20 @@ export default function Home() {
         <div className="wrap py-16 text-center md:py-20">
           <p className="kicker">God’s Word</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
-          {/* The verse picture of the day: a free widget from kingjamesbibleonline.org, 344 x 344, a new picture each day. */}
-          <div className="mx-auto mt-8 max-w-full overflow-x-auto" style={{ width: 344 }}>
+          {/* The verse picture of the day: a free widget from kingjamesbibleonline.org, 344 x 344, a new picture each day.
+              It is shown as a picture only: a clear layer over it stops clicks, and the credit link below stays. */}
+          <div className="relative mx-auto mt-8 max-w-full overflow-hidden" style={{ width: 344, height: 344 }}>
             <iframe
               src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
               title="Bible verse image of the day, from King James Bible Online"
               width={344}
               height={344}
               loading="lazy"
-              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              style={{ display: "block", border: 0, width: 344, height: 344, maxWidth: "100%" }}
+              tabIndex={-1}
+              sandbox="allow-scripts allow-same-origin"
+              style={{ display: "block", border: 0, width: 344, height: 344 }}
             />
+            <div className="absolute inset-0" aria-hidden="true" />
           </div>
           <p className="mt-3 font-sans text-[0.85rem] text-ink-soft">
             From{" "}
