@@ -328,7 +328,7 @@ export default function Home() {
           <p className="kicker">God’s Word</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
           {/* The widget lays itself out for 200 x 240, so we show it at that size and scale it up (the letters grow with it). */}
-          <div className="relative mx-auto mt-8 h-[372px] w-[310px] overflow-hidden sm:h-[480px] sm:w-[400px]">
+          <div className="relative mx-auto mt-8 h-[372px] w-[310px] overflow-hidden sm:h-[336px] sm:w-[480px]">
             <iframe
               src="https://www.kingjamesbibleonline.org/popular-bible-verses-widget.php"
               title="Verse of the day, from King James Bible Online"
@@ -336,7 +336,7 @@ export default function Home() {
               height={240}
               loading="lazy"
               sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              className="absolute left-0 top-0 block h-[240px] w-[200px] origin-top-left scale-[1.55] border-0 sm:scale-[2]"
+              className="absolute left-0 top-0 block h-[240px] w-[200px] origin-top-left scale-[1.55] border-0 sm:h-[210px] sm:w-[300px] sm:scale-[1.6]"
             />
           </div>
           <p className="mt-4 font-sans text-[0.85rem] text-ink-soft">
