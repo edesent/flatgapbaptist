@@ -158,6 +158,7 @@ export const nav: NavItem[] = [
     children: [
       { href: "/blog", label: "Blog" },
       { href: "/devotional", label: "Daily Devotional" },
+      { href: "/verse", label: "Verse of the Day" },
     ],
   },
 ];
