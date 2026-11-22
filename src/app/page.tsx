@@ -339,7 +339,7 @@ export default function Home() {
               className="absolute left-0 top-0 block h-[240px] w-[200px] origin-top-left scale-[1.55] border-0 sm:h-[210px] sm:w-[300px] sm:scale-[1.6]"
             />
           </div>
-          <p className="mt-4 font-sans text-[0.85rem] text-ink-soft">
+          <p className="mt-1 font-sans text-[0.85rem] text-ink-soft">
             From{" "}
             <a href="https://www.kingjamesbibleonline.org" target="_blank" rel="noopener" className="link">
               King James Bible Online
