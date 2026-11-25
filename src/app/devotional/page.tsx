@@ -134,9 +134,16 @@ export default async function DevotionalPage() {
             <h2 className="mt-2 font-display text-[2rem] leading-tight md:text-[2.4rem]">{today.title}</h2>
             {today.paragraphs.map((p, i) =>
               i === 0 ? (
-                <blockquote key={i} className="mt-6 border-l-4 border-brick pl-5 text-[1.2rem] italic leading-relaxed md:text-[1.3rem]">
-                  {p}
-                </blockquote>
+                <Fragment key={i}>
+                  <blockquote className="mt-6 border-l-4 border-brick pl-5 text-[1.2rem] italic leading-relaxed md:text-[1.3rem]">{p}</blockquote>
+                  {today.bible && (
+                    <p className="mt-3 font-sans text-[0.95rem] font-semibold">
+                      <Link href={today.bible.href} className="link">
+                        Read {today.bible.label} in our King James Bible →
+                      </Link>
+                    </p>
+                  )}
+                </Fragment>
               ) : (
                 <p key={i} className="mt-5 text-[1.1rem] leading-relaxed">
                   {p}
