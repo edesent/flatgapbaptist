@@ -101,3 +101,8 @@ function check(books: Book[]): void {
 export function allChapters(books: Book[]): { book: Book; chapter: Chapter }[] {
   return books.flatMap((book) => book.chapters.map((chapter) => ({ book, chapter })));
 }
+
+/** The book is "Psalms," but one chapter is "Psalm 23." Other books keep their name. */
+export function chapterName(bookName: string): string {
+  return bookName === "Psalms" ? "Psalm" : bookName;
+}
