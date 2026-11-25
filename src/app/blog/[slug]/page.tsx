@@ -46,7 +46,7 @@ export default async function PostPage({ params }: Props) {
           />
         )}
         {/* Cleaned to the editor's formatting in src/lib/rich-text.ts. */}
-        <div className="rich mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml(post.body) }} />
+        <div className="rich mt-8" dangerouslySetInnerHTML={{ __html: linkBibleReferences(bodyHtml(post.body), books) }} />
       </article>
       <SiteFooter />
     </>
