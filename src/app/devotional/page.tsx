@@ -87,16 +87,18 @@ function parse(xml: string): Devo[] {
     const month = MONTHS.indexOf(dm[2]);
     const year = Number(dm[3]);
     if (month < 0) return [];
-    const paragraphs = get("description")
+    const blocks = get("description")
       .replace(/<audio[\s\S]*?<\/audio>/g, "")
       .split(/(?:<br\s*\/?>\s*){2,}/)
-      .map((p) => decode(p.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim())
-      .filter(Boolean)
-      .map((p) => p.replace(/\s*(?:\.\.\.|…)?\s*More\.\.\.$/, "…"));
+      .map((html) => ({ html, text: decode(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim() }))
+      .filter((b) => b.text);
+    const paragraphs = blocks.map((b) => b.text.replace(/\s*(?:\.\.\.|…)?\s*More\.\.\.$/, "…"));
+    // The first block is the verse; its reference link tells us which verse of our own Bible to point to.
+    const bible = blocks[0] ? ourBibleLink(blocks[0].html) : null;
     const label = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" }).format(
       new Date(Date.UTC(year, month, day)),
     );
-    return [{ title, link, key: `${dm[2]} ${day}, ${year}`, label, paragraphs }];
+    return [{ title, link, key: `${dm[2]} ${day}, ${year}`, label, paragraphs, bible }];
   });
 }
 
