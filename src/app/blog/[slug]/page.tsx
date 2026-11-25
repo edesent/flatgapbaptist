@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import { excerpt, longDate, postBySlug, posts } from "@/lib/blog";
+import { loadBible } from "@/lib/bible";
+import { linkBibleReferences } from "@/lib/bible-links";
 import { bodyHtml } from "@/lib/rich-text";
 
 type Props = { params: Promise<{ slug: string }> };
