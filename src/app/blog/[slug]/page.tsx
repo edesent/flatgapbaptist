@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PostPage({ params }: Props) {
   const post = postBySlug((await params).slug);
   if (!post) notFound();
+  const books = await loadBible();
   return (
     <>
       <SiteHeader />
