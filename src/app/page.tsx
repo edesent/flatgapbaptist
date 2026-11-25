@@ -349,6 +349,11 @@ export default function Home() {
             </a>
             .
           </p>
+          <p className="mt-3 font-sans text-[1rem] font-semibold">
+            <a href="/bible" className="link">
+              Read the King James Bible on our site →
+            </a>
+          </p>
         </div>
       </section>
 
