@@ -68,6 +68,9 @@ const ALIASES: Record<string, string> = {
 
 type Book = Index["books"][number];
 
+/** One verse or chapter of Psalms is "Psalm 23," even though the book is "Psalms." */
+const single = (name: string) => (name === "Psalms" ? "Psalm" : name);
+
 /** Finds the book a person means by "John", "Jn", "1 Cor.", "Psalm", and so on. */
 function findBook(name: string, books: Book[]): Book | null {
   const n = norm(name);
