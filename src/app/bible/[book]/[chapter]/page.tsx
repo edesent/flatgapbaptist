@@ -49,7 +49,7 @@ export default async function ChapterPage({ params }: { params: Params }) {
         className={`link font-sans font-semibold ${side === "right" ? "text-right" : ""}`}
       >
         {side === "left" ? "← " : ""}
-        {label}: {target.book.name} {target.chapter.number}
+        {label}: {chapterName(target.book.name)} {target.chapter.number}
         {side === "right" ? " →" : ""}
       </Link>
     ) : (
