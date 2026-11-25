@@ -29,6 +29,11 @@ export default async function PostPage({ params }: Props) {
   const post = postBySlug((await params).slug);
   if (!post) notFound();
   const books = await loadBible();
+  // Oldest to newest, so "previous" is the article before this one by date and "next" is the one after it.
+  const byDate = [...posts].sort((a, b) => a.date.localeCompare(b.date) || a.slug.localeCompare(b.slug));
+  const at = byDate.findIndex((p) => p.slug === post.slug);
+  const older = at > 0 ? byDate[at - 1] : null;
+  const newer = at >= 0 && at < byDate.length - 1 ? byDate[at + 1] : null;
   return (
     <>
       <SiteHeader />
