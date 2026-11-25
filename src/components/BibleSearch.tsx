@@ -108,7 +108,7 @@ function searchWords(text: string, books: Book[]): { hits: Hit[]; highlight: Reg
   for (const b of books) {
     for (const [c, v, raw] of b.v) {
       const plain = raw.replace(/[[\]]/g, "");
-      if (tests.every((re) => re.test(plain))) hits.push({ ref: `${b.n} ${c}:${v}`, href: `/bible/${b.s}/${c}#v${v}`, text: plain });
+      if (tests.every((re) => re.test(plain))) hits.push({ ref: `${single(b.n)} ${c}:${v}`, href: `/bible/${b.s}/${c}#v${v}`, text: plain });
     }
   }
   return { hits, highlight: new RegExp(`\\b(${terms.map(esc).join("|")})`, "gi") };
