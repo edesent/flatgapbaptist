@@ -94,7 +94,7 @@ function asReference(text: string, books: Book[]): { href: string } | { error: s
   const verse = m[3] ? Number(m[3]) : null;
   const inChapter = book.v.filter(([c]) => c === chapter);
   if (!inChapter.length) return { error: `${book.n} doesn’t have a chapter ${chapter}.` };
-  if (verse !== null && !inChapter.some(([, v]) => v === verse)) return { error: `${book.n} ${chapter} doesn’t have a verse ${verse}.` };
+  if (verse !== null && !inChapter.some(([, v]) => v === verse)) return { error: `${single(book.n)} ${chapter} doesn’t have a verse ${verse}.` };
   return { href: `/bible/${book.s}/${chapter}${verse !== null ? `#v${verse}` : ""}` };
 }
 
