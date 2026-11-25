@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Fragment } from "react";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import { slugify } from "@/lib/bible";
 
 export const metadata: Metadata = {
   title: "Daily devotional",
