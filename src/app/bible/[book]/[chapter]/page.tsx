@@ -70,8 +70,7 @@ export default async function ChapterPage({ params }: { params: Params }) {
           </Link>
         </p>
         <h1 className="mt-3 font-display text-[2.4rem] leading-[1.02] md:text-[3.4rem]">
-          {book.name} {chapter.number}
-        </h1>
+          {chapterName(book.name)} {chapter.number}
 
         <div className="mt-8 max-w-[40rem]">
           {chapter.verses.map((v) => (
