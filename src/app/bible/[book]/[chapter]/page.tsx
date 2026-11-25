@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import VerseText from "@/components/VerseText";
-import { allChapters, loadBible } from "@/lib/bible";
+import { allChapters, chapterName, loadBible } from "@/lib/bible";
 
 // Only the 1,189 real chapters exist; anything else is a "not found" page.
 export const dynamicParams = false;
