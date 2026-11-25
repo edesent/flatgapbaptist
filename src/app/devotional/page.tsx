@@ -27,7 +27,34 @@ type Devo = {
   label: string;
   /** The verse first, then the opening of the reading. ICR's feed only gives this much. */
   paragraphs: string[];
+  /** The verse's reference, pointing at the same verse in our own King James Bible. */
+  bible: BibleRef | null;
 };
+
+type BibleRef = { label: string; href: string };
+
+/**
+ * ICR marks each day's verse reference as a link like /bible/Psalm/139/21.
+ * This turns that into the matching page of our own King James Bible (/bible/psalms/139#v21).
+ */
+function ourBibleLink(block: string): BibleRef | null {
+  const m = block.match(/href=['"]\/bible\/([A-Za-z0-9]+)\/(\d+)\/(\d+)['"]/);
+  if (!m) return null;
+  const [, key, chapter, verse] = m;
+  const parts = key.match(/^(\d)?(.+)$/);
+  if (!parts) return null;
+  const rest = parts[2];
+  let name = `${parts[1] ? `${parts[1]} ` : ""}${rest}`;
+  let slug = slugify(name);
+  if (/^psalm/i.test(rest)) {
+    name = "Psalm";
+    slug = "psalms";
+  } else if (/^song/i.test(rest)) {
+    name = "Song of Solomon";
+    slug = "song-of-solomon";
+  }
+  return { label: `${name} ${chapter}:${verse}`, href: `/bible/${slug}/${chapter}#v${verse}` };
+}
 
 /** Turns the few HTML entities ICR's feed uses back into plain characters. */
 function decode(s: string): string {
