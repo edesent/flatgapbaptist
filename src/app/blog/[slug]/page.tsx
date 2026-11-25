@@ -52,6 +52,32 @@ export default async function PostPage({ params }: Props) {
         )}
         {/* Cleaned to the editor's formatting in src/lib/rich-text.ts. */}
         <div className="rich mt-8" dangerouslySetInnerHTML={{ __html: linkBibleReferences(bodyHtml(post.body), books) }} />
+
+        <nav aria-label="Other articles" className="mt-14 grid gap-6 border-t border-rule pt-6 sm:grid-cols-2">
+          {older ? (
+            <Link href={`/blog/${older.slug}`} className="block font-sans font-semibold hover:text-brick">
+              <span className="text-[0.85rem] text-ink-soft">← Previous article</span>
+              <span className="mt-1 block text-[1.05rem] leading-snug">{older.title}</span>
+              <span className="time mt-1 block text-[0.85rem] font-normal text-ink-soft">{longDate(older.date)}</span>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {newer ? (
+            <Link href={`/blog/${newer.slug}`} className="block font-sans font-semibold hover:text-brick sm:text-right">
+              <span className="text-[0.85rem] text-ink-soft">Next article →</span>
+              <span className="mt-1 block text-[1.05rem] leading-snug">{newer.title}</span>
+              <span className="time mt-1 block text-[0.85rem] font-normal text-ink-soft">{longDate(newer.date)}</span>
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
+        <p className="mt-8 font-sans text-[0.95rem]">
+          <Link href="/blog" className="font-bold text-brick hover:underline">
+            ← All articles
+          </Link>
+        </p>
       </article>
       <SiteFooter />
     </>
