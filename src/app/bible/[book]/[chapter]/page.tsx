@@ -29,8 +29,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { book, chapter } = found.here;
   const first = chapter.verses[0]?.text.replace(/[[\]]/g, "") ?? "";
   return {
-    title: `${book.name} ${chapter.number}, King James Bible`,
-    description: `${book.name} ${chapter.number} in the King James Bible. ${first.slice(0, 120)}`,
+    title: `${chapterName(book.name)} ${chapter.number}, King James Bible`,
+    description: `${chapterName(book.name)} ${chapter.number} in the King James Bible. ${first.slice(0, 120)}`,
     alternates: { canonical: `/bible/${book.slug}/${chapter.number}` },
   };
 }
