@@ -1,42 +1,65 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import VerseOfTheDay, { type DailyVerse } from "@/components/VerseOfTheDay";
+import { verseList } from "@/content/verse-list";
+import { chapterName, loadBible, slugify, type Book } from "@/lib/bible";
 
 export const metadata: Metadata = {
   title: "A verse to meditate on",
-  description: "A new King James Bible verse each day, from King James Bible Online.",
+  description: "A new King James Bible verse each day to read and think about, from Flat Gap Baptist Church.",
   alternates: { canonical: "/verse" },
 };
 
-/** The verse of the day: a free widget from kingjamesbibleonline.org that shows a new well-known verse each day. */
-export default function VersePage() {
+/** Looks up each "Book chapter:verse" line in our own King James text. A line that can't be found is skipped. */
+function resolve(books: Book[], refs: string[]): DailyVerse[] {
+  return refs.flatMap((ref): DailyVerse[] => {
+    const m = ref.match(/^(.+?)\s+(\d+):(\d+)(?:-(\d+))?$/);
+    if (!m) return [];
+    const slug = slugify(m[1]);
+    const book = books.find((b) => b.slug === slug) ?? books.find((b) => b.slug.startsWith(slug));
+    const chapter = book?.chapters.find((c) => c.number === Number(m[2]));
+    if (!book || !chapter) return [];
+    const first = Number(m[3]);
+    const last = m[4] ? Number(m[4]) : first;
+    const verses = chapter.verses.filter((v) => v.number >= first && v.number <= last);
+    if (verses.length !== last - first + 1) return [];
+    const name = chapterName(book.name);
+    return [
+      {
+        ref: `${name} ${chapter.number}:${first}${last > first ? `–${last}` : ""}`,
+        href: `/bible/${book.slug}/${chapter.number}#v${first}`,
+        chapterHref: `/bible/${book.slug}/${chapter.number}`,
+        chapterLabel: `${name} ${chapter.number}`,
+        text: verses.map((v) => v.text).join(" "),
+      },
+    ];
+  });
+}
+
+/** A new verse each day, taken from our own King James text. The verse is chosen in the visitor's browser by Eastern-time date, so it changes at midnight Eastern. */
+export default async function VersePage() {
+  const verses = resolve(await loadBible(), verseList);
   return (
     <>
       <SiteHeader />
       <section className="wrap pt-12 pb-16 md:pt-16 md:pb-24">
         <p className="kicker">God’s Word</p>
         <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">A verse to meditate on</h1>
-        <p className="mt-6 max-w-[40rem] text-[1.1rem] leading-relaxed">A new verse from the King James Bible each day, chosen from some of the best-known verses in Scripture.</p>
-
-        {/* The widget lays itself out for 200 x 240, so we show it at that size and scale it up (the letters grow with it). */}
-        <div className="relative mt-8 h-[335px] w-[310px] overflow-hidden sm:h-[305px] sm:w-[480px]">
-          <iframe
-            src="https://www.kingjamesbibleonline.org/popular-bible-verses-widget.php"
-            title="Verse of the day, from King James Bible Online"
-            width={200}
-            height={240}
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            className="absolute left-0 top-0 block h-[240px] w-[200px] origin-top-left scale-[1.55] border-0 sm:h-[210px] sm:w-[300px] sm:scale-[1.6]"
-          />
-        </div>
-        <p className="mt-1 font-sans text-[0.85rem] text-ink-soft">
-          From{" "}
-          <a href="https://www.kingjamesbibleonline.org" target="_blank" rel="noopener" className="link">
-            King James Bible Online
-          </a>
-          .
+        <p className="mt-6 max-w-[40rem] text-[1.1rem] leading-relaxed">
+          A new verse each day. Read it slowly, and think about it through the day.
         </p>
+        <VerseOfTheDay verses={verses} />
+        <noscript>
+          <p className="mt-8 max-w-[40rem] text-[1.1rem] leading-relaxed">
+            Today’s verse needs JavaScript to appear. You can read the whole Bible on our{" "}
+            <Link href="/bible" className="link">
+              King James Bible
+            </Link>{" "}
+            pages.
+          </p>
+        </noscript>
       </section>
       <SiteFooter />
     </>
