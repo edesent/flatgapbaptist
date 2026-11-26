@@ -9,7 +9,7 @@
  * Source: the public-domain King James Version (1769 standard text) from the
  * open "bible-data" collection (github.com/midvash/bible-data).
  */
-const SOURCE = "https://raw.githubusercontent.com/midvash/bible-data/main/versions/en/kjv/kjv.json";
+const SOURCE = "https://raw.githubusercontent.com/midvash/bible-data/v1.0.0/versions/en/kjv/kjv.json";
 
 export type Verse = { number: number; text: string };
 export type Chapter = { number: number; verses: Verse[] };
