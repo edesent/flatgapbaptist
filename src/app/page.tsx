@@ -336,33 +336,21 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ---------- popular Bible verses (free widget from kingjamesbibleonline.org). The earlier verse-picture-of-the-day widget was inspiring-images-widget.php, 344 x 344. ---------- */}
+      {/* ---------- verse of the day: our own verse, the same one the "A verse to meditate on" page shows. No picture here; the picture is on that page. ---------- */}
       <section className="border-t border-rule bg-paper-deep">
         <div className="wrap py-16 text-center md:py-20">
           <p className="kicker">God’s Word</p>
           <h2 className="mt-3 font-display text-[2.1rem] leading-tight md:text-[2.7rem]">Verse of the day</h2>
-          {/* The verse picture of the day: a free widget from kingjamesbibleonline.org, 344 x 344, a new picture each day.
-              It is shown as a picture only: a clear layer over it stops clicks, and the credit link below stays. */}
-          <div className="relative mx-auto mt-8 h-[300px] w-[300px] overflow-hidden sm:h-[344px] sm:w-[344px]">
-            <iframe
-              src="https://www.kingjamesbibleonline.org/inspiring-images-widget.php"
-              title="Bible verse image of the day, from King James Bible Online"
-              width={344}
-              height={344}
-              loading="lazy"
-              tabIndex={-1}
-              sandbox="allow-scripts allow-same-origin"
-              className="absolute left-0 top-0 block h-[344px] w-[344px] origin-top-left scale-[0.872] border-0 sm:scale-100"
-            />
-            <div className="absolute inset-0" aria-hidden="true" />
-          </div>
-          <p className="mt-3 font-sans text-[0.85rem] text-ink-soft">
-            From{" "}
-            <a href="https://www.kingjamesbibleonline.org" target="_blank" rel="noopener" className="link">
-              King James Bible Online
-            </a>
-            .
-          </p>
+          <HomeVerse verses={verses} />
+          <noscript>
+            <p className="mt-8 font-sans text-[1.1rem] leading-relaxed">
+              Today’s verse needs JavaScript to appear. You can read it on our{" "}
+              <a href="/verse" className="link">
+                verse of the day
+              </a>{" "}
+              page.
+            </p>
+          </noscript>
           <p className="mt-3 font-sans text-[1rem] font-semibold">
             <a href="/bible" className="link">
               Read the King James Bible on our site →
