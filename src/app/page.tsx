@@ -28,6 +28,12 @@ const romansRoad = [
   { ref: "Romans 10:13", text: "For whosoever shall call upon the name of the Lord shall be saved.", say: "Whosoever means you." },
 ];
 
+/** "Romans 3:23" becomes a link to that verse in our own King James Bible. */
+function bibleHref(ref: string): string {
+  const m = ref.match(/^Romans (\d+):(\d+)$/);
+  return m ? `/bible/romans/${m[1]}#v${m[2]}` : "/bible/romans";
+}
+
 /** "Saturday, Oct 31 at 6:00 pm", or "Fri, Nov 6 – Sun, Nov 8" for a few days running. */
 function whenOf(e: Entry) {
   if (e.when) return e.when;
