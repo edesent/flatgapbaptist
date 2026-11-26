@@ -219,7 +219,11 @@ export default function Home() {
                 <span className="time text-[0.8rem] font-bold tracking-[0.14em] text-brick">{String(i + 1).padStart(2, "0")}</span>
                 <p className="mt-2 font-sans text-[1.05rem] font-bold leading-snug">{v.say}</p>
                 <blockquote className="mt-3 flex-1 text-[1.02rem] italic leading-relaxed text-ink-soft">“{v.text}”</blockquote>
-                <p className="time mt-4 text-[0.9rem] font-semibold">{v.ref}</p>
+                <p className="time mt-4 text-[0.9rem] font-semibold">
+                  <a href={bibleHref(v.ref)} className="link" title={`Read ${v.ref} in our King James Bible`}>
+                    {v.ref} →
+                  </a>
+                </p>
               </li>
             ))}
           </ol>
