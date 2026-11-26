@@ -46,7 +46,9 @@ function whenOf(e: Entry) {
   return `${relativeDay(e.date)}${e.time24 && e.time24 !== "00:00" ? ` at ${fmtTime(e.time24)}` : ""}`;
 }
 
-export default function Home() {
+export default async function Home() {
+  // If the Bible text can't be loaded for any reason, the page still updates (service times, events): the verse is just left out until the next refresh.
+  const verses = await loadDailyVerses().catch(() => []);
   const nextList = nextServices();
   const events = upcoming(12).filter((e) => e.kind === "event");
   const trunkOrTreat = allEvents.find((e) => e.title === "Trunk or Treat");
