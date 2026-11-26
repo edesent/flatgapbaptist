@@ -29,6 +29,7 @@ const BY2 = { license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/lic
 const BYSA2 = { license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/" };
 const BYSA3 = { license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/" };
 const PUBLIC = { license: "Public domain", licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/" };
+const GOV = { license: "Public domain (U.S. government work)", licenseUrl: "https://www.usa.gov/government-works" };
 
 export const naturePhotos: NaturePhoto[] = [
   {
