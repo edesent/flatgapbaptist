@@ -12,7 +12,7 @@
  * To add a photo: open its page, confirm the licence there, then add a block with
  * the direct image address, a short description, its title, the photographer, the
  * photo's page, and the licence name and its link.
- * (12 photos, so the cycle repeats about every 12 days.)
+ * (16 photos, so the cycle repeats about every 16 days.)
  */
 
 export type NaturePhoto = {
