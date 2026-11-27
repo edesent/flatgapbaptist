@@ -38,12 +38,14 @@ export default function HomeVerse({ verses }: { verses: DailyVerse[] }) {
   return (
     <div className="mx-auto mt-8 max-w-[40rem]">
       <p className="font-sans text-[0.95rem] font-semibold text-ink-soft">{label}</p>
-      <Link href="/verse" className="group mt-4 block">
-        <blockquote className="text-[1.5rem] leading-relaxed group-hover:underline group-hover:decoration-brick group-hover:decoration-2 group-hover:underline-offset-4 md:text-[1.8rem]">
-          <VerseText text={v.text} />
-        </blockquote>
-      </Link>
-      <p className="mt-4 font-display text-[1.4rem]">{v.ref}</p>
+      <blockquote className="mt-4 text-[1.5rem] leading-relaxed md:text-[1.8rem]">
+        <VerseText text={v.text} />
+      </blockquote>
+      <p className="mt-4 font-display text-[1.4rem]">
+        <Link href="/verse" className="underline-offset-4 hover:text-brick hover:underline">
+          {v.ref}
+        </Link>
+      </p>
     </div>
   );
 }
