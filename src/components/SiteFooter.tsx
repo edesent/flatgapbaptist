@@ -7,7 +7,11 @@ export default function SiteFooter() {
     <footer className="bg-ink text-paper">
       <div className="wrap grid gap-8 py-12 sm:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <p className="font-display text-[1.5rem] leading-tight">Flat Gap Baptist Church</p>
+          <p className="font-display text-[1.5rem] leading-tight">
+            <Link href="/#top" className="underline-offset-4 hover:underline">
+              Flat Gap Baptist Church
+            </Link>
+          </p>
           <p className="mt-3 text-[1rem] text-paper/75">
             {pastorHistory} {pastor.title} {pastor.name} serves here today.
           </p>
