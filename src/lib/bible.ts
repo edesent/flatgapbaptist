@@ -63,8 +63,30 @@ async function fetchAndCheck(): Promise<Book[]> {
       .sort((x, y) => x.number - y.number),
   }));
 
+  applyCorrections(books);
   check(books);
   return books;
+}
+
+/**
+ * Places where the downloaded text uses a modern word where the standard 1769
+ * King James text has the older one. Each line swaps one whole word in one verse.
+ * If the word isn't there (because the source was fixed), nothing changes.
+ * To correct another verse, add a line: the book's web-address name, chapter, verse, the word now shown, and the word it should be.
+ */
+const CORRECTIONS: { book: string; chapter: number; verse: number; from: string; to: string }[] = [
+  { book: "philippians", chapter: 4, verse: 4, from: "always", to: "alway" },
+  { book: "matthew", chapter: 28, verse: 20, from: "always", to: "alway" },
+];
+
+function applyCorrections(books: Book[]): void {
+  for (const c of CORRECTIONS) {
+    const verse = books
+      .find((b) => b.slug === c.book)
+      ?.chapters.find((ch) => ch.number === c.chapter)
+      ?.verses.find((v) => v.number === c.verse);
+    if (verse) verse.text = verse.text.replace(new RegExp(`\\b${c.from}\\b`), c.to);
+  }
 }
 
 /** Stops the build if the text is not the whole King James Bible. */
