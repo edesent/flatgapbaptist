@@ -231,7 +231,7 @@ export default async function Home() {
                 <blockquote className="mt-3 flex-1 text-[1.02rem] italic leading-relaxed text-ink-soft">“{v.text}”</blockquote>
                 <p className="time mt-4 text-[0.9rem] font-semibold">
                   <a href={bibleHref(v.ref)} className="link" title={`Read ${v.ref} in our King James Bible`}>
-                    {v.ref} →
+                    {v.ref}
                   </a>
                 </p>
               </li>
