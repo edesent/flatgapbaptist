@@ -20,7 +20,7 @@ export default function BlogPage() {
         <p className="kicker">From the Pastor's Pen</p>
         <h1 className="mt-3 font-display text-[2.6rem] leading-[1.02] md:text-[4rem]">Blog</h1>
         <p className="mt-4 max-w-[40rem] text-[1.05rem] leading-relaxed text-ink-soft">
-          Most of these are summaries of sermons I recently preached. I pray God will use them for your edification.
+          Explore some thoughts and summaries of messages God has given to us at Flat Gap Baptist. I pray they will be a blessing, and may God use them for your edification and His glory!
         </p>
 
         {posts.length ? (
