@@ -64,6 +64,7 @@ async function fetchAndCheck(): Promise<Book[]> {
   }));
 
   applyCorrections(books);
+  await applyCovenantCapitals(books);
   check(books);
   return books;
 }
