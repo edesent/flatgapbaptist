@@ -36,7 +36,7 @@ export const PSALM_TITLES: Record<number, string> = {
   32: "A Psalm of David, Maschil.",
   34: "A Psalm of David, when he changed his behaviour before Abimelech; who drove him away, and he departed.",
   35: "A Psalm of David.",
-  36: "To the chief Musician, A Psalm of David the servant of the Lord.",
+  36: "To the chief Musician, A Psalm of David the servant of the LORD.",
   37: "A Psalm of David.",
   38: "A Psalm of David, to bring to remembrance.",
   39: "To the chief Musician, even to Jeduthun, A Psalm of David.",
