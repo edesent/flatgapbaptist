@@ -120,10 +120,10 @@ function Highlighted({ text, re }: { text: string; re: RegExp }) {
       {text.split(re).map((p, i) =>
         i % 2 === 1 ? (
           <mark key={i} style={{ background: "#f3e3a3", color: "inherit" }}>
-            {p}
+            {withNames(p)}
           </mark>
         ) : (
-          <span key={i}>{p}</span>
+          <span key={i}>{withNames(p)}</span>
         ),
       )}
     </>
