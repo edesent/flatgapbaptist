@@ -9,7 +9,7 @@ export const PSALM_TITLES: Record<number, string> = {
   4: "To the chief Musician on Neginoth, A Psalm of David.",
   5: "To the chief Musician upon Nehiloth, A Psalm of David.",
   6: "To the chief Musician on Neginoth upon Sheminith, A Psalm of David.",
-  7: "Shiggaion of David, which he sang unto the Lord, concerning the words of Cush the Benjamite.",
+  7: "Shiggaion of David, which he sang unto the LORD, concerning the words of Cush the Benjamite.",
   8: "To the chief Musician upon Gittith, A Psalm of David.",
   9: "To the chief Musician upon Muthlabben, A Psalm of David.",
   11: "To the chief Musician, A Psalm of David.",
