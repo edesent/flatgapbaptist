@@ -50,6 +50,9 @@ export default function HistoryPage() {
           {paragraphs(history.body).map((p, i) => (
             <p key={i} className={`whitespace-pre-line ${i ? "mt-6" : "text-[1.25rem] leading-relaxed md:text-[1.45rem]"}`}>
               {withPastorLink(p)}
+            </p>
+          ))}
+        </div>
       </article>
       <SiteFooter />
     </>
