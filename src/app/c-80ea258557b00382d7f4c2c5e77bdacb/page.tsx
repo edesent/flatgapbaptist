@@ -150,14 +150,15 @@ export default async function Page() {
           </p>
           {out.missingInTheirs.length > 0 && <p>Not found in theirs (first 50): {out.missingInTheirs.slice(0, 50).join("; ")}</p>}
           <hr />
-          {out.diffs.map((d) => (
-            <div key={d.ref} style={{ marginBottom: "1rem" }}>
-              <b>{d.ref}</b>
-              <div>
-                ours differs: [{d.oursBit}] | theirs: [{d.theirsBit}]
-              </div>
-              <div>OURS: {d.ours}</div>
-              <div>THEIRS: {d.theirs}</div>
+          {out.diffs.map((d, i) => (
+            <div key={d.ref} style={{ marginBottom: i < 40 ? "1rem" : "0.15rem", fontSize: i < 40 ? undefined : "0.85rem" }}>
+              <b>{d.ref}</b> ours: [{d.oursBit}] | theirs: [{d.theirsBit}]
+              {i < 40 && (
+                <>
+                  <div>OURS: {d.ours}</div>
+                  <div>THEIRS: {d.theirs}</div>
+                </>
+              )}
             </div>
           ))}
         </>
