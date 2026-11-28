@@ -93,7 +93,7 @@ export const PSALM_TITLES: Record<number, string> = {
   98: "A Psalm.",
   100: "A Psalm of praise.",
   101: "A Psalm of David.",
-  102: "A Prayer of the afflicted, when he is overwhelmed, and poureth out his complaint before the Lord.",
+  102: "A Prayer of the afflicted, when he is overwhelmed, and poureth out his complaint before the LORD.",
   103: "A Psalm of David.",
   108: "A Song or Psalm of David.",
   109: "To the chief Musician, A Psalm of David.",
