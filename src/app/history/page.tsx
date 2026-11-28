@@ -11,6 +11,21 @@ export const metadata: Metadata = {
   alternates: { canonical: "/history" },
 };
 
+/** Wherever the history text names the current pastor, the name links to the Our Pastor page. It looks like plain text until you point at it. */
+const PASTOR_NAME = "Brother Eric Lauterwasser";
+function withPastorLink(text: string) {
+  return text.split(PASTOR_NAME).flatMap((part, i, all) =>
+    i < all.length - 1
+      ? [
+          part,
+          <Link key={i} href="/pastor" className="underline-offset-4 hover:text-brick hover:underline">
+            {PASTOR_NAME}
+          </Link>,
+        ]
+      : [part],
+  );
+}
+
 /** The church's history. Pastor Eric writes it from /edit → History (src/content/history.json). */
 export default function HistoryPage() {
   return (
