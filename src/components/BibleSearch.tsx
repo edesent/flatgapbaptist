@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { withNames } from "@/components/VerseText";
 
 type Index = { books: { n: string; s: string; v: [number, number, string][] }[] };
 type Hit = { ref: string; href: string; text: string };
