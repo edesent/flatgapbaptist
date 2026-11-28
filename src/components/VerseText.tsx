@@ -1,7 +1,7 @@
 /** God's covenant name (LORD, and GOD or JEHOVAH where they stand for it) is set in slightly smaller capitals, as in a printed KJV. */
 const NAMES = /\b(LORD|GOD|JEHOVAH)\b/;
 
-function withNames(s: string) {
+export function withNames(s: string) {
   return s.split(NAMES).map((piece, j) =>
     j % 2 === 1 ? (
       <span key={j} style={{ fontSize: "0.85em", letterSpacing: "0.03em" }}>
