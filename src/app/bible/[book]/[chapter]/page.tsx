@@ -5,6 +5,7 @@ import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import VerseText from "@/components/VerseText";
 import { allChapters, chapterName, loadBible } from "@/lib/bible";
+import { PSALM_TITLES } from "@/lib/psalm-titles";
 
 // Only the 1,189 real chapters exist; anything else is a "not found" page.
 export const dynamicParams = false;
