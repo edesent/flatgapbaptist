@@ -10,6 +10,7 @@
  * open "bible-data" collection (github.com/midvash/bible-data).
  */
 const SOURCE = "https://raw.githubusercontent.com/midvash/bible-data/v1.0.0/versions/en/kjv/kjv.json";
+import { applyCovenantCapitals } from "./covenant-name";
 
 export type Verse = { number: number; text: string };
 export type Chapter = { number: number; verses: Verse[] };
