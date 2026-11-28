@@ -72,6 +72,9 @@ export default async function ChapterPage({ params }: { params: Params }) {
         <h1 className="mt-3 font-display text-[2.4rem] leading-[1.02] md:text-[3.4rem]">
           {chapterName(book.name)} {chapter.number}
         </h1>
+        {book.slug === "psalms" && PSALM_TITLES[chapter.number] && (
+          <p className="mt-4 max-w-[40rem] text-[1.1rem] italic leading-[1.6] text-ink-soft md:text-[1.2rem]">{PSALM_TITLES[chapter.number]}</p>
+        )}
 
         <div className="mt-8 max-w-[40rem]">
           {chapter.verses.map((v) => (
