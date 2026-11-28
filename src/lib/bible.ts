@@ -85,7 +85,8 @@ function applyCorrections(books: Book[]): void {
       .find((b) => b.slug === c.book)
       ?.chapters.find((ch) => ch.number === c.chapter)
       ?.verses.find((v) => v.number === c.verse);
-    if (verse) verse.text = verse.text.replace(new RegExp(`\\b${c.from}\\b`), c.to);
+    const exact = c.from.replace(/[.*+?^${}()|[\]\\]/g, "\\    if (verse) verse.text = verse.text.replace(new RegExp(`\\b${c.from}\\b`), c.to);");
+    if (verse) verse.text = verse.text.replace(new RegExp(`(?<![A-Za-z])${exact}(?![A-Za-z])`), c.to);
   }
 }
 
