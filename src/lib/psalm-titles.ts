@@ -19,7 +19,7 @@ export const PSALM_TITLES: Record<number, string> = {
   15: "A Psalm of David.",
   16: "Michtam of David.",
   17: "A Prayer of David.",
-  18: "To the chief Musician, A Psalm of David, the servant of the Lord, who spake unto the Lord the words of this song in the day that the Lord delivered him from the hand of all his enemies, and from the hand of Saul: And he said,",
+  18: "To the chief Musician, A Psalm of David, the servant of the LORD, who spake unto the LORD the words of this song in the day that the LORD delivered him from the hand of all his enemies, and from the hand of Saul: And he said,",
   19: "To the chief Musician, A Psalm of David.",
   20: "To the chief Musician, A Psalm of David.",
   21: "To the chief Musician, A Psalm of David.",
